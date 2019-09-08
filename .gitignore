@@ -1,0 +1,20 @@
+# ignoring all folders/files that might contain sensitive user information so that peoples transactions arent accidentally loaded to git
+/input/custom_rules/*
+!/input/custom_rules/.gitkeep
+
+/input/transactions/*
+!/input/transactions/.gitkeep
+
+/output/*
+!/output/.gitkeep
+
+/PyFynance/resources/db/transactions.sql
+
+**.qif
+
+# Ignoring log folder
+/logs/*
+!/logs/.gitkeep
+
+# ignore IDE shit
+/.idea
