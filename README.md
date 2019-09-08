@@ -17,7 +17,7 @@ transactions from a file
 ## How to use this program
 **Supported Tasks**
 
-below is the current list of supported/future tasks for PyFynanace
+below is the current list of supported/future tasks for PyFynance
 * load_transactions
 * analyse_transactions (future)
 * set_goal (future)
@@ -26,7 +26,7 @@ below is the current list of supported/future tasks for PyFynanace
 
 **Load Transactions**
 
-To load transactions into PyFynance, simply download your QIF file from your finanaical organisation and place in the 
+To load transactions into PyFynance, simply download your QIF file from your financial organisation and place in the 
 PyFynance/input/transactions folder.
 Please note that the account name will be derived from the file name in the input folder. if you have multiple files 
 for the same account, please place "--" after the account name in the filename
@@ -39,6 +39,7 @@ python -m PyFynance --task_type load_transactions
 ## Technologies Used
 * Python 3.7
 * Pipenv - virtual environment dependency management
+* marshmallow - object serialisation / deserialisation
 
 
 ## License
