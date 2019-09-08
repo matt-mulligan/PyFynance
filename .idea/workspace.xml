@@ -2,20 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="56336e99-6fde-4784-b6aa-5d89a0d491f3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/PyFynance.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pipfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Pipfile.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PyFynance/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PyFynance/__main__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/place sphinx documentation here.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/input/custom_rules/testfile1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/input/transactions/testfile2_.qif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/output/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PyFynance.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PyFynance.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/custom_rules/testfile1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input/custom_rules/.gitkeep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/transactions/testfile2_.qif" beforeDir="false" afterPath="$PROJECT_DIR$/input/transactions/.gitkeep" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,36 +15,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="561">
-                <caret line="33" column="77" selection-start-line="33" selection-start-column="77" selection-end-line="33" selection-end-column="77" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/input/custom_rules/testfile1.txt">
+        <entry file="file://$PROJECT_DIR$/input/custom_rules/my_test_file.json">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/input/transactions/testfile2_.qif">
+        <entry file="file://$PROJECT_DIR$/input/transactions/test_file_tran.txt">
           <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/PyFynance/__main__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
-            </state>
-          </provider>
         </entry>
       </file>
     </leaf>
@@ -71,6 +41,7 @@
       <list>
         <option value="$PROJECT_DIR$/PyFynance/__main__.py" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/input/custom_rules/testfile1.txt" />
       </list>
     </option>
   </component>
@@ -85,6 +56,28 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="PyFynance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PyFynance" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PyFynance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PyFynance" type="462c0819:PsiDirectoryNode" />
+              <item name="PyFynance" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PyFynance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PyFynance" type="462c0819:PsiDirectoryNode" />
+              <item name="PyFynance" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope">
         <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
           <expand>
@@ -112,6 +105,11 @@
             <path>
               <item name="PyFynance" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="D:\git-repos\PyFynance" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="output" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="PyFynance" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="D:\git-repos\PyFynance" type="442cc68d:ScopeViewTreeModel$RootNode" />
               <item name="PyFynance" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
@@ -120,27 +118,12 @@
               <item name="PyFynance" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="resources" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
             <path>
-              <item name="PyFynance" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyFynance" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyFynance" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyFynance" type="462c0819:PsiDirectoryNode" />
-              <item name="PyFynance" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PyFynance" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PyFynance" type="462c0819:PsiDirectoryNode" />
-              <item name="PyFynance" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="PyFynance" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="D:\git-repos\PyFynance" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="PyFynance" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="resources" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="sql" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
           </expand>
           <select />
@@ -151,10 +134,10 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/output" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="file.status.colors" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -183,17 +166,27 @@
       <workItem from="1566713015201" duration="2307000" />
       <workItem from="1567235758850" duration="423000" />
       <workItem from="1567236209524" duration="843000" />
-      <workItem from="1567897857388" duration="1905000" />
+      <workItem from="1567897857388" duration="2251000" />
+      <workItem from="1567900128741" duration="460000" />
+      <workItem from="1567900604589" duration="837000" />
     </task>
+    <task id="LOCAL-00001" summary="updated markdown, added gitingore rules to stop perosnal information being loaded to git">
+      <created>1567899949506</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1567899949506</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5644000" />
+    <option name="totallyTimeSpent" value="7287000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17697228" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18017058" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -219,13 +212,33 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="updated markdown, added gitingore rules to stop perosnal information being loaded to git" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated markdown, added gitingore rules to stop perosnal information being loaded to git" />
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/PyFynance/resources/sql/transactions.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/PyFynance/__main__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
+        <state relative-caret-position="340">
           <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyFynance/resources/sql/rules.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/testfile3.csv">
+      <provider editor-type-id="text-editor" />
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/input/transactions/testfile2_.qif">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
@@ -238,9 +251,19 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/input/custom_rules/testfile1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="4" selection-start-column="4" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/input/custom_rules/my_test_file.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/input/transactions/testfile2_.qif">
+    <entry file="file://$PROJECT_DIR$/input/custom_rules/.gitkeep.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/input/transactions/test_file_tran.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
