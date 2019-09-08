@@ -8,12 +8,13 @@ from core.config import Configuration
 from core.helpers import makedirs
 
 
-def main():
+def main():  # pragma: no cover
     args = parse_arguments(sys.argv[1:])
     config = Configuration()
     logger = configure_logger(config.paths.logs_path, config.version, args.task_type)
 
-def configure_logger(log_path, version, task_type):
+
+def configure_logger(log_path, version, task_type):  # pragma: no cover
     """
     this method will set the logging configuration for each run of PyFynance
     :param log_path:
@@ -52,18 +53,19 @@ def configure_logger(log_path, version, task_type):
     return logger
 
 
-def _create_arg_parser():
+def _create_arg_parser():  # pragma: no cover
     """
     this method will create an argument parser object
     :return:
     """
 
     parser = argparse.ArgumentParser(description="PyFynance Argument parser")
-    parser.add_argument("--task_type", metavar="task_type", help="task_type", choices=["load_transactions"])
+    parser.add_argument("--task_type", metavar="task_type", help="task_type", choices=["load_transactions"],
+                        required=True)
     return parser
 
 
-def parse_arguments(cmd_line_args):
+def parse_arguments(cmd_line_args):  # pragma: no cover
     """
     this method will setup and load the arguments using the Arg Parser class
     :return:
@@ -72,5 +74,5 @@ def parse_arguments(cmd_line_args):
     return arg_parser.parse_args(cmd_line_args)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()

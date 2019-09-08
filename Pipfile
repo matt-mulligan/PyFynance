@@ -9,6 +9,9 @@ verify_ssl = true
 pandas = "*"
 argparse = "*"
 marshmallow = "*"
+mock = "*"
+pytest = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.7"
