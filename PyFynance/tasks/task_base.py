@@ -4,7 +4,7 @@ from abc import ABCMeta, abstractmethod
 from core.exceptions import TaskError
 
 
-class BaseTask():
+class BaseTask:
 
     __metaclass__ = ABCMeta  # Abstract Base Class
 
@@ -41,7 +41,6 @@ class BaseTask():
     def execute(self):
         """
         this method will run the tasks before, do and after task methods in sequence and track results
-        :param task_type:
         :return:
         """
 
@@ -54,10 +53,10 @@ class BaseTask():
             self.after_task()
         except Exception as e:
             passed = False
-            raise TaskError("PyFynance encountered an error while running task of type '{}'.  "
-                            "exception message = '{}'".format(self.__class__.__name__, e))
+            self._logger.exception("PyFynance encountered an error while running task.  {}".format(e))
+            raise TaskError(e)
         finally:
             status = "Success" if passed else "Failure"
             self._logger.info("Finished task execution for task type '{}' with status '{}'".
                               format(self.__class__.__name__, status))
-            return passed
+        return passed

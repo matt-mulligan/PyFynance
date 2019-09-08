@@ -15,10 +15,10 @@ def args_load_transactions():
 def test_when_init_the_pyfynance_object_returned(args_load_transactions):
     app = PyFynance(args_load_transactions)
 
+    assert isinstance(app, PyFynance)
     assert hasattr(app, "_config")
     assert hasattr(app, "_args")
     assert hasattr(app, "_logger")
-
     assert app._args.task_type == "load_transactions"
 
 
@@ -39,5 +39,5 @@ def test_when_run_and_task_is_unsuccessful_then_exit_code_one(execute_mock, args
 @patch("core.pyfynance.PyFynance._execute_tasks", side_effect=[Exception("thrown_error_message")])
 def test_when_run_and_error_then_error_raised(execute_mock, args_load_transactions):
     app = PyFynance(args_load_transactions)
-    with raises(TaskError):
+    with raises(TaskError) as e:
         app.run()

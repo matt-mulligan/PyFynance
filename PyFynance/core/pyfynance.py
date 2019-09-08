@@ -6,7 +6,7 @@ from core.config import Configuration
 from core.exceptions import TaskError
 
 
-class PyFynance():
+class PyFynance:
     """
     PyFynance application class. Controls the flow of the application
     """
