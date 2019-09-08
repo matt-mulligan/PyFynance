@@ -1,5 +1,5 @@
 {
-    "version": 0.1,
+    "version": 0.2,
     "paths": {
         "repoPath": "${repo_base_path}",
         "codePath": "${repo_base_path}${sep}PyFynance",
