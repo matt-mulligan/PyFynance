@@ -1,6 +1,4 @@
 import argparse
-import datetime
-import logging
 import os
 import sys
 
@@ -13,7 +11,7 @@ def main():  # pragma: no cover
 
     configure_libraries()
     args = parse_arguments(sys.argv[1:])
-    from pyfynance import PyFynance
+    from core.pyfynance import PyFynance
     app = PyFynance(args)
     exit_code = app.run()
     sys.exit(exit_code)

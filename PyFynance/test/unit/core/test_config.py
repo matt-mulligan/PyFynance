@@ -1,5 +1,6 @@
 from core.config import Configuration
 
+
 def test_when_init_then_config_object_returned():
     config = Configuration()
     assert hasattr(config, "paths")

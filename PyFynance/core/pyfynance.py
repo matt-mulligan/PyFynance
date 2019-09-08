@@ -2,8 +2,8 @@ import datetime
 import logging
 import os
 
-import tasks
 from core.config import Configuration
+from core.exceptions import TaskError
 
 
 class PyFynance():
@@ -37,13 +37,15 @@ class PyFynance():
             passed = False
             self._logger.exception("PyFynance experienced a fatal exception while running task of task_type '{}'.  "
                                    "exception = '{}'".format(self._args.task_type, e))
+            raise TaskError(e)
         finally:
             exit_code = 0 if passed else 1
 
         self._logger.info("Finished PyFynance Application Run")
         return exit_code
 
-    def _configure_logger(self, log_path, version, task_type):  # pragma: no cover
+    @staticmethod
+    def _configure_logger(log_path, version, task_type):
         """
         this method will set the logging configuration for each run of PyFynance
         :param log_path:
@@ -95,7 +97,6 @@ class PyFynance():
         task_passed = task.execute()
         return task_passed
 
-
     def _resolve_task_class(self):
         """
         this method will resolve the task class based on the task_type within the args object
@@ -106,7 +107,8 @@ class PyFynance():
             "load_transactions": "tasks.task_load_transactions.LoadTransactionsTask"
         }[self._args.task_type]
 
-    def _new_instance(self, task_class):
+    @staticmethod
+    def _new_instance(task_class):
         """
         this method will create a new instance of the specified fully-qualified class name
         :param task_class:
