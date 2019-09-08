@@ -18,7 +18,7 @@ class ConfigPathsSchema(Schema):
 
 
     @post_load
-    def create(self, data):
+    def create(self, data, **kwargs):
         """
         called by marshmallow package when deserialising completes in order to construct a valid instance.
         :param data:
@@ -38,7 +38,7 @@ class ConfigSchema(Schema):
     paths = fields.Nested(ConfigPathsSchema)
 
     @post_load
-    def create(self, data):
+    def create(self, data, **kwargs):
         """
         called by marshmallow package when deserialising completes in order to construct a valid instance.
         :param data:

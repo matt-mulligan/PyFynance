@@ -13,6 +13,14 @@ class Configuration(object):
 
         self._config = self._load_config()
 
+    def __getattr__(self, item):
+        """
+        returns an attribute from the private configuration object
+        :param item:
+        :return:
+        """
+
+        return getattr(self._config, item)
 
     def _get_repo_base_path(self):
         """
@@ -31,7 +39,7 @@ class Configuration(object):
         :return:
         """
 
-        config_resource_string = resource_string("PyFynance.resources.config", "config.json")#.decode("utf-8")
+        config_resource_string = resource_string("PyFynance.resources.config", "config.json").decode("utf-8")
         config_json = self._substitute_params(config_resource_string)
         return ConfigSchema().loads(config_json.replace("\\", "\\\\"))
 

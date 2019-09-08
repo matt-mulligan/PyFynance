@@ -39,7 +39,7 @@ python -m PyFynance --task_type load_transactions
 ## Technologies Used
 * Python 3.7
 * Pipenv - virtual environment dependency management
-* marshmallow - object serialisation / deserialisation
+* Marshmallow - object serialisation / deserialisation
 
 
 ## License
