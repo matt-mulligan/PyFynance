@@ -15,6 +15,7 @@ class LoadTransactionsTask(BaseTask):
         :return:
         """
 
+        # setup transaction DB
         pass
 
     def do_task(self):
@@ -23,6 +24,11 @@ class LoadTransactionsTask(BaseTask):
         :return:
         """
 
+        # parse transaction file to python objects
+        # get transactions from transactions DB
+        # determine which transactions are new
+        # categorise new transactions
+        # write back new transactions to DB
         pass
 
     def after_task(self):
@@ -31,4 +37,5 @@ class LoadTransactionsTask(BaseTask):
         :return:
         """
 
+        # commit and close transaction DB
         pass

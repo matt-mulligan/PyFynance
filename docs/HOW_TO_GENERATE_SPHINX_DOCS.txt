@@ -1,0 +1,4 @@
+1. cd to project docs folder
+2. run command "pipenv run make clean"
+3. run command "sphinx-apidoc -e -M -o . ..\PyFynance"
+4. run command "pipenv run make html"

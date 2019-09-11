@@ -1,7 +1,9 @@
 import logging
 from abc import ABCMeta, abstractmethod
 
+from core.config import Configuration
 from core.exceptions import TaskError
+from services.qif_parsser import QIFParser
 
 
 class BaseTask:
@@ -10,6 +12,8 @@ class BaseTask:
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)
+        self._config = Configuration()
+        self._qif_parser = QIFParser(self._config)
 
     @abstractmethod
     def before_task(self):  # pragma: no cover

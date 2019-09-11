@@ -6,6 +6,18 @@ from schemas.config import ConfigSchema
 
 
 class Configuration(object):
+    """
+    The configuration module handles the loading and management of all configuration code and values within PyFynance.
+    all setup is run for this module off of the __init__ call, which will return you a python object that you can
+    get configuration values off of using dot notation
+
+    .. code-block:: python
+
+        config = Configuration()
+        input_path = config.paths.input_path
+
+    """
+
     def __init__(self):
         """
         Constructor of the configuration service object
@@ -16,8 +28,9 @@ class Configuration(object):
     def __getattr__(self, item):
         """
         returns an attribute from the private configuration object
-        :param item:
-        :return:
+
+        :param item: the item to return
+        :return: the value of the item name passed
         """
 
         return getattr(self._config, item)
@@ -25,7 +38,8 @@ class Configuration(object):
     def _get_repo_base_path(self):
         """
         this method will determine the base path for the PyFynance repository
-        :return:
+
+        :return: the base path to the repository
         """
 
         full_path = os.path.abspath(__file__)
@@ -36,6 +50,7 @@ class Configuration(object):
         """
         this method will load the configuration information from the appropriate json file and substitute in the
         correct values
+
         :return:
         """
 
@@ -46,8 +61,9 @@ class Configuration(object):
     def _substitute_params(self, input_string):
         """
         this method will perform parameter subsitution for all ${PARAM} values within the input string
-        :param input_string:
-        :return:
+
+        :param input_string: the string representing the json configuration information
+        :return: json configuration string with values subsituted in
         """
 
         template = Template(input_string)

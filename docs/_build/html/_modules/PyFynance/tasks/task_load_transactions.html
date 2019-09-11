@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PyFynance.tasks.task_load_transactions &#8212; PyFynance  documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyFynance  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for PyFynance.tasks.task_load_transactions</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">tasks.task_base</span> <span class="k">import</span> <span class="n">BaseTask</span>
+
+
+<div class="viewcode-block" id="LoadTransactionsTask"><a class="viewcode-back" href="../../../PyFynance.tasks.task_load_transactions.html#PyFynance.tasks.task_load_transactions.LoadTransactionsTask">[docs]</a><span class="k">class</span> <span class="nc">LoadTransactionsTask</span><span class="p">(</span><span class="n">BaseTask</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This task manages the ingestion of transactions into the PyFynance database</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LoadTransactionsTask</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="LoadTransactionsTask.before_task"><a class="viewcode-back" href="../../../PyFynance.tasks.task_load_transactions.html#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.before_task">[docs]</a>    <span class="k">def</span> <span class="nf">before_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        this before task manages all setup activities required by this task to perform its action</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># setup transaction DB</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="LoadTransactionsTask.do_task"><a class="viewcode-back" href="../../../PyFynance.tasks.task_load_transactions.html#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.do_task">[docs]</a>    <span class="k">def</span> <span class="nf">do_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        this do task manages all of the actions this task runs</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># parse transaction file to python objects</span>
+        <span class="c1"># get transactions from transactions DB</span>
+        <span class="c1"># determine which transactions are new</span>
+        <span class="c1"># categorise new transactions</span>
+        <span class="c1"># write back new transactions to DB</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="LoadTransactionsTask.after_task"><a class="viewcode-back" href="../../../PyFynance.tasks.task_load_transactions.html#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.after_task">[docs]</a>    <span class="k">def</span> <span class="nf">after_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        this do task manages all of the teardown tasks that this task performs after its action is done</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># commit and close transaction DB</span>
+        <span class="k">pass</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PyFynance  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

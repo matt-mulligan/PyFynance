@@ -20,7 +20,6 @@ class PyFynance:
         """
         This method is the main runner method for the PyFynance Application. this method controls the flow of
         executing tasks within PyFynance
-        :return:
         """
         self._logger.info("Started PyFynance Application Run")
         passed = True
@@ -48,10 +47,11 @@ class PyFynance:
     def _configure_logger(log_path, version, task_type):
         """
         this method will set the logging configuration for each run of PyFynance
-        :param log_path:
-        :param version:
-        :param task_type:
-        :return:
+
+        :param log_path: The path to write logfiles out to
+        :param version: The version number of PyFynance
+        :param task_type: The PyFynance task type
+        :return: returns a configured python logger object
         """
 
         logger = logging.getLogger()
@@ -88,6 +88,7 @@ class PyFynance:
     def _execute_tasks(self):
         """
         this method is responsible for selecting and triggering the correct task class based on the task_type selected
+
         :return:
         """
 

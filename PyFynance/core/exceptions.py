@@ -4,3 +4,19 @@ class TaskError(ValueError):
     """
 
     pass
+
+
+class DatabaseError(ValueError):
+    """
+    Represents an error that occurs within the Database service
+    """
+
+    pass
+
+
+class QIFParserError(ValueError):
+    """
+    Represents an error that occurs within the QIFParser service
+    """
+
+    pass
