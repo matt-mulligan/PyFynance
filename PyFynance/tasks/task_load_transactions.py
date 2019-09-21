@@ -1,4 +1,7 @@
+import os
+
 from tasks.task_base import BaseTask
+from core.helpers import find_all_files
 
 
 class LoadTransactionsTask(BaseTask):
@@ -6,8 +9,12 @@ class LoadTransactionsTask(BaseTask):
     This task manages the ingestion of transactions into the PyFynance database
     """
 
-    def __init__(self):
-        super(LoadTransactionsTask, self).__init__()
+    def __init__(self, args):
+        super(LoadTransactionsTask, self).__init__(args)
+        self._transactions = []
+
+    def __repr__(self):
+        return "PyFynance.Tasks.LoadTransactionsTask({})".format(self._get_args_repr())
 
     def before_task(self):
         """
@@ -15,8 +22,8 @@ class LoadTransactionsTask(BaseTask):
         :return:
         """
 
-        # setup transaction DB
-        pass
+        self._logger.info("Beginning before_task method of task '{}'.".format(self))
+        self._logger.info("Finished before_task method of task '{}'.".format(self))
 
     def do_task(self):
         """
@@ -24,12 +31,20 @@ class LoadTransactionsTask(BaseTask):
         :return:
         """
 
+        self._logger.info("Beginning do_task method of task '{}'.".format(self))
+        # get file paths to parse
+        transactions_input_path = "{}{}{}".format(self._config.paths.input_path, os.sep, "banking_transactions")
+        files_to_parse = find_all_files(transactions_input_path, ["*.ofx", "*.qfx"])
+
         # parse transaction file to python objects
+        for file_path in files_to_parse:
+            self._transactions.extend(self._ofx_parser.parse("banking_transactions", file_path,))
+
         # get transactions from transactions DB
         # determine which transactions are new
         # categorise new transactions
         # write back new transactions to DB
-        pass
+        self._logger.info("Finished before_task method of task '{}'.".format(self))
 
     def after_task(self):
         """
@@ -37,5 +52,5 @@ class LoadTransactionsTask(BaseTask):
         :return:
         """
 
-        # commit and close transaction DB
-        pass
+        self._logger.info("Beginning before_task method of task '{}'.".format(self))
+        self._logger.info("Finished before_task method of task '{}'.".format(self))

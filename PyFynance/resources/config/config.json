@@ -8,5 +8,10 @@
         "logsPath": "${repo_base_path}${sep}logs",
         "resourcesPath": "${repo_base_path}${sep}PyFynance${sep}resources",
         "dbPath": "${repo_base_path}${sep}PyFynance${sep}resources${sep}db"
+    },
+    "ofxParser": {
+        "objectTypes": ["banking_transactions"],
+        "castFields": ["dtposted", "trnamt"],
+        "htmlTags": ["br"]
     }
 }

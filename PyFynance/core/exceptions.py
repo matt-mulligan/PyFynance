@@ -14,7 +14,7 @@ class DatabaseError(ValueError):
     pass
 
 
-class QIFParserError(ValueError):
+class OFXParserError(ValueError):
     """
     Represents an error that occurs within the QIFParser service
     """

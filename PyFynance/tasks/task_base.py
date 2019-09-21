@@ -3,17 +3,18 @@ from abc import ABCMeta, abstractmethod
 
 from core.config import Configuration
 from core.exceptions import TaskError
-from services.qif_parsser import QIFParser
+from services.ofx_parser import OFXParser
 
 
 class BaseTask:
 
     __metaclass__ = ABCMeta  # Abstract Base Class
 
-    def __init__(self):
+    def __init__(self, args):
+        self._args = args
         self._logger = logging.getLogger(__name__)
         self._config = Configuration()
-        self._qif_parser = QIFParser(self._config)
+        self._ofx_parser = OFXParser(self._config)
 
     @abstractmethod
     def before_task(self):  # pragma: no cover
@@ -64,3 +65,15 @@ class BaseTask:
             self._logger.info("Finished task execution for task type '{}' with status '{}'".
                               format(self.__class__.__name__, status))
         return passed
+
+    def _get_args_repr(self):
+        """
+        This private method will return a string representation of the self._args variable
+
+        :return:
+        """
+
+        repr_string = ""
+        for key, value in self._args.__dict__.items():
+            repr_string += "{}={}, ".format(key, value)
+        return repr_string[:-2]

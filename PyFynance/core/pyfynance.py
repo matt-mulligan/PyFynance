@@ -94,7 +94,7 @@ class PyFynance:
 
         task_class_name = self._resolve_task_class()
         task_class_object = self._new_instance(task_class_name)
-        task = task_class_object()
+        task = task_class_object(self._args)
         task_passed = task.execute()
         return task_passed
 
