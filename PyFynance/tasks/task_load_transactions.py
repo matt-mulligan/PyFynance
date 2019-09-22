@@ -45,7 +45,7 @@ class LoadTransactionsTask(BaseTask):
         # determine which transactions are new
         # categorise new transactions
         # write back new transactions to DB
-        self._logger.info("Finished before_task method of task '{}'.".format(self))
+        self._logger.info("Finished do_task method of task '{}'.".format(self))
 
     def after_task(self):
         """
@@ -53,6 +53,6 @@ class LoadTransactionsTask(BaseTask):
         :return:
         """
 
-        self._logger.info("Beginning before_task method of task '{}'.".format(self))
+        self._logger.info("Beginning after_task method of task '{}'.".format(self))
         self._db.stop_db("transactions")
-        self._logger.info("Finished before_task method of task '{}'.".format(self))
+        self._logger.info("Finished after_task method of task '{}'.".format(self))

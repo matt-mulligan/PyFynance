@@ -48,7 +48,7 @@ class OFXParserSchema(Schema):
         return Model(**data)
 
 
-class DatabaseTablesSchema(object):
+class DatabaseTablesSchema(Schema):
     """
     This class represents the schema of a configuration.database.tables object. Marshmallow uses this class to
     serialise and deserialize python objects to and from json
@@ -68,7 +68,7 @@ class DatabaseTablesSchema(object):
         return Model(**data)
 
 
-class DatabaseColumnSpecsSchema(object):
+class DatabaseColumnSpecsSchema(Schema):
     """
     This class represents the schema of a configuration.database.column_spec object. Marshmallow uses this class to serialise and
     deserialize python objects to and from json
@@ -76,7 +76,7 @@ class DatabaseColumnSpecsSchema(object):
     transactions = fields.Dict(keys=fields.Str(), values=fields.Str())
 
 
-class DatabasePrimaryKeysSchema(object):
+class DatabasePrimaryKeysSchema(Schema):
     """
     This class represents the schema of a configuration.database object. Marshmallow uses this class to serialise and
     deserialize python objects to and from json

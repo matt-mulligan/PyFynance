@@ -38,7 +38,7 @@ class Database:
             self._cursors[db_name] = self._connections[db_name].cursor()
             self._build_tables(db_name)
             self._logger.info("Successfully started the database service for database '{}'".format(db_name))
-        except sqlite3.Error as e:
+        except Exception as e:
             raise DatabaseError("Exception occurred while starting database '{}'.  {}".format(db_name, e))
 
     def stop_db(self, db_name, commit=True):
@@ -51,12 +51,19 @@ class Database:
         closing the connection
         """
 
-        self._check_db_name(db_name)
-        if commit:
-            self._commit_db(db_name)
-        self._connections[db_name].close()
-        if commit:
-            self._backup_db(db_name)
+        try:
+            self._logger.info("Attempting to stop the database service for database '{}' with commit "
+                              "set to {}".format(db_name, commit))
+            self._check_db_name(db_name)
+            if commit:
+                self._commit_db(db_name)
+            self._connections[db_name].close()
+            if commit:
+                self._backup_db(db_name)
+            self._logger.info("Successfully stopped the database service for database '{}' with commit "
+                              "set to {}".format(db_name, commit))
+        except Exception as e:
+            raise DatabaseError("Exception occurred while stopping database '{}'.  {}".format(db_name, e))
 
     def insert(self, db_name, table, data):
         """
@@ -75,6 +82,7 @@ class Database:
         being the data to insert for that column
         """
 
+        self._logger.info("Attempting insert of data into '{}.{}'".format(db_name, table))
         self._check_db_name(db_name)
         column_names = []
         data_vals = []
@@ -88,6 +96,7 @@ class Database:
 
         sql = self._sql["insert"].format(table=table, colums=columns, data=data)
         self._execute(db_name, sql)
+        self._logger.info("Successful insert of data into '{}.{}'".format(db_name, table))
 
     def select(self, db_name, table, columns=None, where=None):
         """
@@ -112,6 +121,7 @@ class Database:
         :return: List: list of rows returned from the database
         """
 
+        self._logger.info("Attempting select of data from '{}.{}'".format(db_name, table))
         sql_key = "{cols}_{wheres}".format(cols="columns" if columns else "none", wheres="where" if where else "none")
         sql = {
             "none_none": self._sql["select"]["select_all_from"],
@@ -121,8 +131,9 @@ class Database:
         }[sql_key]
 
         column_names = ",".join(columns) if columns else None
-
-        return self._execute(db_name, sql.format(table=table, columns=column_names, where=where))
+        data = self._execute(db_name, sql.format(table=table, columns=column_names, where=where))
+        self._logger.info("Successful select of data from '{}.{}'".format(db_name, table))
+        return data
 
     def _build_tables(self, db_name):
         """
@@ -135,7 +146,7 @@ class Database:
             "transactions": [
                 {
                     "table_name": "transactions",
-                    "col_spec": self._config.database.column_specs.transactions,
+                    "col_spec": self._config.database.column_specs["transactions"],
                     "primary_keys": self._config.database.primary_keys.transactions
                 }
             ]
@@ -165,8 +176,8 @@ class Database:
         """
 
         timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-        source_path = os.sep.join(self._config.paths.db_path, "current", "{}.db".format(db_name))
-        backup_path = os.sep.join(self._config.paths.db_path, "backup", "{}_{}.db".format(db_name, timestamp))
+        source_path = os.sep.join([self._config.paths.db_path, "current", "{}.db".format(db_name)])
+        backup_path = os.sep.join([self._config.paths.db_path, "backup", "{}_{}.db".format(db_name, timestamp)])
         copyfile(source_path, backup_path)
 
     def _execute(self, db_name, sql, data=None):
@@ -178,10 +189,13 @@ class Database:
         :param data: List: list of data values to be passed with the sql statement
         """
 
+        self._logger.debug("Attempting to execute sql command '{}'".format(sql))
         if data:
-            return self._cursors[db_name].execute(sql, data)
+            execute_output = self._cursors[db_name].execute(sql, data)
         else:
-            return self._cursors[db_name].execute(sql)
+            execute_output = self._cursors[db_name].execute(sql)
+        self._logger.debug("Successful execution of sql command '{}'".format(sql))
+        return execute_output
 
     def _check_db_name(self, db_name):
         """
@@ -207,7 +221,7 @@ class Database:
 
         state = "current" if current else "backup"
         db_name = "{}.db".format(db_name) if current else self._get_backup_db_name(db_name)
-        return os.sep.join(self._config.paths.db_path, state, db_name)
+        return os.sep.join([self._config.paths.db_path, state, db_name])
 
     def _get_backup_db_name(self, db_name):
         """
@@ -217,7 +231,7 @@ class Database:
         :return: the name of the latest backup for that database
         """
 
-        search_path = os.sep.join(self._config.paths.db_path, "backup", "{}*.db".format(db_name))
+        search_path = os.sep.join([self._config.paths.db_path, "backup", "{}*.db".format(db_name)])
         paths = glob.glob(search_path).sort(reverse=True)
         return paths[0].split(os.sep)[-1]
 
@@ -243,7 +257,7 @@ class Database:
         """
 
         return {
-            "create": "CREATE TABLE IF NOT EXISTS {table}({col_spec} PRIMARY KEY ({keys}));",
+            "create": "CREATE TABLE IF NOT EXISTS {table} ({col_spec}, PRIMARY KEY ({keys}));",
             "insert": "INSERT INTO {table}({columns}) VALUES({data});",
             "select": {
                 "select_all_from": "SELECT * FROM {table};",
@@ -252,6 +266,3 @@ class Database:
                 "select_columns_from_where": "SELECT {columns} FROM {table} WHERE {where};"
             }
         }
-
-
-
