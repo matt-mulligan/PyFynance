@@ -23,6 +23,7 @@ class LoadTransactionsTask(BaseTask):
         """
 
         self._logger.info("Beginning before_task method of task '{}'.".format(self))
+        self._db.start_db("transactions")
         self._logger.info("Finished before_task method of task '{}'.".format(self))
 
     def do_task(self):
@@ -53,4 +54,5 @@ class LoadTransactionsTask(BaseTask):
         """
 
         self._logger.info("Beginning before_task method of task '{}'.".format(self))
+        self._db.stop_db("transactions")
         self._logger.info("Finished before_task method of task '{}'.".format(self))

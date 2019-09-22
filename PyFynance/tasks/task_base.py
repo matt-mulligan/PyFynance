@@ -3,6 +3,7 @@ from abc import ABCMeta, abstractmethod
 
 from core.config import Configuration
 from core.exceptions import TaskError
+from services.database import Database
 from services.ofx_parser import OFXParser
 
 
@@ -15,6 +16,7 @@ class BaseTask:
         self._logger = logging.getLogger(__name__)
         self._config = Configuration()
         self._ofx_parser = OFXParser(self._config)
+        self._db = Database()
 
     @abstractmethod
     def before_task(self):  # pragma: no cover
