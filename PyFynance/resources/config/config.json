@@ -24,14 +24,15 @@
             "transactions": {
                 "institution": "text",
                 "account": "text",
-                "transaction_id": "integer",
+                "tran_id": "text",
+                "tran_type": "text",
                 "amount": "decimal",
                 "narrative": "text",
                 "date_posted": "text"
             }
         },
         "primaryKeys": {
-            "transactions": ["institution", "account", "transaction_id"]
+            "transactions": ["institution", "account", "tran_id"]
         }
     }
 }

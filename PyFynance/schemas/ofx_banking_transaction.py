@@ -8,7 +8,7 @@ class OFXBankingTransactionSchema(Schema):
     deserialize python objects to and from json
     """
 
-    type = fields.Str(data_key="trntype")
+    trn_type = fields.Str(data_key="trntype")
     date_posted = fields.DateTime(data_key="dtposted")
     amount = fields.Decimal(data_key="trnamt")
     fitid = fields.Str()

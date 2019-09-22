@@ -14,7 +14,8 @@ class PyFynance:
     def __init__(self, args):
         self._args = args
         self._config = Configuration()
-        self._logger = self._configure_logger(self._config.paths.logs_path, self._config.version, self._args.task_type)
+        self._logger = self._configure_logger(self._config.paths.logs_path, self._config.version,
+                                              self._args.task_type, self._args.runtime)
 
     def run(self):
         """
@@ -43,48 +44,6 @@ class PyFynance:
         self._logger.info("Finished PyFynance Application Run")
         return exit_code
 
-    @staticmethod
-    def _configure_logger(log_path, version, task_type):
-        """
-        this method will set the logging configuration for each run of PyFynance
-
-        :param log_path: The path to write logfiles out to
-        :param version: The version number of PyFynance
-        :param task_type: The PyFynance task type
-        :return: returns a configured python logger object
-        """
-
-        logger = logging.getLogger()
-        logger.setLevel(logging.DEBUG)
-
-        formatter = logging.Formatter("%(asctime)s %(name)-35s %(levelname)-8s %(message)s")
-
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.DEBUG)
-        ch.setFormatter(formatter)
-        logger.addHandler(ch)
-
-        log_datetime = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-        log_filename = "{log_path}{sep}{version}{sep}PyFynance_{task_type}_{timestamp}.log".format(log_path=log_path,
-                                                                                                   sep=os.sep,
-                                                                                                   version=str(version),
-                                                                                                   task_type=task_type,
-                                                                                                   timestamp=log_datetime)
-        # delayed import for python path addition
-        from core.helpers import makedirs
-        makedirs(log_filename)
-
-        fh = logging.FileHandler(log_filename, "w")
-        fh.setLevel(logging.DEBUG)
-        fh.setFormatter(formatter)
-        logger.addHandler(fh)
-
-        logger.info("Logging Service Initalised")
-        logger.info("PyFynance Version = {}".format(version))
-        logger.info("PyFynance Task Type = {}".format(task_type))
-
-        return logger
-
     def _execute_tasks(self):
         """
         this method is responsible for selecting and triggering the correct task class based on the task_type selected
@@ -107,6 +66,48 @@ class PyFynance:
         return {
             "load_transactions": "tasks.task_load_transactions.LoadTransactionsTask"
         }[self._args.task_type]
+
+    @staticmethod
+    def _configure_logger(log_path, version, task_type, runtime):
+        """
+        this method will set the logging configuration for each run of PyFynance
+
+        :param log_path: The path to write logfiles out to
+        :param version: The version number of PyFynance
+        :param task_type: The PyFynance task type
+        :return: returns a configured python logger object
+        """
+
+        logger = logging.getLogger()
+        logger.setLevel(logging.DEBUG)
+
+        formatter = logging.Formatter("%(asctime)s %(name)-35s %(levelname)-8s %(message)s")
+
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.DEBUG)
+        ch.setFormatter(formatter)
+        logger.addHandler(ch)
+
+        log_datetime = runtime.strftime("%Y%m%d%H%M%S")
+        log_filename = "{log_path}{sep}{version}{sep}PyFynance_{task_type}_{timestamp}.log".format(log_path=log_path,
+                                                                                                   sep=os.sep,
+                                                                                                   version=str(version),
+                                                                                                   task_type=task_type,
+                                                                                                   timestamp=log_datetime)
+        # delayed import for python path addition
+        from core.helpers import makedirs
+        makedirs(log_filename)
+
+        fh = logging.FileHandler(log_filename, "w")
+        fh.setLevel(logging.DEBUG)
+        fh.setFormatter(formatter)
+        logger.addHandler(fh)
+
+        logger.info("Logging Service Initalised")
+        logger.info("PyFynance Version = {}".format(version))
+        logger.info("PyFynance Task Type = {}".format(task_type))
+
+        return logger
 
     @staticmethod
     def _new_instance(task_class):

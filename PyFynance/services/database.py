@@ -3,6 +3,7 @@ import glob
 import logging
 import os
 import sqlite3
+from decimal import Decimal
 from shutil import copyfile
 
 from core.config import Configuration
@@ -89,12 +90,12 @@ class Database:
 
         for col_name, data_val in data.items():
             column_names.append(col_name)
-            data_vals.append(data_val)
+            data_vals.append(self._cast_data_for_insert(data_val))
 
         columns = ", ".join(column_names)
         data = ", ".join(data_vals)
 
-        sql = self._sql["insert"].format(table=table, colums=columns, data=data)
+        sql = self._sql["insert"].format(table=table, columns=columns, data=data)
         self._execute(db_name, sql)
         self._logger.info("Successful insert of data into '{}.{}'".format(db_name, table))
 
@@ -131,7 +132,7 @@ class Database:
         }[sql_key]
 
         column_names = ",".join(columns) if columns else None
-        data = self._execute(db_name, sql.format(table=table, columns=column_names, where=where))
+        data = self._execute(db_name, sql.format(table=table, columns=column_names, where=where)).fetchall()
         self._logger.info("Successful select of data from '{}.{}'".format(db_name, table))
         return data
 
@@ -266,3 +267,19 @@ class Database:
                 "select_columns_from_where": "SELECT {columns} FROM {table} WHERE {where};"
             }
         }
+
+    @staticmethod
+    def _cast_data_for_insert(data):
+        """
+        This private method will correctly cast data based on its data type for insertion into a table using sqlite3
+
+        :param data: ANY: the data that needs to be cast
+        :return: ANY: returns the correctly cast data for insertion
+        """
+
+        if type(data) is str:
+            return "\"{}\"".format(data)
+        elif type(data) is Decimal:
+            return str(data)
+        else:
+            return data

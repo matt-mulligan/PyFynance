@@ -1,4 +1,5 @@
 import argparse
+import datetime
 import os
 import sys
 
@@ -61,6 +62,8 @@ def parse_arguments(cmd_line_args):  # pragma: no cover
     if args.task_type == "load_transactions":
         lt_parser = create_load_tran_parser()
         lt_parser.parse_args(remaining_args, namespace=args)
+
+    args.runtime = datetime.datetime.now()
 
     return args
 
