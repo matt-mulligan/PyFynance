@@ -65,12 +65,12 @@ def test_when_parse_and_banking_transactions_then_return_transations(isfile, ofx
     assert transacions[0].date_posted == datetime.datetime(2019, 9, 13, 0, 0, 0)
     assert transacions[0].fitid == "118896"
     assert transacions[0].memo == "memo_txt"
-    assert transacions[0].type == "DEBIT"
+    assert transacions[0].trn_type == "DEBIT"
     assert transacions[1].amount == Decimal("200.00")
     assert transacions[1].date_posted == datetime.datetime(2019, 9, 12, 0, 0, 0)
     assert transacions[1].fitid == "717166"
     assert transacions[1].name == "name_txt"
-    assert transacions[1].type == "CREDIT"
+    assert transacions[1].trn_type == "CREDIT"
 
 
 def test_when_parse_and_bad_object_type_then_raise_error(ofx_parser):

@@ -1,3 +1,5 @@
+import datetime
+
 from mock import MagicMock, patch
 from pytest import fixture, raises
 
@@ -9,6 +11,7 @@ from core.pyfynance import PyFynance
 def args_load_transactions():
     args = MagicMock()
     args.task_type = "load_transactions"
+    args.runtime = datetime.datetime(2015, 2, 14, 10, 11, 12)
     return args
 
 
