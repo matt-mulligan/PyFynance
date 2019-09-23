@@ -3,8 +3,7 @@ import glob
 import logging
 import os
 import sqlite3
-from decimal import Decimal
-from shutil import copyfile
+import shutil
 
 from core.config import Configuration
 from core.exceptions import DatabaseError
@@ -23,21 +22,24 @@ class Database:
         self._cursors = {}
         self._sql = self._set_db_statements()
 
-    def start_db(self, db_name):
+    def start_db(self, db_name, current=True):
         """
         This method will start the sqllite3 database specified. THis method will create the connection and cursor
         object to allow interaction with the database, as well as trigger the table create commands
 
         :param db_name: String: the name of the database to start
+        :param current: Boolean: signifies if the database service should load the current database or the backup.
+        The default value for this value is True
         """
 
         try:
             self._logger.info("Attempting to start the database service for database '{}'".format(db_name))
             self._check_db_name(db_name)
-            db_path = self._get_db_path(db_name)
+            db_path = self._get_db_path(db_name, current)
             self._connections[db_name] = sqlite3.connect(db_path)
             self._cursors[db_name] = self._connections[db_name].cursor()
-            self._build_tables(db_name)
+            if current:
+                self._build_tables(db_name)
             self._logger.info("Successfully started the database service for database '{}'".format(db_name))
         except Exception as e:
             raise DatabaseError("Exception occurred while starting database '{}'.  {}".format(db_name, e))
@@ -83,21 +85,25 @@ class Database:
         being the data to insert for that column
         """
 
-        self._logger.info("Attempting insert of data into '{}.{}'".format(db_name, table))
-        self._check_db_name(db_name)
-        column_names = []
-        data_vals = []
+        try:
+            self._logger.info("Attempting insert of data into '{}.{}'".format(db_name, table))
+            self._check_db_name(db_name)
+            self._check_table_name(db_name, table)
+            column_names = []
+            data_vals = []
 
-        for col_name, data_val in data.items():
-            column_names.append(col_name)
-            data_vals.append(self._cast_data_for_insert(data_val))
+            for col_name, data_val in data.items():
+                column_names.append(col_name)
+                data_vals.append(self._cast_data_for_insert(data_val))
 
-        columns = ", ".join(column_names)
-        data = ", ".join(data_vals)
+            columns = ", ".join(column_names)
+            data = ", ".join(data_vals)
 
-        sql = self._sql["insert"].format(table=table, columns=columns, data=data)
-        self._execute(db_name, sql)
-        self._logger.info("Successful insert of data into '{}.{}'".format(db_name, table))
+            sql = self._sql["insert"].format(table=table, columns=columns, data=data)
+            self._execute(db_name, sql)
+            self._logger.info("Successful insert of data into '{}.{}'".format(db_name, table))
+        except Exception as e:
+            raise DatabaseError("Exception occurred while inserting data into '{}.{}'.  {}".format(db_name, table, e))
 
     def select(self, db_name, table, columns=None, where=None):
         """
@@ -122,19 +128,24 @@ class Database:
         :return: List: list of rows returned from the database
         """
 
-        self._logger.info("Attempting select of data from '{}.{}'".format(db_name, table))
-        sql_key = "{cols}_{wheres}".format(cols="columns" if columns else "none", wheres="where" if where else "none")
-        sql = {
-            "none_none": self._sql["select"]["select_all_from"],
-            "columns_none": self._sql["select"]["select_columns_from"],
-            "none_where": self._sql["select"]["select_all_from_where"],
-            "columns_where": self._sql["select"]["select_columns_from_where"]
-        }[sql_key]
+        try:
+            self._logger.info("Attempting select of data from '{}.{}'".format(db_name, table))
+            self._check_db_name(db_name)
+            self._check_table_name(db_name, table)
+            sql_key = "{cols}_{wheres}".format(cols="columns" if columns else "none", wheres="where" if where else "none")
+            sql = {
+                "none_none": self._sql["select"]["select_all_from"],
+                "columns_none": self._sql["select"]["select_columns_from"],
+                "none_where": self._sql["select"]["select_all_from_where"],
+                "columns_where": self._sql["select"]["select_columns_from_where"]
+            }[sql_key]
 
-        column_names = ",".join(columns) if columns else None
-        data = self._execute(db_name, sql.format(table=table, columns=column_names, where=where)).fetchall()
-        self._logger.info("Successful select of data from '{}.{}'".format(db_name, table))
-        return data
+            column_names = ", ".join(columns) if columns else None
+            data = self._execute(db_name, sql.format(table=table, columns=column_names, where=where)).fetchall()
+            self._logger.info("Successful select of data from '{}.{}'".format(db_name, table))
+            return data
+        except Exception as e:
+            raise DatabaseError("Exception occurred while selecting data from '{}.{}'.  {}".format(db_name, table, e))
 
     def _build_tables(self, db_name):
         """
@@ -179,22 +190,18 @@ class Database:
         timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
         source_path = os.sep.join([self._config.paths.db_path, "current", "{}.db".format(db_name)])
         backup_path = os.sep.join([self._config.paths.db_path, "backup", "{}_{}.db".format(db_name, timestamp)])
-        copyfile(source_path, backup_path)
+        shutil.copyfile(source_path, backup_path)
 
-    def _execute(self, db_name, sql, data=None):
+    def _execute(self, db_name, sql):
         """
         This private method will execute a database command on the specified database.
 
         :param db_name: String: the name of the database that the command should be run against
         :param sql: String: the sql command that should be executed
-        :param data: List: list of data values to be passed with the sql statement
         """
 
         self._logger.debug("Attempting to execute sql command '{}'".format(sql))
-        if data:
-            execute_output = self._cursors[db_name].execute(sql, data)
-        else:
-            execute_output = self._cursors[db_name].execute(sql)
+        execute_output = self._cursors[db_name].execute(sql)
         self._logger.debug("Successful execution of sql command '{}'".format(sql))
         return execute_output
 
@@ -208,6 +215,23 @@ class Database:
         if db_name not in self._config.database.db_names:
             raise DatabaseError("Database name specified is not an acceptable PyFynance database. Acceptable "
                                 "PyFynance databases include {}".format(self._config.database.db_names))
+
+    def _check_table_name(self, db_name, table):
+        """
+        This private method will check that the given table name is a known table within the given database
+
+        :param db_name: String: the name of the database to check against
+        :param table: String: the name of the table to check
+        """
+
+        tables = {
+            "transactions": self._config.database.tables.transactions,
+            "rules": self._config.database.tables.rules
+        }[db_name]
+
+        if table not in tables:
+            raise DatabaseError("Table name '{}' is not a known table for database '{}'. Known tables are '{}' ".
+                                format(table, db_name, tables))
 
     def _get_db_path(self, db_name, current=True):
         """
@@ -233,7 +257,8 @@ class Database:
         """
 
         search_path = os.sep.join([self._config.paths.db_path, "backup", "{}*.db".format(db_name)])
-        paths = glob.glob(search_path).sort(reverse=True)
+        paths = glob.glob(search_path)
+        paths.sort(reverse=True)
         return paths[0].split(os.sep)[-1]
 
     @staticmethod
@@ -279,7 +304,5 @@ class Database:
 
         if type(data) is str:
             return "\"{}\"".format(data)
-        elif type(data) is Decimal:
-            return str(data)
         else:
-            return data
+            return str(data)

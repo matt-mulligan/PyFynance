@@ -5,7 +5,6 @@ from mock import patch, call, MagicMock, mock_open
 from pytest import fixture, raises
 
 from core.exceptions import OFXParserError
-from schemas.ofx_banking_transaction import OFXBankingTransactionSchema
 from services.ofx_parser import OFXParser
 from core.config import Configuration
 
