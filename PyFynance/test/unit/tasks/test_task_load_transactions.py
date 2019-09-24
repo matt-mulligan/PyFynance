@@ -155,7 +155,7 @@ def test_when_do_task_and_some_trans_in_db_then_load_correct_trans(task, transac
 
 
 def test_when_do_task_and_all_trans_in_db_then_load_no_trans(task, transactions, tran01_data,
-                                                                   tran02_data, tran03_data):
+                                                             tran02_data, tran03_data):
     files_to_parse = ["C:\\fake\\path\\file1.ofx"]
     with patch("core.helpers.find_all_files", return_value=files_to_parse):
         with patch("services.ofx_parser.OFXParser.parse", return_value=transactions):
@@ -192,5 +192,3 @@ def test_when_after_task_then_correct_methods_called(task):
     with patch.object(task, "_db", return_value=MagicMock()) as db_mock:
         task.after_task()
     db_mock.assert_has_calls([call.stop_db("transactions")])
-
-

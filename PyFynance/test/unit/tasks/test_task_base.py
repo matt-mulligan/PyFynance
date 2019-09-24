@@ -1,6 +1,6 @@
 import datetime
 
-from mock import patch, MagicMock, call
+from mock import patch
 from pytest import raises, fixture
 
 from core.exceptions import TaskError
