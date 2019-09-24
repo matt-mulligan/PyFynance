@@ -28,6 +28,7 @@ def cursor_mock():
     sqlite_mock = MagicMock()
     yield sqlite_mock
 
+
 @fixture
 def insert_data():
     return {

@@ -68,7 +68,7 @@ class BaseTask:
                               format(self.__class__.__name__, status))
         return passed
 
-    def _get_args_repr(self):
+    def get_args_repr(self):
         """
         This private method will return a string representation of the self._args variable
 

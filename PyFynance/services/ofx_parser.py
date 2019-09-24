@@ -163,10 +163,7 @@ class OFXParser:
         :return: string value for the tag
         """
 
-        if "\n" in tag.text:
-            return tag.text.split("\n")[0]
-        else:
-            return tag.text
+        return tag.text.split("\n")[0]
 
     @staticmethod
     def _load_dictionaries_to_objects(object_type, object_dictionaries):

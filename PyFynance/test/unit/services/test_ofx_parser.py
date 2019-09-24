@@ -75,18 +75,19 @@ def test_when_parse_and_banking_transactions_then_return_transations(isfile, ofx
 def test_when_parse_and_bad_object_type_then_raise_error(ofx_parser):
     with raises(OFXParserError) as error_msg:
         ofx_parser.parse("bad_object_type", "fake/path/to/file.ofx")
-        assert "Object_type value bad_object_type is unknown. " in error_msg
+    assert error_msg.value.args[0] == "Object_type value 'bad_object_type' is unknown. Acceptable object type " \
+                                      "values are '['banking_transactions']'"
 
 
 @patch("os.path.isfile", return_value=False)
 def test_when_parse_and_file_path_not_a_file_then_raise_error(isfile, ofx_parser):
     with raises(OFXParserError) as error_msg:
         ofx_parser.parse("banking_transactions", "fake/path/to/folder")
-        assert "Path provided 'fake/path/to/folder' either does not exist or isnt a file" in error_msg
+    assert error_msg.value.args[0] == "Path provided 'fake/path/to/folder' either does not exist or isnt a file"
 
 
 @patch("os.path.isfile", return_value=True)
 def test_when_parse_and_file_not_ofx_or_qfx_then_raise_error(isfile, ofx_parser):
     with raises(OFXParserError) as error_msg:
         ofx_parser.parse("banking_transactions", "fake/path/to/bad/file.txt")
-        assert "Path provided 'fake/path/to/bad/file.txt' is not an OFX/QFX file." in error_msg
+    assert error_msg.value.args[0] == "Path provided 'fake/path/to/bad/file.txt' is not an OFX/QFX file."

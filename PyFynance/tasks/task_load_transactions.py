@@ -1,9 +1,9 @@
 import os
 import shutil
 
+from core import helpers
 from core.exceptions import TaskError
 from tasks.task_base import BaseTask
-from core.helpers import find_all_files
 
 
 class LoadTransactionsTask(BaseTask):
@@ -16,7 +16,7 @@ class LoadTransactionsTask(BaseTask):
         self._transactions = []
 
     def __repr__(self):
-        return "PyFynance.Tasks.LoadTransactionsTask({})".format(self._get_args_repr())
+        return "PyFynance.Tasks.LoadTransactionsTask({})".format(self.get_args_repr())
 
     def before_task(self):
         """
@@ -70,7 +70,7 @@ class LoadTransactionsTask(BaseTask):
         """
 
         transactions_input_path = os.sep.join([self._config.paths.input_path, "banking_transactions"])
-        files_to_parse = find_all_files(transactions_input_path, ["*.ofx", "*.qfx"])
+        files_to_parse = helpers.find_all_files(transactions_input_path, ["*.ofx", "*.qfx"])
         return files_to_parse
 
     def _write_transactions_to_db(self):

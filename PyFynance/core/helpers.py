@@ -31,7 +31,7 @@ def find_all_files(path, patterns, recursive=False, full_path=True):
 
     matches = []
     for pattern in patterns:
-        search_value = "{}{}{}".format(path, os.sep, pattern)
+        search_value = os.sep.join([path, pattern])
         matches.extend(glob.glob(search_value, recursive=recursive))
 
     if full_path:
