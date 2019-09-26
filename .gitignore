@@ -2,15 +2,22 @@
 /input/custom_rules/*
 !/input/custom_rules/.gitkeep
 
-/input/transactions/*
-!/input/transactions/.gitkeep
+/input/banking_transactions/*
+!/input/banking_transactions/.gitkeep
+/input/banking_transactions/ingested/*
+!/input/banking_transactions/ingested/.gitkeep
 
 /output/*
 !/output/.gitkeep
 
-/PyFynance/resources/db/transactions.sql
+/PyFynance/resources/databases/backup/*
+!/PyFynance/resources/databases/backup/.gitkeep
 
-**.qif
+/PyFynance/resources/databases/current/*
+!/PyFynance/resources/databases/current/.gitkeep
+
+**.ofx
+**.qfx
 
 # Ignoring log folder
 /logs/*

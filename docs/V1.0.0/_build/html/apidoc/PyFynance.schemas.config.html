@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Schemas/Config Module &mdash; PyFynance  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PyFynance  documentation" href="../index.html"/>
+        <link rel="up" title="PyFynance Schemas Package" href="PyFynance.schemas.html"/>
+        <link rel="next" title="Schemas/Model Module" href="PyFynance.schemas.model.html"/>
+        <link rel="prev" title="PyFynance Schemas Package" href="PyFynance.schemas.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PyFynance
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.schemas.html#schemas-modules">Schemas Modules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Schemas/Config Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PyFynance.schemas.model.html">Schemas/Model Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PyFynance.schemas.ofx_banking_transaction.html">Schemas/OFX Banking Transaction Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PyFynance.services.html">     Services Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyFynance</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="PyFynance.schemas.html">PyFynance Schemas Package</a> &raquo;</li>
+        
+      <li>Schemas/Config Module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/apidoc/PyFynance.schemas.config.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-PyFynance.schemas.config">
+<span id="schemas-config-module"></span><h1>Schemas/Config Module<a class="headerlink" href="#module-PyFynance.schemas.config" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="PyFynance.schemas.config.ConfigPathsSchema">
+<em class="property">class </em><code class="sig-prename descclassname">PyFynance.schemas.config.</code><code class="sig-name descname">ConfigPathsSchema</code><span class="sig-paren">(</span><em class="sig-param">*, only: Union[Sequence[str], Set[str]] = None, exclude: Union[Sequence[str], Set[str]] = (), many: bool = False, context: Dict = None, load_only: Union[Sequence[str], Set[str]] = (), dump_only: Union[Sequence[str], Set[str]] = (), partial: Union[bool, Sequence[str], Set[str]] = False, unknown: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#ConfigPathsSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.ConfigPathsSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">marshmallow.schema.Schema</span></code></p>
+<p>This class represents the schema of a configuration.paths object. Marshmallow uses this class to serialise and
+deserialize python objects to and from json</p>
+<dl class="method">
+<dt id="PyFynance.schemas.config.ConfigPathsSchema.create">
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#ConfigPathsSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.ConfigPathsSchema.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
+:param data:
+:return:</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="PyFynance.schemas.config.ConfigPathsSchema.opts">
+<code class="sig-name descname">opts</code><em class="property"> = &lt;marshmallow.schema.SchemaOpts object&gt;</em><a class="headerlink" href="#PyFynance.schemas.config.ConfigPathsSchema.opts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="PyFynance.schemas.config.ConfigSchema">
+<em class="property">class </em><code class="sig-prename descclassname">PyFynance.schemas.config.</code><code class="sig-name descname">ConfigSchema</code><span class="sig-paren">(</span><em class="sig-param">*, only: Union[Sequence[str], Set[str]] = None, exclude: Union[Sequence[str], Set[str]] = (), many: bool = False, context: Dict = None, load_only: Union[Sequence[str], Set[str]] = (), dump_only: Union[Sequence[str], Set[str]] = (), partial: Union[bool, Sequence[str], Set[str]] = False, unknown: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#ConfigSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.ConfigSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">marshmallow.schema.Schema</span></code></p>
+<p>THis class represents the schema of a configuration object. Marshmallow uses this class to serialise and
+deserialize python objects to and from json</p>
+<dl class="method">
+<dt id="PyFynance.schemas.config.ConfigSchema.create">
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#ConfigSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.ConfigSchema.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
+:param data:
+:return:</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="PyFynance.schemas.config.ConfigSchema.opts">
+<code class="sig-name descname">opts</code><em class="property"> = &lt;marshmallow.schema.SchemaOpts object&gt;</em><a class="headerlink" href="#PyFynance.schemas.config.ConfigSchema.opts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="PyFynance.schemas.config.DatabaseColumnSpecsSchema">
+<em class="property">class </em><code class="sig-prename descclassname">PyFynance.schemas.config.</code><code class="sig-name descname">DatabaseColumnSpecsSchema</code><span class="sig-paren">(</span><em class="sig-param">*, only: Union[Sequence[str], Set[str]] = None, exclude: Union[Sequence[str], Set[str]] = (), many: bool = False, context: Dict = None, load_only: Union[Sequence[str], Set[str]] = (), dump_only: Union[Sequence[str], Set[str]] = (), partial: Union[bool, Sequence[str], Set[str]] = False, unknown: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#DatabaseColumnSpecsSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.DatabaseColumnSpecsSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">marshmallow.schema.Schema</span></code></p>
+<p>This class represents the schema of a configuration.database.column_spec object. Marshmallow uses this class to serialise and
+deserialize python objects to and from json</p>
+<dl class="attribute">
+<dt id="PyFynance.schemas.config.DatabaseColumnSpecsSchema.opts">
+<code class="sig-name descname">opts</code><em class="property"> = &lt;marshmallow.schema.SchemaOpts object&gt;</em><a class="headerlink" href="#PyFynance.schemas.config.DatabaseColumnSpecsSchema.opts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="PyFynance.schemas.config.DatabasePrimaryKeysSchema">
+<em class="property">class </em><code class="sig-prename descclassname">PyFynance.schemas.config.</code><code class="sig-name descname">DatabasePrimaryKeysSchema</code><span class="sig-paren">(</span><em class="sig-param">*, only: Union[Sequence[str], Set[str]] = None, exclude: Union[Sequence[str], Set[str]] = (), many: bool = False, context: Dict = None, load_only: Union[Sequence[str], Set[str]] = (), dump_only: Union[Sequence[str], Set[str]] = (), partial: Union[bool, Sequence[str], Set[str]] = False, unknown: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#DatabasePrimaryKeysSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.DatabasePrimaryKeysSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">marshmallow.schema.Schema</span></code></p>
+<p>This class represents the schema of a configuration.database object. Marshmallow uses this class to serialise and
+deserialize python objects to and from json</p>
+<dl class="method">
+<dt id="PyFynance.schemas.config.DatabasePrimaryKeysSchema.create">
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#DatabasePrimaryKeysSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.DatabasePrimaryKeysSchema.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
+:param data:
+:return:</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="PyFynance.schemas.config.DatabasePrimaryKeysSchema.opts">
+<code class="sig-name descname">opts</code><em class="property"> = &lt;marshmallow.schema.SchemaOpts object&gt;</em><a class="headerlink" href="#PyFynance.schemas.config.DatabasePrimaryKeysSchema.opts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="PyFynance.schemas.config.DatabaseSchema">
+<em class="property">class </em><code class="sig-prename descclassname">PyFynance.schemas.config.</code><code class="sig-name descname">DatabaseSchema</code><span class="sig-paren">(</span><em class="sig-param">*, only: Union[Sequence[str], Set[str]] = None, exclude: Union[Sequence[str], Set[str]] = (), many: bool = False, context: Dict = None, load_only: Union[Sequence[str], Set[str]] = (), dump_only: Union[Sequence[str], Set[str]] = (), partial: Union[bool, Sequence[str], Set[str]] = False, unknown: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#DatabaseSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.DatabaseSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">marshmallow.schema.Schema</span></code></p>
+<p>This class represents the schema of a configuration.database object. Marshmallow uses this class to serialise and
+deserialize python objects to and from json</p>
+<dl class="method">
+<dt id="PyFynance.schemas.config.DatabaseSchema.create">
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#DatabaseSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.DatabaseSchema.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
+:param data:
+:return:</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="PyFynance.schemas.config.DatabaseSchema.opts">
+<code class="sig-name descname">opts</code><em class="property"> = &lt;marshmallow.schema.SchemaOpts object&gt;</em><a class="headerlink" href="#PyFynance.schemas.config.DatabaseSchema.opts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="PyFynance.schemas.config.DatabaseTablesSchema">
+<em class="property">class </em><code class="sig-prename descclassname">PyFynance.schemas.config.</code><code class="sig-name descname">DatabaseTablesSchema</code><span class="sig-paren">(</span><em class="sig-param">*, only: Union[Sequence[str], Set[str]] = None, exclude: Union[Sequence[str], Set[str]] = (), many: bool = False, context: Dict = None, load_only: Union[Sequence[str], Set[str]] = (), dump_only: Union[Sequence[str], Set[str]] = (), partial: Union[bool, Sequence[str], Set[str]] = False, unknown: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#DatabaseTablesSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.DatabaseTablesSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">marshmallow.schema.Schema</span></code></p>
+<p>This class represents the schema of a configuration.database.tables object. Marshmallow uses this class to
+serialise and deserialize python objects to and from json</p>
+<dl class="method">
+<dt id="PyFynance.schemas.config.DatabaseTablesSchema.create">
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#DatabaseTablesSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.DatabaseTablesSchema.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
+:param data:
+:return:</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="PyFynance.schemas.config.DatabaseTablesSchema.opts">
+<code class="sig-name descname">opts</code><em class="property"> = &lt;marshmallow.schema.SchemaOpts object&gt;</em><a class="headerlink" href="#PyFynance.schemas.config.DatabaseTablesSchema.opts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="PyFynance.schemas.config.OFXParserSchema">
+<em class="property">class </em><code class="sig-prename descclassname">PyFynance.schemas.config.</code><code class="sig-name descname">OFXParserSchema</code><span class="sig-paren">(</span><em class="sig-param">*, only: Union[Sequence[str], Set[str]] = None, exclude: Union[Sequence[str], Set[str]] = (), many: bool = False, context: Dict = None, load_only: Union[Sequence[str], Set[str]] = (), dump_only: Union[Sequence[str], Set[str]] = (), partial: Union[bool, Sequence[str], Set[str]] = False, unknown: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#OFXParserSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.OFXParserSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">marshmallow.schema.Schema</span></code></p>
+<p>This class represents the schema of a configuration.ofx_parser object. Marshmallow uses this class to serialise and
+deserialize python objects to and from json</p>
+<dl class="method">
+<dt id="PyFynance.schemas.config.OFXParserSchema.create">
+<code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#OFXParserSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.OFXParserSchema.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
+:param data:
+:return:</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="PyFynance.schemas.config.OFXParserSchema.opts">
+<code class="sig-name descname">opts</code><em class="property"> = &lt;marshmallow.schema.SchemaOpts object&gt;</em><a class="headerlink" href="#PyFynance.schemas.config.OFXParserSchema.opts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="PyFynance.schemas.model.html" class="btn btn-neutral float-right" title="Schemas/Model Module" accesskey="n">Next →</a>
+      
+      
+        <a href="PyFynance.schemas.html" class="btn btn-neutral" title="PyFynance Schemas Package" accesskey="p">← Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matt Mulligan.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
