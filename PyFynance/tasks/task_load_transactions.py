@@ -2,7 +2,7 @@ import os
 import shutil
 
 from core import helpers
-from core.exceptions import TaskError
+from core.exceptions import TaskLoadTransactionsError
 from tasks.task_base import BaseTask
 
 
@@ -71,6 +71,9 @@ class LoadTransactionsTask(BaseTask):
 
         transactions_input_path = os.sep.join([self._config.paths.input_path, "banking_transactions"])
         files_to_parse = helpers.find_all_files(transactions_input_path, ["*.ofx", "*.qfx"])
+        if len(files_to_parse) == 0:
+            raise TaskLoadTransactionsError("No input ofx/qfx files found in input path '{}'.  Are you sure you "
+                                            "placed the file there?".format(transactions_input_path))
         return files_to_parse
 
     def _write_transactions_to_db(self):
@@ -162,5 +165,5 @@ class LoadTransactionsTask(BaseTask):
         elif has_name:
             return transaction.name
         else:
-            raise TaskError("Transaction does not have a memo or name attribute.  The transaction has the following "
-                            "attributes '{}'".format(transaction.__dict__.keys()))
+            raise TaskLoadTransactionsError("Transaction does not have a memo or name attribute.  The transaction "
+                                            "has the following attributes '{}'".format(transaction.__dict__.keys()))

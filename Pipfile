@@ -15,6 +15,7 @@ coverage = "*"
 sphinx = "*"
 beautifulsoup4 = "*"
 behave = "*"
+rtcat-sphinx-theme = "*"
 
 [requires]
 python_version = "3.7"

@@ -29,7 +29,8 @@ class Database:
 
         :param db_name: String: the name of the database to start
         :param current: Boolean: signifies if the database service should load the current database or the backup.
-        The default value for this value is True
+            The default value for this value is True
+
         """
 
         try:
@@ -51,7 +52,7 @@ class Database:
 
         :param db_name: String: the name of the database connection to stop and commit/backup
         :param commit: Boolean. Value used to indicate if the database should be committed and backed up before
-        closing the connection
+            closing the connection
         """
 
         try:
@@ -73,16 +74,22 @@ class Database:
         This public method allows users to submit insert queires to the specified database and table to add data.
 
         Example Calls:
+
         .. code-block:: python
+
             db.insert("database", "table", {"ID": 1, "Name": "Billy NoMates McGee"})
             # above code will insert a new row into database.table where the column "ID" is set to 1 and the column
             # name is set to "Billy NoMates McGee" (why would his parents name him that?! so cruel)
 
-        :param db_name: String: the name of the database to query. This database must have already been started using
-        the start_db method
-        :param table: String: the name of the table to insert data into from the database specified
-        :param data: Dictionary: a dictionary of data to insert with key values being the column names and values
-        being the data to insert for that column
+        :param db_name: the name of the database to query. This database must have already been started using
+            the start_db method
+        :type db_name: String
+        :param table: the name of the table to insert data into from the database specified
+        :type table: String
+        :param data: A dictionary of data to insert with key values being the column names and values
+            being the data to insert for that column
+        :type data: Dictionary
+
         """
 
         try:
@@ -112,18 +119,18 @@ class Database:
         the select statements
 
         Example Calls:
+
         .. code-block:: python
+
             db.select("database", "table")  # returns all columns for database.table
-
             db.select("database", "table", columns=["id", "age"])  # returns the ID and age columns of database.table
-
             db.select("database", "table", where="age > 13")  # returns all columns from database.table where age > 13
 
         :param db_name: String: the name of the database to query. This database must have already been started using
-        the start_db method
+            the start_db method
         :param table: String: the name of the table to query from the database specified
         :param columns: List: Optional. list of columns to select from table. Default value is None and will select
-        all columns from the table
+            all columns from the table
         :param where: String: Optional. where command to filter the select staement with. Default value is None.
         :return: List: list of rows returned from the database
         """

@@ -160,6 +160,7 @@ class OFXParser:
         for nesting of tags. this means we must write additional tag value parsing logic to deal with this.
 
         :param tag: BeautifulSoup tag object
+
         :return: string value for the tag
         """
 

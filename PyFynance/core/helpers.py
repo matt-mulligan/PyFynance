@@ -26,7 +26,7 @@ def find_all_files(path, patterns, recursive=False, full_path=True):
     :param recursive: boolean, indicating if the search should be recursive. default value is False
     :param full_path: boolean, indicates if the returned values should eb full paths or just file names. default value
            is True
-    :return: list, either full file paths for just file names based on the value of full_path
+    :return: list: either full file paths for just file names based on the value of full_path
     """
 
     matches = []

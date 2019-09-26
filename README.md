@@ -9,7 +9,7 @@ transactions from a file
 
 
 ## Current Version and Changelist
-**Version 0.1**
+**Version 1.0**
 * Basic project structure established
 * Transaction reading now supported for QIF file format. Most financial organisations provide exports in this format
 
