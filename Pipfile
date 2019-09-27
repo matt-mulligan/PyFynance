@@ -16,6 +16,7 @@ sphinx = "*"
 beautifulsoup4 = "*"
 behave = "*"
 rtcat-sphinx-theme = "*"
+sphinx-test-reports = "*"
 
 [requires]
 python_version = "3.7"

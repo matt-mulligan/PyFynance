@@ -4,7 +4,7 @@ from decimal import Decimal
 from mock import MagicMock, patch, call
 from pytest import fixture, raises
 
-from core.exceptions import TaskError
+from core.exceptions import TaskLoadTransactionsError
 from tasks.task_load_transactions import LoadTransactionsTask
 
 
@@ -183,7 +183,7 @@ def test_when_do_task_and_tran_no_name_memo_then_raise_error(task, tran_no_name_
         with patch("services.ofx_parser.OFXParser.parse", return_value=[tran_no_name_memo]):
             with patch("shutil.move", MagicMock()):
                 with patch("services.database.Database.select", return_value=[]):
-                    with raises(TaskError) as raised_error:
+                    with raises(TaskLoadTransactionsError) as raised_error:
                         task.do_task()
     assert raised_error.value.args[0] == error_msg
 

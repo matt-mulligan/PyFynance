@@ -85,6 +85,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
 </ul>
 <ul>
@@ -171,26 +174,74 @@
 <dt id="PyFynance.tasks.task_load_transactions.LoadTransactionsTask">
 <em class="property">class </em><code class="sig-prename descclassname">PyFynance.tasks.task_load_transactions.</code><code class="sig-name descname">LoadTransactionsTask</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/tasks/task_load_transactions.html#LoadTransactionsTask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.tasks.task_load_transactions.LoadTransactionsTask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tasks.task_base.BaseTask</span></code></p>
-<p>This task manages the ingestion of transactions into the PyFynance database</p>
+<p>The Load Transactions task is responsible for loading in financial transactions to PyFynance from OFX/QFX file
+source.</p>
+<p>This task type will load transactions from OFX files, parse the transactions to python dictionaries, serialise the
+values into OFX Banking Transaction objects within python, then write any new transactions to the
+transactions Database.</p>
+<p>This task is triggered in PyFynance by calling the PyFynance module from the command line with the following named
+values:</p>
+<blockquote>
+<div><ul>
+<li><dl class="option-list">
+<dt><kbd><span class="option">--task_type</span></kbd></dt>
+<dd><p>load_transactions</p>
+</dd>
+</dl>
+</li>
+<li><dl class="option-list">
+<dt><kbd><span class="option">--institution</span></kbd></dt>
+<dd><p>The name of the financial institution the transactions are from</p>
+</dd>
+</dl>
+</li>
+<li><dl class="option-list">
+<dt><kbd><span class="option">--account</span></kbd></dt>
+<dd><p>The name of the account to associate the transactions with</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>The load transactions task will load all ofx files it find in the input/banking_transactions folder of this repo.
+Once a file has been loaded using the load_transaction task it will be moved to either:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>/input/banking_transactions/ingested      if the task was successful</p></li>
+<li><p>/input/banking_transactions/error         if the task failed</p></li>
+</ul>
+</div></blockquote>
 <dl class="method">
 <dt id="PyFynance.tasks.task_load_transactions.LoadTransactionsTask.after_task">
 <code class="sig-name descname">after_task</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/tasks/task_load_transactions.html#LoadTransactionsTask.after_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.after_task" title="Permalink to this definition">¶</a></dt>
-<dd><p>this do task manages all of the teardown tasks that this task performs after its action is done
-:return:</p>
+<dd><p>this public after task manages all of the teardown tasks that this task performs after its action is done</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="PyFynance.tasks.task_load_transactions.LoadTransactionsTask.before_task">
 <code class="sig-name descname">before_task</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/tasks/task_load_transactions.html#LoadTransactionsTask.before_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.before_task" title="Permalink to this definition">¶</a></dt>
-<dd><p>this before task manages all setup activities required by this task to perform its action
-:return:</p>
+<dd><p>This public before task manages all setup activities required by this task to perform its action</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="PyFynance.tasks.task_load_transactions.LoadTransactionsTask.do_task">
 <code class="sig-name descname">do_task</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/tasks/task_load_transactions.html#LoadTransactionsTask.do_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.do_task" title="Permalink to this definition">¶</a></dt>
-<dd><p>this do task manages all of the actions this task runs
-:return:</p>
+<dd><p>This public do task manages all of the actions this task runs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

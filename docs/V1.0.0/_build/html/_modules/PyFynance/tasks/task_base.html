@@ -84,6 +84,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
 </ul>
 <ul>
@@ -179,8 +182,9 @@
 <div class="viewcode-block" id="BaseTask.before_task"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_base.html#PyFynance.tasks.task_base.BaseTask.before_task">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">before_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this is the abstract method &quot;before_task&quot; and must be implemented by the child classes</span>
-<span class="sd">        :return:</span>
+<span class="sd">        this abstract method manages the execution of all pre-task activities required.</span>
+
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">pass</span></div>
@@ -188,8 +192,9 @@
 <div class="viewcode-block" id="BaseTask.do_task"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_base.html#PyFynance.tasks.task_base.BaseTask.do_task">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">do_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this is the abstract method &quot;do_task&quot; and must be implemented by the child classes</span>
-<span class="sd">        :return:</span>
+<span class="sd">        this abstract method manages the execution of the task steps</span>
+
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">pass</span></div>
@@ -197,16 +202,17 @@
 <div class="viewcode-block" id="BaseTask.after_task"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_base.html#PyFynance.tasks.task_base.BaseTask.after_task">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">after_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this is the abstract method &quot;after_task&quot; and must be implemented by the child classes</span>
-<span class="sd">        :return:</span>
+<span class="sd">        this abstract method manages the execution of all post-task activities required.</span>
+
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="BaseTask.execute"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_base.html#PyFynance.tasks.task_base.BaseTask.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this method will run the tasks before, do and after task methods in sequence and track results</span>
-<span class="sd">        :return:</span>
+<span class="sd">        This public orchestrates the calling and exception handling of the task abstract methods</span>
+<span class="sd">        :return: Boolean representing if the task execution was successful or not</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Beginning task execution for task type &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
@@ -228,9 +234,9 @@
 
 <div class="viewcode-block" id="BaseTask.get_args_repr"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_base.html#PyFynance.tasks.task_base.BaseTask.get_args_repr">[docs]</a>    <span class="k">def</span> <span class="nf">get_args_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will return a string representation of the self._args variable</span>
+<span class="sd">        This public method will return a string representation of the self._args variable</span>
 
-<span class="sd">        :return:</span>
+<span class="sd">        :return: String representation of the objects args attribute</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">repr_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>

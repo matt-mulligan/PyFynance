@@ -84,6 +84,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
 </ul>
 <ul>
@@ -166,13 +169,17 @@
 <div class="viewcode-block" id="Configuration"><a class="viewcode-back" href="../../../apidoc/PyFynance.core.config.html#PyFynance.core.config.Configuration">[docs]</a><span class="k">class</span> <span class="nc">Configuration</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The configuration module handles the loading and management of all configuration code and values within PyFynance.</span>
-<span class="sd">    all setup is run for this module off of the __init__ call, which will return you a python object that you can</span>
-<span class="sd">    get configuration values off of using dot notation</span>
+<span class="sd">    all setup is run for this module off of the __init__ call, which will return you a fully configured python object</span>
+<span class="sd">    that you can get configuration values off of using dot notation</span>
 
 <span class="sd">    .. code-block:: python</span>
 
 <span class="sd">        config = Configuration()</span>
 <span class="sd">        input_path = config.paths.input_path</span>
+
+<span class="sd">    The setting of values on this configuration object are governed by the configuration marshmallow schemas found in</span>
+<span class="sd">    the schemas.config module, as well as the configuration json from the resources/config module that holds all of</span>
+<span class="sd">    the actual config values to be loaded.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -209,7 +216,7 @@
 <span class="sd">        this method will load the configuration information from the appropriate json file and substitute in the</span>
 <span class="sd">        correct values</span>
 
-<span class="sd">        :return:</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">config_resource_string</span> <span class="o">=</span> <span class="n">resource_string</span><span class="p">(</span><span class="s2">&quot;PyFynance.resources.config&quot;</span><span class="p">,</span> <span class="s2">&quot;config.json&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>

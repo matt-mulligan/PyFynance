@@ -84,6 +84,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
 </ul>
 <ul>
@@ -156,9 +159,16 @@
            <div itemprop="articleBody">
             
   <h1>Source code for PyFynance.core.exceptions</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="TaskError"><a class="viewcode-back" href="../../../apidoc/PyFynance.core.exceptions.html#PyFynance.core.exceptions.TaskError">[docs]</a><span></span><span class="k">class</span> <span class="nc">TaskError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The exceptions module holds all of the exception classes used throughout the application.</span>
+
+<span class="sd">Each exception class is used to signify where an exception has occured within the PyFynance application</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="TaskError"><a class="viewcode-back" href="../../../apidoc/PyFynance.core.exceptions.html#PyFynance.core.exceptions.TaskError">[docs]</a><span class="k">class</span> <span class="nc">TaskError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents an error that occurs during the running of a tasks before, do or after task</span>
+<span class="sd">    Represents an error that occurs during the running of a base task class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
@@ -166,7 +176,7 @@
 
 <div class="viewcode-block" id="TaskLoadTransactionsError"><a class="viewcode-back" href="../../../apidoc/PyFynance.core.exceptions.html#PyFynance.core.exceptions.TaskLoadTransactionsError">[docs]</a><span class="k">class</span> <span class="nc">TaskLoadTransactionsError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents an error that occurs during the running of a tasks before, do or after task</span>
+<span class="sd">    Represents an error that occurs during the running of a load transactions task</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
@@ -182,7 +192,7 @@
 
 <div class="viewcode-block" id="OFXParserError"><a class="viewcode-back" href="../../../apidoc/PyFynance.core.exceptions.html#PyFynance.core.exceptions.OFXParserError">[docs]</a><span class="k">class</span> <span class="nc">OFXParserError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents an error that occurs within the QIFParser service</span>
+<span class="sd">    Represents an error that occurs within the OFXParser service</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>

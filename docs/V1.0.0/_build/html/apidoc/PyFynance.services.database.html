@@ -86,6 +86,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
 </ul>
 <ul>
@@ -173,11 +176,13 @@
 <em class="property">class </em><code class="sig-prename descclassname">PyFynance.services.database.</code><code class="sig-name descname">Database</code><a class="reference internal" href="../_modules/PyFynance/services/database.html#Database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.database.Database" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The database service is responsible for all interactions with the sqlite3 databases within PyFynance and is written
-as a light-weight API over them</p>
+as a light-weight API over the sqlite3 library.</p>
+<p>This API class implements public methods over the standard database operations and are paramterised so that they
+can be usable for a wide variety of use cases, while still proving option validation on their calls</p>
 <dl class="method">
 <dt id="PyFynance.services.database.Database.insert">
 <code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param">db_name</em>, <em class="sig-param">table</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/database.html#Database.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.database.Database.insert" title="Permalink to this definition">¶</a></dt>
-<dd><p>This public method allows users to submit insert queires to the specified database and table to add data.</p>
+<dd><p>This public method allows users to submit insert queries to the specified database and table to add data.</p>
 <p>Example Calls:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;database&quot;</span><span class="p">,</span> <span class="s2">&quot;table&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;ID&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;Billy NoMates McGee&quot;</span><span class="p">})</span>
 <span class="c1"># above code will insert a new row into database.table where the column &quot;ID&quot; is set to 1 and the column</span>
@@ -194,14 +199,17 @@ the start_db method</p></li>
 being the data to insert for that column</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="PyFynance.services.database.Database.select">
 <code class="sig-name descname">select</code><span class="sig-paren">(</span><em class="sig-param">db_name</em>, <em class="sig-param">table</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">where=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/database.html#Database.select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.database.Database.select" title="Permalink to this definition">¶</a></dt>
-<dd><p>This public method allows users to submit select statements against the specified database and table.
-This method allows users to specified the columns to be returned and any where conditions they want to apply to
+<dd><p>This public method allows users to submit select statements against the specified database and table.</p>
+<p>This method allows users to specified the columns to be returned and any where conditions they want to apply to
 the select statements</p>
 <p>Example Calls:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;database&quot;</span><span class="p">,</span> <span class="s2">&quot;table&quot;</span><span class="p">)</span>  <span class="c1"># returns all columns for database.table</span>
@@ -212,12 +220,12 @@ the select statements</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>db_name</strong> – String: the name of the database to query. This database must have already been started using
+<li><p><strong>db_name</strong> (<em>String</em>) – The name of the database to query. This database must have already been started using
 the start_db method</p></li>
-<li><p><strong>table</strong> – String: the name of the table to query from the database specified</p></li>
-<li><p><strong>columns</strong> – List: Optional. list of columns to select from table. Default value is None and will select
+<li><p><strong>table</strong> (<em>List</em>) – The name of the table to query from the database specified</p></li>
+<li><p><strong>columns</strong> – Optional. List of columns to select from table. Default value is None and will select
 all columns from the table</p></li>
-<li><p><strong>where</strong> – String: Optional. where command to filter the select staement with. Default value is None.</p></li>
+<li><p><strong>where</strong> (<em>String</em>) – Optional. Where command to filter the select statement with. Default value is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -229,15 +237,19 @@ all columns from the table</p></li>
 <dl class="method">
 <dt id="PyFynance.services.database.Database.start_db">
 <code class="sig-name descname">start_db</code><span class="sig-paren">(</span><em class="sig-param">db_name</em>, <em class="sig-param">current=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/database.html#Database.start_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.database.Database.start_db" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method will start the sqllite3 database specified. THis method will create the connection and cursor
-object to allow interaction with the database, as well as trigger the table create commands</p>
+<dd><p>This method will start the sqllite3 database specified. This method will create the connection and cursor
+object to allow interaction with the database, as well as trigger the table create commands for that database.</p>
+<p>The database must be within the config.database.db_name list or the service will thrown an error.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>db_name</strong> – String: the name of the database to start</p></li>
-<li><p><strong>current</strong> – Boolean: signifies if the database service should load the current database or the backup.
+<li><p><strong>db_name</strong> (<em>String</em>) – The name of the database to start</p></li>
+<li><p><strong>current</strong> (<em>Boolean</em>) – Signifies if the database service should load the current database (True) or the backup (False).
 The default value for this value is True</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -245,15 +257,18 @@ The default value for this value is True</p></li>
 <dl class="method">
 <dt id="PyFynance.services.database.Database.stop_db">
 <code class="sig-name descname">stop_db</code><span class="sig-paren">(</span><em class="sig-param">db_name</em>, <em class="sig-param">commit=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/database.html#Database.stop_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.database.Database.stop_db" title="Permalink to this definition">¶</a></dt>
-<dd><p>this method will stop the sqlite3 database specified. This method will also optionally commit changes to the
+<dd><p>This method will stop the sqlite3 database specified. This method will also optionally commit changes to the
 database and create a backup of the database if commit value is True</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>db_name</strong> – String: the name of the database connection to stop and commit/backup</p></li>
-<li><p><strong>commit</strong> – Boolean. Value used to indicate if the database should be committed and backed up before
+<li><p><strong>db_name</strong> (<em>String</em>) – The name of the database connection to stop and commit/backup</p></li>
+<li><p><strong>commit</strong> (<em>Boolean</em>) – Value used to indicate if the database should be committed and backed up before
 closing the connection</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>

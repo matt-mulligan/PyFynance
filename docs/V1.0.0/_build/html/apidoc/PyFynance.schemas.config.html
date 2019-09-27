@@ -86,6 +86,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
 </ul>
 <ul>
@@ -180,7 +183,7 @@ deserialize python objects to and from json</p>
 <code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#ConfigPathsSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.ConfigPathsSchema.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
 :param data:
-:return:</p>
+:return: None</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -201,7 +204,7 @@ deserialize python objects to and from json</p>
 <code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#ConfigSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.ConfigSchema.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
 :param data:
-:return:</p>
+:return: None</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -228,14 +231,14 @@ deserialize python objects to and from json</p>
 <dt id="PyFynance.schemas.config.DatabasePrimaryKeysSchema">
 <em class="property">class </em><code class="sig-prename descclassname">PyFynance.schemas.config.</code><code class="sig-name descname">DatabasePrimaryKeysSchema</code><span class="sig-paren">(</span><em class="sig-param">*, only: Union[Sequence[str], Set[str]] = None, exclude: Union[Sequence[str], Set[str]] = (), many: bool = False, context: Dict = None, load_only: Union[Sequence[str], Set[str]] = (), dump_only: Union[Sequence[str], Set[str]] = (), partial: Union[bool, Sequence[str], Set[str]] = False, unknown: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#DatabasePrimaryKeysSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.DatabasePrimaryKeysSchema" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">marshmallow.schema.Schema</span></code></p>
-<p>This class represents the schema of a configuration.database object. Marshmallow uses this class to serialise and
+<p>This class represents the schema of a configuration.database.primary_keys object. Marshmallow uses this class to serialise and
 deserialize python objects to and from json</p>
 <dl class="method">
 <dt id="PyFynance.schemas.config.DatabasePrimaryKeysSchema.create">
 <code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#DatabasePrimaryKeysSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.DatabasePrimaryKeysSchema.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
 :param data:
-:return:</p>
+:return: None</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -256,7 +259,7 @@ deserialize python objects to and from json</p>
 <code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#DatabaseSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.DatabaseSchema.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
 :param data:
-:return:</p>
+:return: None</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -277,7 +280,7 @@ serialise and deserialize python objects to and from json</p>
 <code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#DatabaseTablesSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.DatabaseTablesSchema.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
 :param data:
-:return:</p>
+:return: None</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -298,7 +301,7 @@ deserialize python objects to and from json</p>
 <code class="sig-name descname">create</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/config.html#OFXParserSchema.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.config.OFXParserSchema.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>called by marshmallow package when deserialising completes in order to construct a valid instance.
 :param data:
-:return:</p>
+:return: None</p>
 </dd></dl>
 
 <dl class="attribute">

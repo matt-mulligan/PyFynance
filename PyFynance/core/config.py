@@ -8,13 +8,17 @@ from schemas.config import ConfigSchema
 class Configuration(object):
     """
     The configuration module handles the loading and management of all configuration code and values within PyFynance.
-    all setup is run for this module off of the __init__ call, which will return you a python object that you can
-    get configuration values off of using dot notation
+    all setup is run for this module off of the __init__ call, which will return you a fully configured python object
+    that you can get configuration values off of using dot notation
 
     .. code-block:: python
 
         config = Configuration()
         input_path = config.paths.input_path
+
+    The setting of values on this configuration object are governed by the configuration marshmallow schemas found in
+    the schemas.config module, as well as the configuration json from the resources/config module that holds all of
+    the actual config values to be loaded.
 
     """
 
@@ -51,7 +55,7 @@ class Configuration(object):
         this method will load the configuration information from the appropriate json file and substitute in the
         correct values
 
-        :return:
+        :return: None
         """
 
         config_resource_string = resource_string("PyFynance.resources.config", "config.json").decode("utf-8")

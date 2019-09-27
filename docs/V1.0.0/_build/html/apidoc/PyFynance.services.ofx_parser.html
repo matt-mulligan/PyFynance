@@ -86,6 +86,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
 </ul>
 <ul>
@@ -172,8 +175,8 @@
 <dt id="PyFynance.services.ofx_parser.OFXParser">
 <em class="property">class </em><code class="sig-prename descclassname">PyFynance.services.ofx_parser.</code><code class="sig-name descname">OFXParser</code><span class="sig-paren">(</span><em class="sig-param">config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/ofx_parser.html#OFXParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.ofx_parser.OFXParser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The OFX Parser class is designed to parse input data in the form of OFX/QFX files.
-OFX is a standardised finance information exchange format that PyFynance accepts as an input.</p>
+<p>The OFX Parser class is designed to parse input data in the form of OFX/QFX files.</p>
+<p>OFX is a standardised finance information exchange format that PyFynance accepts as an input.</p>
 <dl class="simple">
 <dt>Currently this parsing API only supports OFX files that meet the following specification:</dt><dd><ul class="simple">
 <li><p>OFX Specification: 1.0.2</p></li>
@@ -182,19 +185,20 @@ OFX is a standardised finance information exchange format that PyFynance accepts
 </dd>
 </dl>
 <p>OFX Specifications can be found here for reference: <a class="reference external" href="https://www.ofx.net/downloads.html">https://www.ofx.net/downloads.html</a></p>
-<p>This class can be used to parse the ofx file inputs into python objects utilising marshmallow schemas
-this class is intended as a reusable API class</p>
+<p>This class can be used to parse the ofx file inputs into python objects utilising marshmallow schemas.
+this class is intended as a reusable API class that can be extended to support other OFX specification types and
+versions</p>
 <dl class="method">
 <dt id="PyFynance.services.ofx_parser.OFXParser.parse">
 <code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">ofx_object_type</em>, <em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/ofx_parser.html#OFXParser.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.ofx_parser.OFXParser.parse" title="Permalink to this definition">¶</a></dt>
-<dd><p>this public method will parse a ofx file from the provided path with the methods and schemas matching the
-object type value provided</p>
+<dd><p>This public method will parse a ofx file from the provided path with the methods and schemas matching the
+OFX object type value provided</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ofx_object_type</strong> – the type of objects to parse from the ofx file. currently supported values are
-[“banking”]</p></li>
-<li><p><strong>path</strong> – the path to the input file</p></li>
+<li><p><strong>ofx_object_type</strong> (<em>String</em>) – the type of objects to parse from the ofx file. Currently supported values are
+[“banking_transactions”]</p></li>
+<li><p><strong>path</strong> (<em>String</em>) – The path to the input file</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

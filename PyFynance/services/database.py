@@ -12,7 +12,10 @@ from core.exceptions import DatabaseError
 class Database:
     """
     The database service is responsible for all interactions with the sqlite3 databases within PyFynance and is written
-    as a light-weight API over them
+    as a light-weight API over the sqlite3 library.
+
+    This API class implements public methods over the standard database operations and are paramterised so that they
+    can be usable for a wide variety of use cases, while still proving option validation on their calls
     """
 
     def __init__(self):
@@ -24,13 +27,17 @@ class Database:
 
     def start_db(self, db_name, current=True):
         """
-        This method will start the sqllite3 database specified. THis method will create the connection and cursor
-        object to allow interaction with the database, as well as trigger the table create commands
+        This method will start the sqllite3 database specified. This method will create the connection and cursor
+        object to allow interaction with the database, as well as trigger the table create commands for that database.
 
-        :param db_name: String: the name of the database to start
-        :param current: Boolean: signifies if the database service should load the current database or the backup.
+        The database must be within the config.database.db_name list or the service will thrown an error.
+
+        :param db_name: The name of the database to start
+        :type db_name: String
+        :param current: Signifies if the database service should load the current database (True) or the backup (False).
             The default value for this value is True
-
+        :type current: Boolean
+        :return: None
         """
 
         try:
@@ -47,12 +54,15 @@ class Database:
 
     def stop_db(self, db_name, commit=True):
         """
-        this method will stop the sqlite3 database specified. This method will also optionally commit changes to the
+        This method will stop the sqlite3 database specified. This method will also optionally commit changes to the
         database and create a backup of the database if commit value is True
 
-        :param db_name: String: the name of the database connection to stop and commit/backup
-        :param commit: Boolean. Value used to indicate if the database should be committed and backed up before
+        :param db_name: The name of the database connection to stop and commit/backup
+        :type db_name: String
+        :param commit: Value used to indicate if the database should be committed and backed up before
             closing the connection
+        :type commit: Boolean
+        :return: None
         """
 
         try:
@@ -71,7 +81,7 @@ class Database:
 
     def insert(self, db_name, table, data):
         """
-        This public method allows users to submit insert queires to the specified database and table to add data.
+        This public method allows users to submit insert queries to the specified database and table to add data.
 
         Example Calls:
 
@@ -89,7 +99,7 @@ class Database:
         :param data: A dictionary of data to insert with key values being the column names and values
             being the data to insert for that column
         :type data: Dictionary
-
+        :return: None
         """
 
         try:
@@ -115,6 +125,7 @@ class Database:
     def select(self, db_name, table, columns=None, where=None):
         """
         This public method allows users to submit select statements against the specified database and table.
+
         This method allows users to specified the columns to be returned and any where conditions they want to apply to
         the select statements
 
@@ -126,12 +137,16 @@ class Database:
             db.select("database", "table", columns=["id", "age"])  # returns the ID and age columns of database.table
             db.select("database", "table", where="age > 13")  # returns all columns from database.table where age > 13
 
-        :param db_name: String: the name of the database to query. This database must have already been started using
+        :param db_name: The name of the database to query. This database must have already been started using
             the start_db method
-        :param table: String: the name of the table to query from the database specified
-        :param columns: List: Optional. list of columns to select from table. Default value is None and will select
+        :type db_name: String
+        :param table: The name of the table to query from the database specified
+        :type table: String
+        :param columns: Optional. List of columns to select from table. Default value is None and will select
             all columns from the table
-        :param where: String: Optional. where command to filter the select staement with. Default value is None.
+        :type table: List
+        :param where: Optional. Where command to filter the select statement with. Default value is None.
+        :type where: String
         :return: List: list of rows returned from the database
         """
 
@@ -158,7 +173,9 @@ class Database:
         """
         This private method will build all of the table create statements for the database specified
 
-        :param db_name: String: the name of the database to build the tables for.
+        :param db_name: The name of the database to build the tables for.
+        :type db_name: String
+        :return: None
         """
 
         table_creates = {
@@ -182,7 +199,9 @@ class Database:
         """
         This private method will commit the changes to the database file.
 
-        :param db_name: String: the name of the database to commit
+        :param db_name: The name of the database to commit
+        :type db_name: String
+        :return: None
         """
 
         self._connections[db_name].commit()
@@ -191,7 +210,9 @@ class Database:
         """
         This private method will backup the database instance that has just been stopped.
 
-        :param db_name: String: The name of the database to backup
+        :param db_name: The name of the database to backup
+        :type db_name: String
+        :return: None
         """
 
         timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
@@ -203,8 +224,11 @@ class Database:
         """
         This private method will execute a database command on the specified database.
 
-        :param db_name: String: the name of the database that the command should be run against
-        :param sql: String: the sql command that should be executed
+        :param db_name: The name of the database that the command should be run against
+        :type db_name: String
+        :param sql: The sql command that should be executed
+        :type sql: String
+        :return: None
         """
 
         self._logger.debug("Attempting to execute sql command '{}'".format(sql))
@@ -216,7 +240,9 @@ class Database:
         """
         This private method will check that the given db name exists within the names list from the config service.
 
-        :param db_name: String: the name of the database to check
+        :param db_name: The name of the database to check
+        :type db_name: String
+        :return: None
         """
 
         if db_name not in self._config.database.db_names:
@@ -227,8 +253,11 @@ class Database:
         """
         This private method will check that the given table name is a known table within the given database
 
-        :param db_name: String: the name of the database to check against
-        :param table: String: the name of the table to check
+        :param db_name: The name of the database to check against
+        :type db_name: String
+        :param table: The name of the table to check
+        :type table: String
+        :return: None
         """
 
         tables = {
@@ -245,9 +274,11 @@ class Database:
         this private method will return the correct path to the database based on the database name and if they wish
         to access the current or backup DB
 
-        :param db_name: String: the name of the database to find the path for.
-        :param current: Boolean: signifies if the path to be returned should be to the current or backup database.
+        :param db_name: The name of the database to find the path for.
+        :type db_name: String
+        :param current: Optional. Signifies if the path to be returned should be to the current or backup database.
         Default value is to return the current DB
+        :type current: Boolean
         :return: String: path to the database file
         """
 
@@ -259,7 +290,8 @@ class Database:
         """
         This private method will determine the latest backup version of the db_name that is provided
 
-        :param db_name: String: the name of the database to find
+        :param db_name: The name of the database to find
+        :type db_name: String
         :return: the name of the latest backup for that database
         """
 
@@ -271,9 +303,10 @@ class Database:
     @staticmethod
     def _build_column_spec(col_spec):
         """
-        This private method will build the comun specification string requried to create a table.
+        This private method will build the column specification string required to create a table.
 
-        :param col_spec: Dictionary: containing the column names and data types for the database table
+        :param col_spec: Contains the column names and data types for the database table
+        :type col_spec: Dictionary
         :return: String: formatted column spec string for table create statement
         """
 
@@ -285,7 +318,8 @@ class Database:
     @staticmethod
     def _set_db_statements():
         """
-        this private method create a dictionary of standard sql statements to be used by the Database class.
+        this private static method creates a dictionary of standard sql statements to be used by the Database class.
+
         :return: Dictionary: sql statements to be used by the database class
         """
 
@@ -303,7 +337,8 @@ class Database:
     @staticmethod
     def _cast_data_for_insert(data):
         """
-        This private method will correctly cast data based on its data type for insertion into a table using sqlite3
+        This private static method will correctly cast data based on its data type for insertion into a table
+        using sqlite3
 
         :param data: ANY: the data that needs to be cast
         :return: ANY: returns the correctly cast data for insertion

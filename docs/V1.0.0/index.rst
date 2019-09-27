@@ -30,6 +30,11 @@ API documentation was generated using Sphinx-apidoc
 .. toctree::
    :maxdepth: 4
    
+	PyFynance Testing Approach <tests/tests.rst>
+	
+.. toctree::
+   :maxdepth: 4
+   
 	Core Package <apidoc/PyFynance.core.rst>
 	
 .. toctree::

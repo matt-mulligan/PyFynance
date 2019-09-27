@@ -84,6 +84,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
 </ul>
 <ul>
@@ -170,7 +173,10 @@
 <div class="viewcode-block" id="Database"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database">[docs]</a><span class="k">class</span> <span class="nc">Database</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The database service is responsible for all interactions with the sqlite3 databases within PyFynance and is written</span>
-<span class="sd">    as a light-weight API over them</span>
+<span class="sd">    as a light-weight API over the sqlite3 library.</span>
+
+<span class="sd">    This API class implements public methods over the standard database operations and are paramterised so that they</span>
+<span class="sd">    can be usable for a wide variety of use cases, while still proving option validation on their calls</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -182,13 +188,17 @@
 
 <div class="viewcode-block" id="Database.start_db"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database.start_db">[docs]</a>    <span class="k">def</span> <span class="nf">start_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This method will start the sqllite3 database specified. THis method will create the connection and cursor</span>
-<span class="sd">        object to allow interaction with the database, as well as trigger the table create commands</span>
+<span class="sd">        This method will start the sqllite3 database specified. This method will create the connection and cursor</span>
+<span class="sd">        object to allow interaction with the database, as well as trigger the table create commands for that database.</span>
 
-<span class="sd">        :param db_name: String: the name of the database to start</span>
-<span class="sd">        :param current: Boolean: signifies if the database service should load the current database or the backup.</span>
+<span class="sd">        The database must be within the config.database.db_name list or the service will thrown an error.</span>
+
+<span class="sd">        :param db_name: The name of the database to start</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param current: Signifies if the database service should load the current database (True) or the backup (False).</span>
 <span class="sd">            The default value for this value is True</span>
-
+<span class="sd">        :type current: Boolean</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -205,12 +215,15 @@
 
 <div class="viewcode-block" id="Database.stop_db"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database.stop_db">[docs]</a>    <span class="k">def</span> <span class="nf">stop_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this method will stop the sqlite3 database specified. This method will also optionally commit changes to the</span>
+<span class="sd">        This method will stop the sqlite3 database specified. This method will also optionally commit changes to the</span>
 <span class="sd">        database and create a backup of the database if commit value is True</span>
 
-<span class="sd">        :param db_name: String: the name of the database connection to stop and commit/backup</span>
-<span class="sd">        :param commit: Boolean. Value used to indicate if the database should be committed and backed up before</span>
+<span class="sd">        :param db_name: The name of the database connection to stop and commit/backup</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param commit: Value used to indicate if the database should be committed and backed up before</span>
 <span class="sd">            closing the connection</span>
+<span class="sd">        :type commit: Boolean</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -229,7 +242,7 @@
 
 <div class="viewcode-block" id="Database.insert"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This public method allows users to submit insert queires to the specified database and table to add data.</span>
+<span class="sd">        This public method allows users to submit insert queries to the specified database and table to add data.</span>
 
 <span class="sd">        Example Calls:</span>
 
@@ -247,7 +260,7 @@
 <span class="sd">        :param data: A dictionary of data to insert with key values being the column names and values</span>
 <span class="sd">            being the data to insert for that column</span>
 <span class="sd">        :type data: Dictionary</span>
-
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -273,6 +286,7 @@
 <div class="viewcode-block" id="Database.select"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This public method allows users to submit select statements against the specified database and table.</span>
+
 <span class="sd">        This method allows users to specified the columns to be returned and any where conditions they want to apply to</span>
 <span class="sd">        the select statements</span>
 
@@ -284,12 +298,16 @@
 <span class="sd">            db.select(&quot;database&quot;, &quot;table&quot;, columns=[&quot;id&quot;, &quot;age&quot;])  # returns the ID and age columns of database.table</span>
 <span class="sd">            db.select(&quot;database&quot;, &quot;table&quot;, where=&quot;age &gt; 13&quot;)  # returns all columns from database.table where age &gt; 13</span>
 
-<span class="sd">        :param db_name: String: the name of the database to query. This database must have already been started using</span>
+<span class="sd">        :param db_name: The name of the database to query. This database must have already been started using</span>
 <span class="sd">            the start_db method</span>
-<span class="sd">        :param table: String: the name of the table to query from the database specified</span>
-<span class="sd">        :param columns: List: Optional. list of columns to select from table. Default value is None and will select</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param table: The name of the table to query from the database specified</span>
+<span class="sd">        :type table: String</span>
+<span class="sd">        :param columns: Optional. List of columns to select from table. Default value is None and will select</span>
 <span class="sd">            all columns from the table</span>
-<span class="sd">        :param where: String: Optional. where command to filter the select staement with. Default value is None.</span>
+<span class="sd">        :type table: List</span>
+<span class="sd">        :param where: Optional. Where command to filter the select statement with. Default value is None.</span>
+<span class="sd">        :type where: String</span>
 <span class="sd">        :return: List: list of rows returned from the database</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -316,7 +334,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This private method will build all of the table create statements for the database specified</span>
 
-<span class="sd">        :param db_name: String: the name of the database to build the tables for.</span>
+<span class="sd">        :param db_name: The name of the database to build the tables for.</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">table_creates</span> <span class="o">=</span> <span class="p">{</span>
@@ -340,7 +360,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This private method will commit the changes to the database file.</span>
 
-<span class="sd">        :param db_name: String: the name of the database to commit</span>
+<span class="sd">        :param db_name: The name of the database to commit</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
@@ -349,7 +371,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This private method will backup the database instance that has just been stopped.</span>
 
-<span class="sd">        :param db_name: String: The name of the database to backup</span>
+<span class="sd">        :param db_name: The name of the database to backup</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
@@ -361,8 +385,11 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This private method will execute a database command on the specified database.</span>
 
-<span class="sd">        :param db_name: String: the name of the database that the command should be run against</span>
-<span class="sd">        :param sql: String: the sql command that should be executed</span>
+<span class="sd">        :param db_name: The name of the database that the command should be run against</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param sql: The sql command that should be executed</span>
+<span class="sd">        :type sql: String</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Attempting to execute sql command &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span>
@@ -374,7 +401,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This private method will check that the given db name exists within the names list from the config service.</span>
 
-<span class="sd">        :param db_name: String: the name of the database to check</span>
+<span class="sd">        :param db_name: The name of the database to check</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">db_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">db_names</span><span class="p">:</span>
@@ -385,8 +414,11 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This private method will check that the given table name is a known table within the given database</span>
 
-<span class="sd">        :param db_name: String: the name of the database to check against</span>
-<span class="sd">        :param table: String: the name of the table to check</span>
+<span class="sd">        :param db_name: The name of the database to check against</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param table: The name of the table to check</span>
+<span class="sd">        :type table: String</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">tables</span> <span class="o">=</span> <span class="p">{</span>
@@ -403,9 +435,11 @@
 <span class="sd">        this private method will return the correct path to the database based on the database name and if they wish</span>
 <span class="sd">        to access the current or backup DB</span>
 
-<span class="sd">        :param db_name: String: the name of the database to find the path for.</span>
-<span class="sd">        :param current: Boolean: signifies if the path to be returned should be to the current or backup database.</span>
+<span class="sd">        :param db_name: The name of the database to find the path for.</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param current: Optional. Signifies if the path to be returned should be to the current or backup database.</span>
 <span class="sd">        Default value is to return the current DB</span>
+<span class="sd">        :type current: Boolean</span>
 <span class="sd">        :return: String: path to the database file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -417,7 +451,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This private method will determine the latest backup version of the db_name that is provided</span>
 
-<span class="sd">        :param db_name: String: the name of the database to find</span>
+<span class="sd">        :param db_name: The name of the database to find</span>
+<span class="sd">        :type db_name: String</span>
 <span class="sd">        :return: the name of the latest backup for that database</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -429,9 +464,10 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_build_column_spec</span><span class="p">(</span><span class="n">col_spec</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will build the comun specification string requried to create a table.</span>
+<span class="sd">        This private method will build the column specification string required to create a table.</span>
 
-<span class="sd">        :param col_spec: Dictionary: containing the column names and data types for the database table</span>
+<span class="sd">        :param col_spec: Contains the column names and data types for the database table</span>
+<span class="sd">        :type col_spec: Dictionary</span>
 <span class="sd">        :return: String: formatted column spec string for table create statement</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -443,7 +479,8 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_set_db_statements</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this private method create a dictionary of standard sql statements to be used by the Database class.</span>
+<span class="sd">        this private static method creates a dictionary of standard sql statements to be used by the Database class.</span>
+
 <span class="sd">        :return: Dictionary: sql statements to be used by the database class</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -461,7 +498,8 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_cast_data_for_insert</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will correctly cast data based on its data type for insertion into a table using sqlite3</span>
+<span class="sd">        This private static method will correctly cast data based on its data type for insertion into a table</span>
+<span class="sd">        using sqlite3</span>
 
 <span class="sd">        :param data: ANY: the data that needs to be cast</span>
 <span class="sd">        :return: ANY: returns the correctly cast data for insertion</span>

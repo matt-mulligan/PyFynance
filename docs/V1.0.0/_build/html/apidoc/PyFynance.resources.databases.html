@@ -86,6 +86,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
 </ul>
 <ul class="current">
@@ -168,9 +171,10 @@
             
   <div class="section" id="module-PyFynance.resources.databases">
 <span id="resources-database-module"></span><h1>Resources/Database Module<a class="headerlink" href="#module-PyFynance.resources.databases" title="Permalink to this headline">¶</a></h1>
-<p>The resources.databases module holds of the database files that PyFynance relies on and updates.
-The module holds both the current state and backup states of each of the database and is stored in sqlite3 file format
-Additional databases can be stroed here by extending the functionality of the services.database module</p>
+<p>The resources.databases module holds all of the database files that PyFynance relies on and updates.</p>
+<p>The module holds both the current state and backup states of each of the database and is stored in sqlite3 file format.</p>
+<p>Additional databases can be stored here by extending the functionality of the services.database module and by
+updating the list of acceptable databases and tables in the configuration object</p>
 </div>
 
 

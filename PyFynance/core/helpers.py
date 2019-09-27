@@ -1,12 +1,20 @@
 import glob
 import os
 
+"""
+The helpers module is a collection of useful public functions that can be called in multiple other classes.
+
+The aim of of this module is to encapsulate all of the useful functions that are shared between multiple classes to 
+ensure that they are accessible from anywhere
+"""
+
 
 def makedirs(path):
     """
     will create the directory if it does not already exist
 
     :param path: The path to be created
+    :return: None
     """
 
     if not os.path.isdir(path):

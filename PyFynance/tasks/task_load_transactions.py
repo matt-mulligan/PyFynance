@@ -8,7 +8,24 @@ from tasks.task_base import BaseTask
 
 class LoadTransactionsTask(BaseTask):
     """
-    This task manages the ingestion of transactions into the PyFynance database
+    The Load Transactions task is responsible for loading in financial transactions to PyFynance from OFX/QFX file
+    source.
+
+    This task type will load transactions from OFX files, parse the transactions to python dictionaries, serialise the
+    values into OFX Banking Transaction objects within python, then write any new transactions to the
+    transactions Database.
+
+    This task is triggered in PyFynance by calling the PyFynance module from the command line with the following named
+    values:
+
+        * --task_type       load_transactions
+        * --institution     The name of the financial institution the transactions are from
+        * --account         The name of the account to associate the transactions with
+
+    The load transactions task will load all ofx files it find in the input/banking_transactions folder of this repo.
+    Once a file has been loaded using the load_transaction task it will be moved to either:
+        * /input/banking_transactions/ingested      if the task was successful
+        * /input/banking_transactions/error         if the task failed
     """
 
     def __init__(self, args):
@@ -20,8 +37,9 @@ class LoadTransactionsTask(BaseTask):
 
     def before_task(self):
         """
-        this before task manages all setup activities required by this task to perform its action
-        :return:
+        This public before task manages all setup activities required by this task to perform its action
+
+        :return: None
         """
 
         self._logger.info("Beginning before_task method of task '{}'.".format(self))
@@ -30,8 +48,9 @@ class LoadTransactionsTask(BaseTask):
 
     def do_task(self):
         """
-        this do task manages all of the actions this task runs
-        :return:
+        This public do task manages all of the actions this task runs
+
+        :return: None
         """
 
         self._logger.info("Beginning do_task method of task '{}'.".format(self))
@@ -42,8 +61,9 @@ class LoadTransactionsTask(BaseTask):
 
     def after_task(self):
         """
-        this do task manages all of the teardown tasks that this task performs after its action is done
-        :return:
+        this public after task manages all of the teardown tasks that this task performs after its action is done
+
+        :return: None
         """
 
         self._logger.info("Beginning after_task method of task '{}'.".format(self))
@@ -66,7 +86,7 @@ class LoadTransactionsTask(BaseTask):
         """
         This private method will determine the full file paths to all transaction files that need to be ingested.
 
-        :return: None
+        :return: A list of file paths that either end in .ofx or .qfx
         """
 
         transactions_input_path = os.sep.join([self._config.paths.input_path, "banking_transactions"])
@@ -97,9 +117,10 @@ class LoadTransactionsTask(BaseTask):
 
     def _move_transaction_file_to_ingested_folder(self, ingested_file):
         """
-        This private method will move the already ingested file from the input location into the ingested folder
+        This private method will move the already ingested file from the input folder into the ingested folder
 
-        :param ingested_file: String: path to the ingested file
+        :param ingested_file: Path to the ingested file
+        :type ingested_file: String
         :return: None
         """
 
@@ -111,8 +132,10 @@ class LoadTransactionsTask(BaseTask):
         """
         This private method will filter down the list of transactions to only the ones that have not already been
         ingested.
-        This is achieved by deriving the composite key for all of the loaded transactions and checking to see if that
+
+        This is achieved by deriving a composite key for all of the loaded transactions and checking to see if that
         key appears already in the tranasactions database table.
+
         The composite key is INSTITUTION-ACCOUNT-TRANID
 
         :return: None
@@ -148,11 +171,12 @@ class LoadTransactionsTask(BaseTask):
     @staticmethod
     def _get_narrative_from_transaction(transaction):
         """
-        This private method will build and return the correct value for the narrative field in a transaction.
+        This private static method will build and return the correct value for the narrative field in a transaction.
         It will also throw an error if there is no suitable narrative field found.
 
-        :param transaction: Object: a transaction object defined in PyFynance.schemas.ofx_banking_transaction.py
-        :return: String: the correct memo value for the transaction
+        :param transaction: a transaction object defined in PyFynance.schemas.ofx_banking_transaction.py
+        :type transaction: OFX Banking Transaction Object
+        :return: String: the correct transaction narrative value
         """
 
         has_name = hasattr(transaction, "name")

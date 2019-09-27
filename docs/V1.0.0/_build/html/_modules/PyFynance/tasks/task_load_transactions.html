@@ -84,6 +84,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
 </ul>
 <ul>
@@ -166,7 +169,24 @@
 
 <div class="viewcode-block" id="LoadTransactionsTask"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_load_transactions.html#PyFynance.tasks.task_load_transactions.LoadTransactionsTask">[docs]</a><span class="k">class</span> <span class="nc">LoadTransactionsTask</span><span class="p">(</span><span class="n">BaseTask</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This task manages the ingestion of transactions into the PyFynance database</span>
+<span class="sd">    The Load Transactions task is responsible for loading in financial transactions to PyFynance from OFX/QFX file</span>
+<span class="sd">    source.</span>
+
+<span class="sd">    This task type will load transactions from OFX files, parse the transactions to python dictionaries, serialise the</span>
+<span class="sd">    values into OFX Banking Transaction objects within python, then write any new transactions to the</span>
+<span class="sd">    transactions Database.</span>
+
+<span class="sd">    This task is triggered in PyFynance by calling the PyFynance module from the command line with the following named</span>
+<span class="sd">    values:</span>
+
+<span class="sd">        * --task_type       load_transactions</span>
+<span class="sd">        * --institution     The name of the financial institution the transactions are from</span>
+<span class="sd">        * --account         The name of the account to associate the transactions with</span>
+
+<span class="sd">    The load transactions task will load all ofx files it find in the input/banking_transactions folder of this repo.</span>
+<span class="sd">    Once a file has been loaded using the load_transaction task it will be moved to either:</span>
+<span class="sd">        * /input/banking_transactions/ingested      if the task was successful</span>
+<span class="sd">        * /input/banking_transactions/error         if the task failed</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
@@ -178,8 +198,9 @@
 
 <div class="viewcode-block" id="LoadTransactionsTask.before_task"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_load_transactions.html#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.before_task">[docs]</a>    <span class="k">def</span> <span class="nf">before_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this before task manages all setup activities required by this task to perform its action</span>
-<span class="sd">        :return:</span>
+<span class="sd">        This public before task manages all setup activities required by this task to perform its action</span>
+
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Beginning before_task method of task &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
@@ -188,8 +209,9 @@
 
 <div class="viewcode-block" id="LoadTransactionsTask.do_task"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_load_transactions.html#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.do_task">[docs]</a>    <span class="k">def</span> <span class="nf">do_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this do task manages all of the actions this task runs</span>
-<span class="sd">        :return:</span>
+<span class="sd">        This public do task manages all of the actions this task runs</span>
+
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Beginning do_task method of task &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
@@ -200,8 +222,9 @@
 
 <div class="viewcode-block" id="LoadTransactionsTask.after_task"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_load_transactions.html#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.after_task">[docs]</a>    <span class="k">def</span> <span class="nf">after_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this do task manages all of the teardown tasks that this task performs after its action is done</span>
-<span class="sd">        :return:</span>
+<span class="sd">        this public after task manages all of the teardown tasks that this task performs after its action is done</span>
+
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Beginning after_task method of task &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
@@ -224,7 +247,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This private method will determine the full file paths to all transaction files that need to be ingested.</span>
 
-<span class="sd">        :return: None</span>
+<span class="sd">        :return: A list of file paths that either end in .ofx or .qfx</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">transactions_input_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;banking_transactions&quot;</span><span class="p">])</span>
@@ -255,9 +278,10 @@
 
     <span class="k">def</span> <span class="nf">_move_transaction_file_to_ingested_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ingested_file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will move the already ingested file from the input location into the ingested folder</span>
+<span class="sd">        This private method will move the already ingested file from the input folder into the ingested folder</span>
 
-<span class="sd">        :param ingested_file: String: path to the ingested file</span>
+<span class="sd">        :param ingested_file: Path to the ingested file</span>
+<span class="sd">        :type ingested_file: String</span>
 <span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -269,8 +293,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This private method will filter down the list of transactions to only the ones that have not already been</span>
 <span class="sd">        ingested.</span>
-<span class="sd">        This is achieved by deriving the composite key for all of the loaded transactions and checking to see if that</span>
+
+<span class="sd">        This is achieved by deriving a composite key for all of the loaded transactions and checking to see if that</span>
 <span class="sd">        key appears already in the tranasactions database table.</span>
+
 <span class="sd">        The composite key is INSTITUTION-ACCOUNT-TRANID</span>
 
 <span class="sd">        :return: None</span>
@@ -306,11 +332,12 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_narrative_from_transaction</span><span class="p">(</span><span class="n">transaction</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will build and return the correct value for the narrative field in a transaction.</span>
+<span class="sd">        This private static method will build and return the correct value for the narrative field in a transaction.</span>
 <span class="sd">        It will also throw an error if there is no suitable narrative field found.</span>
 
-<span class="sd">        :param transaction: Object: a transaction object defined in PyFynance.schemas.ofx_banking_transaction.py</span>
-<span class="sd">        :return: String: the correct memo value for the transaction</span>
+<span class="sd">        :param transaction: a transaction object defined in PyFynance.schemas.ofx_banking_transaction.py</span>
+<span class="sd">        :type transaction: OFX Banking Transaction Object</span>
+<span class="sd">        :return: String: the correct transaction narrative value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">has_name</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">transaction</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">)</span>

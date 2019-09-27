@@ -84,6 +84,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
 </ul>
 <ul>
@@ -156,29 +159,31 @@
            <div itemprop="articleBody">
             
   <h1>Source code for PyFynance.services.ofx_parser</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">decimal</span> <span class="k">import</span> <span class="n">Decimal</span>
-
-<span class="kn">from</span> <span class="nn">core.exceptions</span> <span class="k">import</span> <span class="n">OFXParserError</span>
 
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="k">import</span> <span class="n">BeautifulSoup</span>
 
+<span class="kn">from</span> <span class="nn">core.exceptions</span> <span class="k">import</span> <span class="n">OFXParserError</span>
 <span class="kn">from</span> <span class="nn">schemas.ofx_banking_transaction</span> <span class="k">import</span> <span class="n">OFXBankingTransactionSchema</span>
 
 
 <div class="viewcode-block" id="OFXParser"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.ofx_parser.html#PyFynance.services.ofx_parser.OFXParser">[docs]</a><span class="k">class</span> <span class="nc">OFXParser</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The OFX Parser class is designed to parse input data in the form of OFX/QFX files.</span>
+
 <span class="sd">    OFX is a standardised finance information exchange format that PyFynance accepts as an input.</span>
 
 <span class="sd">    Currently this parsing API only supports OFX files that meet the following specification:</span>
-<span class="sd">        - OFX Specification: 1.0.2</span>
-<span class="sd">        - OFX Object Types: Banking-Transactions (found within chapter 11 of the OFX specification)</span>
+<span class="sd">        * OFX Specification: 1.0.2</span>
+<span class="sd">        * OFX Object Types: Banking-Transactions (found within chapter 11 of the OFX specification)</span>
+
 <span class="sd">    OFX Specifications can be found here for reference: https://www.ofx.net/downloads.html</span>
 
-<span class="sd">    This class can be used to parse the ofx file inputs into python objects utilising marshmallow schemas</span>
-<span class="sd">    this class is intended as a reusable API class</span>
+<span class="sd">    This class can be used to parse the ofx file inputs into python objects utilising marshmallow schemas.</span>
+<span class="sd">    this class is intended as a reusable API class that can be extended to support other OFX specification types and</span>
+<span class="sd">    versions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
@@ -190,12 +195,14 @@
 
 <div class="viewcode-block" id="OFXParser.parse"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.ofx_parser.html#PyFynance.services.ofx_parser.OFXParser.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ofx_object_type</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this public method will parse a ofx file from the provided path with the methods and schemas matching the</span>
-<span class="sd">        object type value provided</span>
+<span class="sd">        This public method will parse a ofx file from the provided path with the methods and schemas matching the</span>
+<span class="sd">        OFX object type value provided</span>
 
-<span class="sd">        :param ofx_object_type: the type of objects to parse from the ofx file. currently supported values are</span>
-<span class="sd">               [&quot;banking&quot;]</span>
-<span class="sd">        :param path: the path to the input file</span>
+<span class="sd">        :param ofx_object_type: the type of objects to parse from the ofx file. Currently supported values are</span>
+<span class="sd">               [&quot;banking_transactions&quot;]</span>
+<span class="sd">        :type ofx_object_type: String</span>
+<span class="sd">        :param path: The path to the input file</span>
+<span class="sd">        :type path: String</span>
 <span class="sd">        :return: a python object containing all of the parsed ofx data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -210,9 +217,12 @@
 
     <span class="k">def</span> <span class="nf">_check_object_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_type</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        checks that the object_type value provided is part of the acceptable range</span>
+<span class="sd">        This private method checks that the object_type value provided is part of the acceptable range from the</span>
+<span class="sd">        config object</span>
 
-<span class="sd">        :param object_type: the object_type value to check</span>
+<span class="sd">        :param object_type: The object_type value to check</span>
+<span class="sd">        :type object_type: String</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">object_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">ofx_parser</span><span class="o">.</span><span class="n">object_types</span><span class="p">:</span>
@@ -226,6 +236,7 @@
 <span class="sd">        objects</span>
 
 <span class="sd">        :param path: the validated input path of the ofx file</span>
+<span class="sd">        :type path: String</span>
 <span class="sd">        :return: a set of python objects containing transaction information</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -237,11 +248,13 @@
 
     <span class="k">def</span> <span class="nf">_parse_ofx_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ofx_trans</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this private method will parse ofx &quot;stmttrn&quot; tags into python dictionary obejcts.</span>
-<span class="sd">        as ofx files are essentially &quot;poorly formatted&quot; xml, many of the tags do not have closing tags, meaning that</span>
-<span class="sd">        the tag structure is interpreted as very nested</span>
+<span class="sd">        This private method will parse ofx &quot;stmttrn&quot; tags into python dictionary obejcts.</span>
 
-<span class="sd">        :param ofx_trans: beatuiful soup parser output generated from an ofx file using the &quot;html.parser&quot;</span>
+<span class="sd">        As ofx files are essentially &quot;poorly formatted&quot; xml, many of the tags do not have closing tags, meaning that</span>
+<span class="sd">        the tag structure is interpreted as very nested and requires more cleaning than normal xml structures</span>
+
+<span class="sd">        :param ofx_trans: Beatuiful soup parser output generated from an ofx file using the &quot;html.parser&quot;</span>
+<span class="sd">        :type ofx_trans: Beautiful Soup Tag Object</span>
 <span class="sd">        :return: a list of python dictionaries representing the transactions from the ofx file parsed</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -262,6 +275,7 @@
 <span class="sd">        This private method will cast the ofx file values to appropriate datatypes</span>
 
 <span class="sd">        :param obj_dictionaries: List containing dictionaries of ofx data</span>
+<span class="sd">        :type obj_dictionaries: List</span>
 <span class="sd">        :return: obj_dictionaries containing data cast to the correct format</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -282,10 +296,15 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_check_input_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        this method will check that the path given to the parser exists and is a file object of type .ofx and that the</span>
-<span class="sd">        filename meets the PyFynance requirements of being in the form of INSTITUTION_NAME--ACCOUNT_NAME--*.ofx</span>
+<span class="sd">        This private static method checks the validaity of the ofx/qfx filename that has been passed to the parse.</span>
 
-<span class="sd">        :param path: path to check if file exists</span>
+<span class="sd">        This method checks that:</span>
+<span class="sd">            - The path given to the parser exists and is a file</span>
+<span class="sd">            - The file object is either &quot;.ofx&quot; or .&quot;qfx&quot; type</span>
+
+<span class="sd">        :param path: Path to check</span>
+<span class="sd">        :type path: String</span>
+<span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
@@ -297,10 +316,12 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_read_ofx_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will read in the ofx file from the path specified and break it into individual entries</span>
+<span class="sd">        This private static method will read in the ofx file from the path specified and break it into individual</span>
+<span class="sd">        &quot;stmttrn&quot; entries.</span>
 
 <span class="sd">        :param path: the system path to the ofx file</span>
-<span class="sd">        :return: a list of strings representing ofx entires</span>
+<span class="sd">        :type path: String</span>
+<span class="sd">        :return: a list of Beautiful Soup Tag elements</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">ofx_file</span><span class="p">:</span>
@@ -311,14 +332,15 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_tag_value</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will extract the value from a tag object. As OFX is essentially &quot;poorly formed&quot; XML and</span>
-<span class="sd">        has many missing end tags, most of the xml parsers avaliable for python either misinterpret the tag values or</span>
-<span class="sd">        flat out cannot parse it.</span>
+<span class="sd">        This private static method will extract the value from a tag object. As OFX is essentially &quot;poorly formed&quot; XML</span>
+<span class="sd">        and has many missing end tags, most of the xml parsers avaliable for python either misinterpret the tag values</span>
+<span class="sd">        or flat out cannot parse it.</span>
+
 <span class="sd">        BeautifulSoup is a step ahead of most and will at least parse the values but misinterprets the missing end tags</span>
-<span class="sd">        for nesting of tags. this means we must write additional tag value parsing logic to deal with this.</span>
+<span class="sd">        for nesting of tags. This means we must write additional tag value parsing logic to deal with this.</span>
 
-<span class="sd">        :param tag: BeautifulSoup tag object</span>
-
+<span class="sd">        :param tag: BeautifulSoup tag object to parse the value out of</span>
+<span class="sd">        :type tag: Beautiful Soup Tag Element</span>
 <span class="sd">        :return: string value for the tag</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -327,10 +349,12 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_load_dictionaries_to_objects</span><span class="p">(</span><span class="n">object_type</span><span class="p">,</span> <span class="n">object_dictionaries</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will serialise python dictionaries into objects for easier usage/management</span>
+<span class="sd">        This private static method will serialise python dictionaries into objects for easier usage/management</span>
 
 <span class="sd">        :param object_type: String indicating the type of objects being loaded</span>
+<span class="sd">        :type object_type: String</span>
 <span class="sd">        :param object_dictionaries: List of dictionaries containing the object data</span>
+<span class="sd">        :type object_dictionaries: List[Dictionary]</span>
 <span class="sd">        :return: List of python objects loaded to using Marshmallow schemas</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -348,9 +372,10 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_cast_str_to_decimal</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will cast a string to a decimal</span>
+<span class="sd">        This private static method will cast a string to a decimal</span>
 
 <span class="sd">        :param value: String value to cast</span>
+<span class="sd">        :type value: String</span>
 <span class="sd">        :return: Decimal representation of the string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -359,7 +384,7 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_cast_str_to_datetime_string</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will cast a string in ofx format to a datetime</span>
+<span class="sd">        This private static method will cast a string in ofx format to a datetime</span>
 
 <span class="sd">        :param value: String value to cast</span>
 <span class="sd">        :return: Datetime representation of the string</span>

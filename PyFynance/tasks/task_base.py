@@ -21,8 +21,9 @@ class BaseTask:
     @abstractmethod
     def before_task(self):  # pragma: no cover
         """
-        this is the abstract method "before_task" and must be implemented by the child classes
-        :return:
+        this abstract method manages the execution of all pre-task activities required.
+
+        :return: None
         """
 
         pass
@@ -30,8 +31,9 @@ class BaseTask:
     @abstractmethod
     def do_task(self):  # pragma: no cover
         """
-        this is the abstract method "do_task" and must be implemented by the child classes
-        :return:
+        this abstract method manages the execution of the task steps
+
+        :return: None
         """
 
         pass
@@ -39,16 +41,17 @@ class BaseTask:
     @abstractmethod
     def after_task(self):  # pragma: no cover
         """
-        this is the abstract method "after_task" and must be implemented by the child classes
-        :return:
+        this abstract method manages the execution of all post-task activities required.
+
+        :return: None
         """
 
         pass
 
     def execute(self):
         """
-        this method will run the tasks before, do and after task methods in sequence and track results
-        :return:
+        This public orchestrates the calling and exception handling of the task abstract methods
+        :return: Boolean representing if the task execution was successful or not
         """
 
         self._logger.info("Beginning task execution for task type '{}'".format(self.__class__.__name__))
@@ -70,9 +73,9 @@ class BaseTask:
 
     def get_args_repr(self):
         """
-        This private method will return a string representation of the self._args variable
+        This public method will return a string representation of the self._args variable
 
-        :return:
+        :return: String representation of the objects args attribute
         """
 
         repr_string = ""

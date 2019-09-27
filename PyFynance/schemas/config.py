@@ -21,7 +21,7 @@ class ConfigPathsSchema(Schema):
         """
         called by marshmallow package when deserialising completes in order to construct a valid instance.
         :param data:
-        :return:
+        :return: None
         """
 
         return Model(**data)
@@ -42,7 +42,7 @@ class OFXParserSchema(Schema):
         """
         called by marshmallow package when deserialising completes in order to construct a valid instance.
         :param data:
-        :return:
+        :return: None
         """
 
         return Model(**data)
@@ -62,7 +62,7 @@ class DatabaseTablesSchema(Schema):
         """
         called by marshmallow package when deserialising completes in order to construct a valid instance.
         :param data:
-        :return:
+        :return: None
         """
 
         return Model(**data)
@@ -78,7 +78,7 @@ class DatabaseColumnSpecsSchema(Schema):
 
 class DatabasePrimaryKeysSchema(Schema):
     """
-    This class represents the schema of a configuration.database object. Marshmallow uses this class to serialise and
+    This class represents the schema of a configuration.database.primary_keys object. Marshmallow uses this class to serialise and
     deserialize python objects to and from json
     """
 
@@ -89,7 +89,7 @@ class DatabasePrimaryKeysSchema(Schema):
         """
         called by marshmallow package when deserialising completes in order to construct a valid instance.
         :param data:
-        :return:
+        :return: None
         """
 
         return Model(**data)
@@ -111,7 +111,7 @@ class DatabaseSchema(Schema):
         """
         called by marshmallow package when deserialising completes in order to construct a valid instance.
         :param data:
-        :return:
+        :return: None
         """
 
         return Model(**data)
@@ -133,7 +133,7 @@ class ConfigSchema(Schema):
         """
         called by marshmallow package when deserialising completes in order to construct a valid instance.
         :param data:
-        :return:
+        :return: None
         """
 
         return Model(**data)

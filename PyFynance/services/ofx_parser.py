@@ -1,26 +1,28 @@
-from datetime import datetime
 import os
+from datetime import datetime
 from decimal import Decimal
-
-from core.exceptions import OFXParserError
 
 from bs4 import BeautifulSoup
 
+from core.exceptions import OFXParserError
 from schemas.ofx_banking_transaction import OFXBankingTransactionSchema
 
 
 class OFXParser:
     """
     The OFX Parser class is designed to parse input data in the form of OFX/QFX files.
+
     OFX is a standardised finance information exchange format that PyFynance accepts as an input.
 
     Currently this parsing API only supports OFX files that meet the following specification:
-        - OFX Specification: 1.0.2
-        - OFX Object Types: Banking-Transactions (found within chapter 11 of the OFX specification)
+        * OFX Specification: 1.0.2
+        * OFX Object Types: Banking-Transactions (found within chapter 11 of the OFX specification)
+
     OFX Specifications can be found here for reference: https://www.ofx.net/downloads.html
 
-    This class can be used to parse the ofx file inputs into python objects utilising marshmallow schemas
-    this class is intended as a reusable API class
+    This class can be used to parse the ofx file inputs into python objects utilising marshmallow schemas.
+    this class is intended as a reusable API class that can be extended to support other OFX specification types and
+    versions
     """
 
     def __init__(self, config):
@@ -32,12 +34,14 @@ class OFXParser:
 
     def parse(self, ofx_object_type, path):
         """
-        this public method will parse a ofx file from the provided path with the methods and schemas matching the
-        object type value provided
+        This public method will parse a ofx file from the provided path with the methods and schemas matching the
+        OFX object type value provided
 
-        :param ofx_object_type: the type of objects to parse from the ofx file. currently supported values are
-               ["banking"]
-        :param path: the path to the input file
+        :param ofx_object_type: the type of objects to parse from the ofx file. Currently supported values are
+               ["banking_transactions"]
+        :type ofx_object_type: String
+        :param path: The path to the input file
+        :type path: String
         :return: a python object containing all of the parsed ofx data
         """
 
@@ -52,9 +56,12 @@ class OFXParser:
 
     def _check_object_type(self, object_type):
         """
-        checks that the object_type value provided is part of the acceptable range
+        This private method checks that the object_type value provided is part of the acceptable range from the
+        config object
 
-        :param object_type: the object_type value to check
+        :param object_type: The object_type value to check
+        :type object_type: String
+        :return: None
         """
 
         if object_type not in self._config.ofx_parser.object_types:
@@ -68,6 +75,7 @@ class OFXParser:
         objects
 
         :param path: the validated input path of the ofx file
+        :type path: String
         :return: a set of python objects containing transaction information
         """
 
@@ -79,11 +87,13 @@ class OFXParser:
 
     def _parse_ofx_transactions(self, ofx_trans):
         """
-        this private method will parse ofx "stmttrn" tags into python dictionary obejcts.
-        as ofx files are essentially "poorly formatted" xml, many of the tags do not have closing tags, meaning that
-        the tag structure is interpreted as very nested
+        This private method will parse ofx "stmttrn" tags into python dictionary obejcts.
 
-        :param ofx_trans: beatuiful soup parser output generated from an ofx file using the "html.parser"
+        As ofx files are essentially "poorly formatted" xml, many of the tags do not have closing tags, meaning that
+        the tag structure is interpreted as very nested and requires more cleaning than normal xml structures
+
+        :param ofx_trans: Beatuiful soup parser output generated from an ofx file using the "html.parser"
+        :type ofx_trans: Beautiful Soup Tag Object
         :return: a list of python dictionaries representing the transactions from the ofx file parsed
         """
 
@@ -104,6 +114,7 @@ class OFXParser:
         This private method will cast the ofx file values to appropriate datatypes
 
         :param obj_dictionaries: List containing dictionaries of ofx data
+        :type obj_dictionaries: List
         :return: obj_dictionaries containing data cast to the correct format
         """
 
@@ -124,10 +135,15 @@ class OFXParser:
     @staticmethod
     def _check_input_file(path):
         """
-        this method will check that the path given to the parser exists and is a file object of type .ofx and that the
-        filename meets the PyFynance requirements of being in the form of INSTITUTION_NAME--ACCOUNT_NAME--*.ofx
+        This private static method checks the validaity of the ofx/qfx filename that has been passed to the parse.
 
-        :param path: path to check if file exists
+        This method checks that:
+            - The path given to the parser exists and is a file
+            - The file object is either ".ofx" or ."qfx" type
+
+        :param path: Path to check
+        :type path: String
+        :return: None
         """
 
         if not os.path.isfile(path):
@@ -139,10 +155,12 @@ class OFXParser:
     @staticmethod
     def _read_ofx_file(path):
         """
-        This private method will read in the ofx file from the path specified and break it into individual entries
+        This private static method will read in the ofx file from the path specified and break it into individual
+        "stmttrn" entries.
 
         :param path: the system path to the ofx file
-        :return: a list of strings representing ofx entires
+        :type path: String
+        :return: a list of Beautiful Soup Tag elements
         """
 
         with open(path) as ofx_file:
@@ -153,14 +171,15 @@ class OFXParser:
     @staticmethod
     def _get_tag_value(tag):
         """
-        This private method will extract the value from a tag object. As OFX is essentially "poorly formed" XML and
-        has many missing end tags, most of the xml parsers avaliable for python either misinterpret the tag values or
-        flat out cannot parse it.
+        This private static method will extract the value from a tag object. As OFX is essentially "poorly formed" XML
+        and has many missing end tags, most of the xml parsers avaliable for python either misinterpret the tag values
+        or flat out cannot parse it.
+
         BeautifulSoup is a step ahead of most and will at least parse the values but misinterprets the missing end tags
-        for nesting of tags. this means we must write additional tag value parsing logic to deal with this.
+        for nesting of tags. This means we must write additional tag value parsing logic to deal with this.
 
-        :param tag: BeautifulSoup tag object
-
+        :param tag: BeautifulSoup tag object to parse the value out of
+        :type tag: Beautiful Soup Tag Element
         :return: string value for the tag
         """
 
@@ -169,10 +188,12 @@ class OFXParser:
     @staticmethod
     def _load_dictionaries_to_objects(object_type, object_dictionaries):
         """
-        This private method will serialise python dictionaries into objects for easier usage/management
+        This private static method will serialise python dictionaries into objects for easier usage/management
 
         :param object_type: String indicating the type of objects being loaded
+        :type object_type: String
         :param object_dictionaries: List of dictionaries containing the object data
+        :type object_dictionaries: List[Dictionary]
         :return: List of python objects loaded to using Marshmallow schemas
         """
 
@@ -190,9 +211,10 @@ class OFXParser:
     @staticmethod
     def _cast_str_to_decimal(value):
         """
-        This private method will cast a string to a decimal
+        This private static method will cast a string to a decimal
 
         :param value: String value to cast
+        :type value: String
         :return: Decimal representation of the string
         """
 
@@ -201,7 +223,7 @@ class OFXParser:
     @staticmethod
     def _cast_str_to_datetime_string(value):
         """
-        This private method will cast a string in ofx format to a datetime
+        This private static method will cast a string in ofx format to a datetime
 
         :param value: String value to cast
         :return: Datetime representation of the string

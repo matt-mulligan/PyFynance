@@ -1,8 +1,3 @@
-"""
-This is module level documentation, outside of the class at the top of the file
-
-"""
-
 import logging
 import os
 
@@ -12,7 +7,10 @@ from core.exceptions import TaskError
 
 class PyFynance:
     """
-    PyFynance application class. Controls the flow of the application
+    The PyFynance application class is the main orchestrator for task execution within PyFyanance.
+
+    The public run interface will begin and manage a run of PyFynance and will build and execute the task type
+    specified in the class argument variable
     """
 
     def __init__(self, args):
@@ -23,8 +21,10 @@ class PyFynance:
 
     def run(self):
         """
-        This method is the main runner method for the PyFynance Application. this method controls the flow of
-        executing tasks within PyFynance
+        This method is the main runner method for the PyFynance Application. This method controls the flow of
+        executing tasks within PyFynance.
+
+        :return: exit_code: Int: returns 0 if the task that was run finished successfully or 1 of the task failed
         """
         self._logger.info("Started PyFynance Application Run")
         passed = True
@@ -52,7 +52,8 @@ class PyFynance:
         """
         this method is responsible for selecting and triggering the correct task class based on the task_type selected
 
-        :return:
+        :return: task_passed: Boolean: returns True of the task that was executed passed, False if the task
+        encountered an error
         """
 
         task_class_name = self._resolve_task_class()
@@ -63,8 +64,10 @@ class PyFynance:
 
     def _resolve_task_class(self):
         """
-        this method will resolve the task class based on the task_type within the args object
-        :return:
+        This private method will resolve the task class based on the task_type within the args object
+
+        :return: PyFynance Task Class: returns the appropriate task class based on the task type on the self._args
+        object
         """
 
         return {
@@ -74,11 +77,12 @@ class PyFynance:
     @staticmethod
     def _configure_logger(log_path, version, task_type, runtime):
         """
-        this method will set the logging configuration for each run of PyFynance
+        this private method will set the logging configuration for each run of PyFynance
 
         :param log_path: The path to write logfiles out to
         :param version: The version number of PyFynance
         :param task_type: The PyFynance task type
+        :param runtime: The timestamp of when PyFynance started in YYYYMMDDHHMMSS format
         :return: returns a configured python logger object
         """
 
@@ -116,9 +120,10 @@ class PyFynance:
     @staticmethod
     def _new_instance(task_class):
         """
-        this method will create a new instance of the specified fully-qualified class name
-        :param task_class:
-        :return:
+        this private method will create a new instance of the specified fully-qualified class name
+
+        :param task_class: String
+        :return: PyFynance Task Instance: returns an instanciated instance of the PyFynance task class provided
         """
 
         namespace = task_class.split(".")

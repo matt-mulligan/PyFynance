@@ -85,6 +85,9 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="PyFynance.core.html">     Core Package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="PyFynance.core.html#core-modules">Core Modules</a><ul class="current">
@@ -170,17 +173,23 @@
             
   <div class="section" id="module-PyFynance.core.pyfynance">
 <span id="pyfynance-application-module"></span><h1>PyFynance Application Module<a class="headerlink" href="#module-PyFynance.core.pyfynance" title="Permalink to this headline">¶</a></h1>
-<p>This is module level documentation, outside of the class at the top of the file</p>
 <dl class="class">
 <dt id="PyFynance.core.pyfynance.PyFynance">
 <em class="property">class </em><code class="sig-prename descclassname">PyFynance.core.pyfynance.</code><code class="sig-name descname">PyFynance</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/core/pyfynance.html#PyFynance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.core.pyfynance.PyFynance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>PyFynance application class. Controls the flow of the application</p>
+<p>The PyFynance application class is the main orchestrator for task execution within PyFyanance.</p>
+<p>The public run interface will begin and manage a run of PyFynance and will build and execute the task type
+specified in the class argument variable</p>
 <dl class="method">
 <dt id="PyFynance.core.pyfynance.PyFynance.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/core/pyfynance.html#PyFynance.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.core.pyfynance.PyFynance.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method is the main runner method for the PyFynance Application. this method controls the flow of
-executing tasks within PyFynance</p>
+<dd><p>This method is the main runner method for the PyFynance Application. This method controls the flow of
+executing tasks within PyFynance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>exit_code: Int: returns 0 if the task that was run finished successfully or 1 of the task failed</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

@@ -4,7 +4,7 @@ from PyFynance.schemas.model import Model
 
 class OFXBankingTransactionSchema(Schema):
     """
-    This class represents the schema of a configuration.paths object. Marshmallow uses this class to serialise and
+    This class represents the schema of an OFX Banking Transaction object. Marshmallow uses this class to serialise and
     deserialize python objects to and from json
     """
 
@@ -20,7 +20,7 @@ class OFXBankingTransactionSchema(Schema):
         """
         called by marshmallow package when deserialising completes in order to construct a valid instance.
         :param data:
-        :return:
+        :return: None
         """
 
         return Model(**data)
