@@ -15,6 +15,7 @@ class ConfigPathsSchema(Schema):
     logs_path = fields.Str(data_key="logsPath")
     resources_path = fields.Str(data_key="resourcesPath")
     db_path = fields.Str(data_key="dbPath")
+    test_path = fields.Str(data_key="testPath")
 
     @post_load
     def create(self, data, **kwargs):
