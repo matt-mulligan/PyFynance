@@ -28,6 +28,8 @@
   
 
   
+    <link rel="stylesheet" href="_static/sphinx-test-results\common.css" type="text/css" />
+  
 
   
         <link rel="index" title="Index"
@@ -160,19 +162,51 @@
             
   <div class="section" id="pyfynance-personal-pythonic-finance">
 <h1>PyFynance - Personal Pythonic Finance!<a class="headerlink" href="#pyfynance-personal-pythonic-finance" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="about">
-<h2>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h2>
-<p>PyFyance is a pythonic personal finance tool to help you track,
-categorise and analyse your spending habits.</p>
+<p>PyFynance is a pythonic personal finance tool to help you track, categorise and analyse your spending habits.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-</div>
-<div class="section" id="getting-started-with-pyfynance">
-<h2>Getting Started with PyFynance<a class="headerlink" href="#getting-started-with-pyfynance" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="getting-started-with-pyfynance-in-3-steps">
+<h2>Getting Started with PyFynance in 3 steps<a class="headerlink" href="#getting-started-with-pyfynance-in-3-steps" title="Permalink to this headline">¶</a></h2>
+<p>To start using PyFynance simple do the following</p>
+<ol class="arabic simple">
+<li><p>Clone the <a class="reference external" href="https://github.com/matt-mulligan/PyFynance">PyFynance Repository</a> to your local machine</p></li>
+</ol>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+<ol class="arabic simple" start="2">
+<li><p>Install the environment manager <a class="reference external" href="https://pypi.org/project/pipenv/">pipenv</a> if not already installed using the pip tool</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install pipenv
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>cd to the directory where PyFynance has been cloned and install the virtual environment with pipenv</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /path/to/PyFynance
+pipenv install
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>And you’re done! PyFynance is ready to use! Check out the PyFynance Tasks Section for what PyFynance can do:</p>
+</div>
+<div class="section" id="pyfynance-tasks">
+<h2>PyFynance Tasks<a class="headerlink" href="#pyfynance-tasks" title="Permalink to this headline">¶</a></h2>
+<p>Tasks are the basic building block of PyFynance. A task is a unit of functionality that PyFynance can do for you.</p>
+<p>As PyFynance is a command line tool, all tasks are triggered from the command line using the –task_type flag</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>See below the list of tasks that PyFynance currently can perform:</p>
+<blockquote>
+<div><p><a class="reference internal" href="tasks/task_load_transactions.html#task-load-transactions"><span class="std std-ref">PyFynance Task - Load Transactions</span></a> - Loads your financial transactions from OFX/QFX files into PyFynance for analysis</p>
+</div></blockquote>
 </div>
 <div class="section" id="pyfynance-api-documentation">
 <h2>PyFynance API Documentation<a class="headerlink" href="#pyfynance-api-documentation" title="Permalink to this headline">¶</a></h2>

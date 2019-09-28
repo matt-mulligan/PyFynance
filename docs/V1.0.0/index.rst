@@ -1,18 +1,50 @@
 ======================================
 PyFynance - Personal Pythonic Finance!
 ======================================
-
-About
-=====
-PyFyance is a pythonic personal finance tool to help you track, 
-categorise and analyse your spending habits.
+PyFynance is a pythonic personal finance tool to help you track, categorise and analyse your spending habits.
 
 |
 
-Getting Started with PyFynance
-==============================
+Getting Started with PyFynance in 3 steps
+=========================================
+To start using PyFynance simple do the following
+
+1) Clone the `PyFynance Repository <https://github.com/matt-mulligan/PyFynance>`_ to your local machine
 
 |
+
+2) Install the environment manager `pipenv <https://pypi.org/project/pipenv/>`_ if not already installed using the pip tool
+
+.. code-block:: bash
+
+        pip install pipenv
+
+|
+
+3) cd to the directory where PyFynance has been cloned and install the virtual environment with pipenv
+
+.. code-block:: bash
+
+        cd /path/to/PyFynance
+        pipenv install
+
+|
+
+And you're done! PyFynance is ready to use! Check out the PyFynance Tasks Section for what PyFynance can do:
+
+
+PyFynance Tasks
+===============
+Tasks are the basic building block of PyFynance. A task is a unit of functionality that PyFynance can do for you.
+
+As PyFynance is a command line tool, all tasks are triggered from the command line using the --task_type flag
+
+|
+
+See below the list of tasks that PyFynance currently can perform:
+
+    :ref:`task_load_transactions` - Loads your financial transactions from OFX/QFX files into PyFynance for analysis
+
 
 PyFynance API Documentation
 ===========================
