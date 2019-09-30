@@ -9,21 +9,6 @@ ensure that they are accessible from anywhere
 """
 
 
-def makedirs(path):
-    """
-    will create the directory if it does not already exist
-
-    :param path: The path to be created
-    :return: None
-    """
-
-    if not os.path.isdir(path):
-        path = os.path.dirname(path)
-
-    if not os.path.exists(path):
-        os.makedirs(path)
-
-
 def find_all_files(path, patterns, recursive=False, full_path=True):
     """
     This method will find all the file in a specified path that match one of the patterns provided. this method also

@@ -35,3 +35,11 @@ class OFXParserError(ValueError):
     """
 
     pass
+
+
+class FileSystemError(ValueError):
+    """
+    Represents an error that occurs within the FileSystem service
+    """
+
+    pass

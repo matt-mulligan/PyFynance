@@ -72,7 +72,7 @@ def test_when_start_db_and_current_and_good_db_name_then_db_started(db, connecti
         connection_mock.cursor.assert_called()
         connection_mock.cursor.assert_has_calls([
             call().execute('CREATE TABLE IF NOT EXISTS transactions (institution text, account text, tran_id text, '
-                           'tran_type text, amount decimal, narrative text, date_posted text, PRIMARY KEY '
+                           'tran_type text, amount decimal, narrative text, date_posted text, date_ingested text, PRIMARY KEY '
                            '(institution, account, tran_id));')
         ])
 

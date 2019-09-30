@@ -1,5 +1,4 @@
 import os
-import shutil
 
 from core import helpers
 from core.exceptions import TaskLoadTransactionsError
@@ -31,6 +30,8 @@ class LoadTransactionsTask(BaseTask):
     def __init__(self, args):
         super(LoadTransactionsTask, self).__init__(args)
         self._transactions = []
+        self._input_files = []
+        self._task_state = "OK"
 
     def __repr__(self):
         return "PyFynance.Tasks.LoadTransactionsTask({})".format(self.get_args_repr())
@@ -53,11 +54,16 @@ class LoadTransactionsTask(BaseTask):
         :return: None
         """
 
-        self._logger.info("Beginning do_task method of task '{}'.".format(self))
-        self._load_transactions_from_file()
-        self._filter_transactions()
-        self._write_transactions_to_db()
-        self._logger.info("Finished do_task method of task '{}'.".format(self))
+        try:
+            self._logger.info("Beginning do_task method of task '{}'.".format(self))
+            self._load_transactions_from_file()
+            self._filter_transactions()
+            self._write_transactions_to_db()
+            self._logger.info("Finished do_task method of task '{}'.".format(self))
+        except Exception as e:
+            self._task_state = "FAILED"
+            raise TaskLoadTransactionsError("An error occurred during the do_task step of the '{}'.  {}".format(self,
+                                                                                                                e))
 
     def after_task(self):
         """
@@ -67,8 +73,30 @@ class LoadTransactionsTask(BaseTask):
         """
 
         self._logger.info("Beginning after_task method of task '{}'.".format(self))
-        self._db.stop_db("transactions")
+        if self._task_state == "FAILED":
+            self._db.stop_db("transactions", commit=False)
+            self._move_input_files("FAILED")
+        else:
+            self._db.stop_db("transactions", commit=True)
+            self._move_input_files("PASSED")
         self._logger.info("Finished after_task method of task '{}'.".format(self))
+
+    def _move_input_files(self, task_status):
+        """
+        This private method will move all input files to the appropriate location after the load_transactions task is
+        complete
+
+        :param task_status: represents if the task passed or failed, acceptable values are ["PASSED", "FAILED"]
+        :type task_status: String
+        :return: None
+        """
+
+        state_folder = "ingested" if task_status == "PASSED" else "error"
+
+        for file_path in self._input_files:
+            dest_file = "{}_{}".format(file_path.split(os.sep)[-1], self._args.runtime.strftime("%Y%m%d%H%M%S"))
+            dest_path = os.sep.join([self._config.paths.input_path, "banking_transactions", state_folder, dest_file])
+            self._fs.move_file(file_path, dest_path)
 
     def _load_transactions_from_file(self):
         """
@@ -77,10 +105,9 @@ class LoadTransactionsTask(BaseTask):
         :return: None
         """
 
-        files_to_parse = self._get_files_to_parse()
-        for file_path in files_to_parse:
+        self._get_files_to_parse()
+        for file_path in self._input_files:
             self._transactions.extend(self._ofx_parser.parse("banking_transactions", file_path))
-            self._move_transaction_file_to_ingested_folder(file_path)
 
     def _get_files_to_parse(self):
         """
@@ -91,10 +118,11 @@ class LoadTransactionsTask(BaseTask):
 
         transactions_input_path = os.sep.join([self._config.paths.input_path, "banking_transactions"])
         files_to_parse = helpers.find_all_files(transactions_input_path, ["*.ofx", "*.qfx"])
+        for file_path in files_to_parse:
+            self._input_files.append(file_path)
         if len(files_to_parse) == 0:
             raise TaskLoadTransactionsError("No input ofx/qfx files found in input path '{}'.  Are you sure you "
                                             "placed the file there?".format(transactions_input_path))
-        return files_to_parse
 
     def _write_transactions_to_db(self):
         """
@@ -111,22 +139,10 @@ class LoadTransactionsTask(BaseTask):
                 "tran_type": transaction.trn_type,
                 "amount": transaction.amount,
                 "narrative": self._get_narrative_from_transaction(transaction),
-                "date_posted": transaction.date_posted.strftime("%Y%m%d%H%M%S")
+                "date_posted": transaction.date_posted.strftime("%Y%m%d%H%M%S"),
+                "date_ingested": self._args.runtime.strftime("%Y%m%d%H%M%S")
             }
             self._db.insert("transactions", "transactions", data)
-
-    def _move_transaction_file_to_ingested_folder(self, ingested_file):
-        """
-        This private method will move the already ingested file from the input folder into the ingested folder
-
-        :param ingested_file: Path to the ingested file
-        :type ingested_file: String
-        :return: None
-        """
-
-        dest_filename = "{}_{}".format(ingested_file.split(os.sep)[-1], self._args.runtime.strftime("%Y%m%d%H%M%S"))
-        dest_path = os.sep.join([self._config.paths.input_path, "banking_transactions", "ingested", dest_filename])
-        shutil.move(ingested_file, dest_path)
 
     def _filter_transactions(self):
         """

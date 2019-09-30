@@ -97,14 +97,16 @@ class PyFynance:
         logger.addHandler(ch)
 
         log_datetime = runtime.strftime("%Y%m%d%H%M%S")
+        log_folder = os.sep.join([log_path, str(version)])
         log_filename = "{log_path}{sep}{version}{sep}PyFynance_{task_type}_{timestamp}.log".format(log_path=log_path,
                                                                                                    sep=os.sep,
                                                                                                    version=str(version),
                                                                                                    task_type=task_type,
                                                                                                    timestamp=log_datetime)
         # delayed import for python path addition
-        from core.helpers import makedirs
-        makedirs(log_filename)
+        from services.file_system import FileSystem
+        fs = FileSystem()
+        fs.create_directory(log_folder)
 
         fh = logging.FileHandler(log_filename, "w")
         fh.setLevel(logging.DEBUG)

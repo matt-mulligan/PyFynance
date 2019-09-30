@@ -99,8 +99,12 @@ def step_impl(context, expected_rc):
 @step("input file has been moved to '{result_folder}' folder")
 def step_impl(context, result_folder):
     """
-    
 
+    :param result_folder: the folder to look for the log file in
     :type context: behave.runner.Context
     """
+
+    config = Configuration()
+
+
     raise NotImplementedError(u'STEP: And input file has been moved to \'ingested\' folder')

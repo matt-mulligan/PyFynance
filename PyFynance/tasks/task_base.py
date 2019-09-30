@@ -4,6 +4,7 @@ from abc import ABCMeta, abstractmethod
 from core.config import Configuration
 from core.exceptions import TaskError
 from services.database import Database
+from services.file_system import FileSystem
 from services.ofx_parser import OFXParser
 
 
@@ -17,6 +18,7 @@ class BaseTask:
         self._config = Configuration()
         self._ofx_parser = OFXParser(self._config)
         self._db = Database()
+        self._fs = FileSystem()
 
     @abstractmethod
     def before_task(self):  # pragma: no cover
@@ -60,12 +62,12 @@ class BaseTask:
         try:
             self.before_task()
             self.do_task()
-            self.after_task()
         except Exception as e:
             passed = False
             self._logger.exception("PyFynance encountered an error while running task.  {}".format(e))
             raise TaskError(e)
         finally:
+            self.after_task()
             status = "Success" if passed else "Failure"
             self._logger.info("Finished task execution for task type '{}' with status '{}'".
                               format(self.__class__.__name__, status))

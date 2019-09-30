@@ -29,7 +29,8 @@
                 "tran_type": "text",
                 "amount": "decimal",
                 "narrative": "text",
-                "date_posted": "text"
+                "date_posted": "text",
+                "date_ingested": "text"
             }
         },
         "primaryKeys": {
