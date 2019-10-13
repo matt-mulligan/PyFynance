@@ -1,0 +1,584 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PyFynance Test Results - V1.0 &mdash; PyFynance  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/sphinx-test-results\common.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PyFynance  documentation" href="../index.html"/>
+        <link rel="next" title="PyFynance Core Package" href="../apidoc/PyFynance.core.html"/>
+        <link rel="prev" title="PyFynance Architecture" href="../architecture.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PyFynance
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">     PyFynance Testing Approach</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pyfynance-testing-approach">PyFynance Testing Approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#unit-test-suite-results">Unit Test Suite Results</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/PyFynance.core.html">     Core Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/PyFynance.resources.html">     Resources Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/PyFynance.schemas.html">     Schemas Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/PyFynance.services.html">     Services Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../apidoc/PyFynance.tasks.html">     Tasks Package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyFynance</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>PyFynance Test Results - V1.0</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tests/tests.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyfynance-test-results-v1-0">
+<h1>PyFynance Test Results - V1.0<a class="headerlink" href="#pyfynance-test-results-v1-0" title="Permalink to this headline">¶</a></h1>
+<p>PyFynance has been developed with testing in mind to allow for safe refactoring and easy extendability of the codebase. This page will document our testing approach and will show the current state of our testing suites</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="pyfynance-testing-approach">
+<h2>PyFynance Testing Approach<a class="headerlink" href="#pyfynance-testing-approach" title="Permalink to this headline">¶</a></h2>
+<p>PyFynance maintains both unit and acceptance testing suites to ensure that our code is adequately covered with tests to ensure no regressions are made and to improve development cycles.</p>
+<p>We use pytest (<a class="reference external" href="https://pypi.org/project/pytest/">https://pypi.org/project/pytest/</a>) for our unit testing suite and Behave (<a class="reference external" href="https://pypi.org/project/behave/">https://pypi.org/project/behave/</a>) for our acceptance testing suite.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="unit-test-suite-results">
+<h2>Unit Test Suite Results<a class="headerlink" href="#unit-test-suite-results" title="Permalink to this headline">¶</a></h2>
+<h2>pytest<a class="headerlink" href="#unit-test-suite-results" title="Permalink to this headline">¶</a></h2>
+<p>Tests: 44, Failures: 0, Errors: 0, Skips: -1</p>
+<p>Time: 0.972</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>class</p></th>
+<th class="head"><p>name</p></th>
+<th class="head"><p>status</p></th>
+<th class="head"><p>reason</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="passed row-even"><td class="passed class"><p class="passed">core.test_config</p></td>
+<td class="passed name"><p class="passed">test_when_init_then_config_object_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">core.test_helpers</p></td>
+<td class="passed name"><p class="passed">test_when_makedirs_with_dir_path_and_not_exists_then_makedirs</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">core.test_helpers</p></td>
+<td class="passed name"><p class="passed">test_when_makedirs_with_file_path_and_not_exists_then_makedirs</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">core.test_helpers</p></td>
+<td class="passed name"><p class="passed">test_when_makedirs_with_dir_path_and_not_exists_then_not_makedirs</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">core.test_helpers</p></td>
+<td class="passed name"><p class="passed">test_when_makedirs_with_file_path_and_not_exists_then_not_makedirs</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">core.test_helpers</p></td>
+<td class="passed name"><p class="passed">test_when_find_all_files_and_full_path_and_recursive_then_full_path_files_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">core.test_helpers</p></td>
+<td class="passed name"><p class="passed">test_when_find_all_files_and_not_full_path_and_not_recursive_then_full_path_files_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">core.test_pyfynance</p></td>
+<td class="passed name"><p class="passed">test_when_init_the_pyfynance_object_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">core.test_pyfynance</p></td>
+<td class="passed name"><p class="passed">test_when_run_and_task_is_successful_then_exit_code_zero</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">core.test_pyfynance</p></td>
+<td class="passed name"><p class="passed">test_when_run_and_task_is_unsuccessful_then_exit_code_one</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">core.test_pyfynance</p></td>
+<td class="passed name"><p class="passed">test_when_run_and_error_then_error_raised</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_init_then_database_service_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_start_db_and_current_and_good_db_name_then_db_started</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_start_db_and_backup_and_good_db_name_then_db_started</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_start_db_and_bad_db_name_then_error</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_stop_db_and_commit_and_good_db_name_then_db_stopped</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_stop_db_and_no_commit_and_good_db_name_then_db_stopped</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_stop_db_and_bad_db_name_then_error</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_insert_and_db_good_and_table_good_then_sql_called</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_insert_and_bad_db_name_then_error</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_insert_and_bad_table_name_then_error</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_select_and_columns_none_and_where_none_then_sql_executed</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_select_and_columns_defined_and_where_none_then_sql_executed</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_select_and_columns_none_and_where_defined_then_sql_executed</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_select_and_columns_defined_and_where_defined_then_sql_executed</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_select_and_bad_db_name_then_error</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">services.test_database</p></td>
+<td class="passed name"><p class="passed">test_when_select_and_bad_table_name_then_error</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">services.test_ofx_parser</p></td>
+<td class="passed name"><p class="passed">test_when_init_then_ofx_parser_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">services.test_ofx_parser</p></td>
+<td class="passed name"><p class="passed">test_when_parse_and_banking_transactions_then_return_transations</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">services.test_ofx_parser</p></td>
+<td class="passed name"><p class="passed">test_when_parse_and_bad_object_type_then_raise_error</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">services.test_ofx_parser</p></td>
+<td class="passed name"><p class="passed">test_when_parse_and_file_path_not_a_file_then_raise_error</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">services.test_ofx_parser</p></td>
+<td class="passed name"><p class="passed">test_when_parse_and_file_not_ofx_or_qfx_then_raise_error</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">tasks.test_task_base</p></td>
+<td class="passed name"><p class="passed">test_when_init_the_base_task_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">tasks.test_task_base</p></td>
+<td class="passed name"><p class="passed">test_when_execute_and_successful_then_true_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">tasks.test_task_base</p></td>
+<td class="passed name"><p class="passed">test_when_execute_and_unsuccessful_then_true_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">tasks.test_task_base</p></td>
+<td class="passed name"><p class="passed">test_when_get_args_repr_then_correct_string_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">tasks.test_task_load_transactions</p></td>
+<td class="passed name"><p class="passed">test_when_init_the_correct_object_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">tasks.test_task_load_transactions</p></td>
+<td class="passed name"><p class="passed">test_when_repr_then_correct_str_returned</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">tasks.test_task_load_transactions</p></td>
+<td class="passed name"><p class="passed">test_when_before_task_then_correct_methods_called</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">tasks.test_task_load_transactions</p></td>
+<td class="passed name"><p class="passed">test_when_do_task_and_no_trans_in_db_then_load_correct_trans</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">tasks.test_task_load_transactions</p></td>
+<td class="passed name"><p class="passed">test_when_do_task_and_some_trans_in_db_then_load_correct_trans</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">tasks.test_task_load_transactions</p></td>
+<td class="passed name"><p class="passed">test_when_do_task_and_all_trans_in_db_then_load_no_trans</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-even"><td class="passed class"><p class="passed">tasks.test_task_load_transactions</p></td>
+<td class="passed name"><p class="passed">test_when_do_task_and_tran_no_name_memo_then_raise_error</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+<tr class="passed row-odd"><td class="passed class"><p class="passed">tasks.test_task_load_transactions</p></td>
+<td class="passed name"><p class="passed">test_when_after_task_then_correct_methods_called</p></td>
+<td class="passed status"><p class="passed">passed</p></td>
+<td class="passed reason"><p class="passed">
+
+</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../apidoc/PyFynance.core.html" class="btn btn-neutral float-right" title="PyFynance Core Package" accesskey="n">Next →</a>
+      
+      
+        <a href="../architecture.html" class="btn btn-neutral" title="PyFynance Architecture" accesskey="p">← Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matt Mulligan.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

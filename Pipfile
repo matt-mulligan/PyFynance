@@ -17,6 +17,8 @@ beautifulsoup4 = "*"
 behave = "*"
 rtcat-sphinx-theme = "*"
 sphinx-test-reports = "*"
+black = "==19.3b0"
+pre-commit = "*"
 
 [requires]
 python_version = "3.7"

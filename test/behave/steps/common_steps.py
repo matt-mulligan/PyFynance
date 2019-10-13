@@ -1,9 +1,15 @@
+import glob
 import os
 import subprocess
 
 from behave import *
 from core.config import Configuration
-from test.behave.environment import find_all_files, delete_file, copy_file, read_log_file
+from test.behave.environment import (
+    find_all_files,
+    delete_file,
+    copy_file,
+    read_log_file,
+)
 
 
 @given("PyFynance task type is '{task_type}'")
@@ -65,7 +71,9 @@ def step_impl(context, filename, input_type):
 
     config = Configuration()
     context.input_filename = filename
-    source_path = os.sep.join([config.paths.test_path, "resources", context.feature, filename])
+    source_path = os.sep.join(
+        [config.paths.test_path, "resources", context.feature, filename]
+    )
     dest_path = os.sep.join([config.paths.input_path, input_type, filename])
     copy_file(source_path, dest_path)
 
@@ -105,6 +113,23 @@ def step_impl(context, result_folder):
     """
 
     config = Configuration()
+    path = os.sep.join(
+        [
+            config.paths.input_path,
+            "banking_transactions",
+            result_folder,
+            "{}*".format(context.input_file),
+        ]
+    )
+    assert len(glob.glob(path)) > 0
 
 
-    raise NotImplementedError(u'STEP: And input file has been moved to \'ingested\' folder')
+@step("'{db_name}' database exists in the '{state_folder}' folder")
+def step_impl(context, db_name, state_folder):
+    """
+    :type context: behave.runner.Context
+    """
+    config = Configuration()
+    path = os.sep.join([config.paths.db_path, state_folder, "{}.db".format(db_name)])
+
+    assert os.path.isfile(path)
