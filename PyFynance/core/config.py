@@ -59,7 +59,7 @@ class Configuration(object):
         """
 
         config_resource_string = resource_string(
-            "PyFynance.resources.config", "config.json"
+            "resources.config", "config.json"
         ).decode("utf-8")
         config_json = self._substitute_params(config_resource_string)
         return ConfigSchema().loads(config_json.replace("\\", "\\\\"))

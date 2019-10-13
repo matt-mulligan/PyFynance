@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields, post_load
-from PyFynance.schemas.model import Model
+from schemas.model import Model
 
 
 class ConfigPathsSchema(Schema):
