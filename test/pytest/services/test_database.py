@@ -1,3 +1,4 @@
+import os
 import unittest
 from datetime import datetime
 from decimal import Decimal
@@ -12,7 +13,7 @@ from services.database import Database
 @fixture
 def db():
     db = Database()
-    db._config.paths.db_path = "C:\\base\\db\\path"
+    db._config.paths.db_path = os.sep.join(["C:", "base", "db", "path"])
     return db
 
 
@@ -71,7 +72,7 @@ def test_when_start_db_and_current_and_good_db_name_then_db_started(
         assert "transactions" in db._connections.keys()
         assert "transactions" in db._cursors.keys()
         sqlite_mock.assert_has_calls(
-            [call("C:\\base\\db\\path\\current\\transactions.db")]
+            [call(os.sep.join(["C:", "base", "db", "path", "current", "transactions.db"]))]
         )
         connection_mock.cursor.assert_called()
         connection_mock.cursor.assert_has_calls(
@@ -91,14 +92,14 @@ def test_when_start_db_and_backup_and_good_db_name_then_db_started(
 ):
     with patch("sqlite3.connect", return_value=connection_mock) as sqlite_mock:
         glob_mock.return_value = [
-            "C:\\path\\to\\backup_db\\transactions.db29991231235959"
+            os.sep.join(["C:", "path", "to", "backup_db", "transactions.db29991231235959"])
         ]
         db.start_db("transactions", current=False)
 
         assert "transactions" in db._connections.keys()
         assert "transactions" in db._cursors.keys()
         sqlite_mock.assert_has_calls(
-            [call("C:\\base\\db\\path\\backup\\transactions.db29991231235959")]
+            [call(os.sep.join(["C:", "base", "db", "path", "backup", "transactions.db29991231235959"]))]
         )
         connection_mock.cursor.assert_called()
         create_table_call = call().execute(
@@ -132,8 +133,8 @@ def test_when_stop_db_and_commit_and_good_db_name_then_db_stopped(
     copyfile_mock.assert_has_calls(
         [
             call(
-                "C:\\base\\db\\path\\current\\transactions.db",
-                "C:\\base\\db\\path\\backup\\transactions_29991231235959.db",
+                os.sep.join(["C:", "base", "db", "path", "current", "transactions.db"]),
+                os.sep.join(["C:", "base", "db", "path", "backup", "transactions_29991231235959.db"])
             )
         ]
     )

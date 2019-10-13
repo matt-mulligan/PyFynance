@@ -1,4 +1,5 @@
 import datetime
+import os
 from decimal import Decimal
 
 from mock import MagicMock, patch, call
@@ -23,7 +24,7 @@ def args():
 
 @fixture
 def task(args):
-    with patch("os.path.abspath", MagicMock(return_value="BASE\\REPO\\PATH\\PyFynance\\core\\config.py")):
+    with patch("os.path.abspath", MagicMock(return_value=os.sep.join(["BASE", "REPO", "PATH", "PyFynance", "core", "config.py"]))):
         return LoadTransactionsTask(args)
 
 
@@ -148,7 +149,7 @@ def test_when_before_task_then_correct_methods_called(task):
 def test_when_do_task_and_no_trans_in_db_then_load_correct_trans(
     task, transactions, tran01_data, tran02_data, tran03_data
 ):
-    files_to_parse = ["C:\\fake\\path\\file1.ofx"]
+    files_to_parse = [os.sep.join(["C:", "fake", "path", "file1.ofx"])]
     with patch("core.helpers.find_all_files", return_value=files_to_parse):
         with patch("services.ofx_parser.OFXParser.parse", return_value=transactions):
             with patch("shutil.move", MagicMock()):
@@ -170,7 +171,7 @@ def test_when_do_task_and_no_trans_in_db_then_load_correct_trans(
 def test_when_do_task_and_some_trans_in_db_then_load_correct_trans(
     task, transactions, tran01_data, tran02_data, tran03_data
 ):
-    files_to_parse = ["C:\\fake\\path\\file1.ofx"]
+    files_to_parse = [os.sep.join(["C:", "fake", "path", "file1.ofx"])]
     with patch("core.helpers.find_all_files", return_value=files_to_parse):
         with patch("services.ofx_parser.OFXParser.parse", return_value=transactions):
             with patch("shutil.move", MagicMock()):
@@ -198,7 +199,7 @@ def test_when_do_task_and_some_trans_in_db_then_load_correct_trans(
 def test_when_do_task_and_all_trans_in_db_then_load_no_trans(
     task, transactions, tran01_data, tran02_data, tran03_data
 ):
-    files_to_parse = ["C:\\fake\\path\\file1.ofx"]
+    files_to_parse = [os.sep.join(["C:", "fake", "path", "file1.ofx"])]
     with patch("core.helpers.find_all_files", return_value=files_to_parse):
         with patch("services.ofx_parser.OFXParser.parse", return_value=transactions):
             with patch("shutil.move", MagicMock()):
@@ -230,7 +231,7 @@ def test_when_do_task_and_all_trans_in_db_then_load_no_trans(
 
 
 def test_when_do_task_and_tran_no_name_memo_then_raise_error(task, tran_no_name_memo):
-    files_to_parse = ["C:\\fake\\path\\file1.ofx"]
+    files_to_parse = [os.sep.join(["C:", "fake", "path", "file1.ofx"])]
     error_msg = (
         "Transaction does not have a memo or name attribute.  The transaction has the following attributes "
         "'dict_keys(['_mock_return_value', '_mock_parent', '_mock_name', '_mock_new_name', "
@@ -270,8 +271,7 @@ def test_when_after_task_and_failed_then_coorect_methods_called(task):
         [
             call.move_file(
                 "file1.ofx",
-                "BASE\\REPO\\PATH\\input\\banking_transactions"
-                "\\error\\file1.ofx_20150214101112",
+                os.sep.join(["BASE", "REPO", "PATH", "input", "banking_transactions", "error", "file1.ofx_20150214101112"])
             )
         ]
     )
