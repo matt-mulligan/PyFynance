@@ -21,6 +21,7 @@ black = "==19.3b0"
 pre-commit = "*"
 pyfynance = {path = "./PyFynance",editable = true}
 pytest-cov = "*"
+coveralls = "*"
 
 [requires]
 python_version = "3.7"
