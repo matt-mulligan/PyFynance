@@ -13,6 +13,7 @@ def main():  # pragma: no cover
     configure_libraries()
     args = parse_arguments(sys.argv[1:])
     from core.pyfynance import PyFynance
+
     app = PyFynance(args)
     exit_code = app.run()
     sys.exit(exit_code)
@@ -33,8 +34,13 @@ def create_known_arg_parser():  # pragma: no cover
     """
 
     parser = argparse.ArgumentParser(description="PyFynance Known Arguments parser")
-    parser.add_argument("--task_type", metavar="task_type", help="task_type", choices=["load_transactions"],
-                        required=True)
+    parser.add_argument(
+        "--task_type",
+        metavar="task_type",
+        help="task_type",
+        choices=["load_transactions"],
+        required=True,
+    )
     return parser
 
 
@@ -44,8 +50,12 @@ def create_load_tran_parser():
     :return: Agrparse object to parse known arguments
     """
 
-    parser = argparse.ArgumentParser(description="PyFynance Load Transactions argument parser")
-    parser.add_argument("--institution", metavar="institution", help="institution", required=True)
+    parser = argparse.ArgumentParser(
+        description="PyFynance Load Transactions argument parser"
+    )
+    parser.add_argument(
+        "--institution", metavar="institution", help="institution", required=True
+    )
     parser.add_argument("--account", metavar="account", help="account", required=True)
     return parser
 

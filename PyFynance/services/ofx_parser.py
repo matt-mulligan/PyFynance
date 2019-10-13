@@ -48,9 +48,9 @@ class OFXParser:
         self._check_object_type(ofx_object_type)
         self._check_input_file(path)
 
-        parse_method = {
-            "banking_transactions": self._parse_banking_transactions
-        }[ofx_object_type]
+        parse_method = {"banking_transactions": self._parse_banking_transactions}[
+            ofx_object_type
+        ]
 
         return parse_method(path)
 
@@ -65,9 +65,12 @@ class OFXParser:
         """
 
         if object_type not in self._config.ofx_parser.object_types:
-            raise OFXParserError("Object_type value '{}' is unknown. "
-                                 "Acceptable object type values are '{}'".format(object_type,
-                                                                                 self._config.ofx_parser.object_types))
+            raise OFXParserError(
+                "Object_type value '{}' is unknown. "
+                "Acceptable object type values are '{}'".format(
+                    object_type, self._config.ofx_parser.object_types
+                )
+            )
 
     def _parse_banking_transactions(self, path):
         """
@@ -82,7 +85,9 @@ class OFXParser:
         raw_trans = self._read_ofx_file(path)
         tran_dictionaries = self._parse_ofx_transactions(raw_trans)
         tran_dictionaries = self._cast_ofx_values(tran_dictionaries)
-        transactions = self._load_dictionaries_to_objects("banking_transactions", tran_dictionaries)
+        transactions = self._load_dictionaries_to_objects(
+            "banking_transactions", tran_dictionaries
+        )
         return transactions
 
     def _parse_ofx_transactions(self, ofx_trans):
@@ -147,10 +152,16 @@ class OFXParser:
         """
 
         if not os.path.isfile(path):
-            raise OFXParserError("Path provided '{path}' either does not exist or isnt a file".format(path=path))
+            raise OFXParserError(
+                "Path provided '{path}' either does not exist or isnt a file".format(
+                    path=path
+                )
+            )
 
         if not (path.lower().endswith(".ofx") or path.lower().endswith(".qfx")):
-            raise OFXParserError("Path provided '{path}' is not an OFX/QFX file.".format(path=path))
+            raise OFXParserError(
+                "Path provided '{path}' is not an OFX/QFX file.".format(path=path)
+            )
 
     @staticmethod
     def _read_ofx_file(path):
@@ -197,9 +208,7 @@ class OFXParser:
         :return: List of python objects loaded to using Marshmallow schemas
         """
 
-        schema = {
-            "banking_transactions": OFXBankingTransactionSchema
-        }[object_type]
+        schema = {"banking_transactions": OFXBankingTransactionSchema}[object_type]
 
         serialised_objects = []
         for obj_dict in object_dictionaries:

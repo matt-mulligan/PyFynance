@@ -32,12 +32,18 @@ class FileSystem:
         """
 
         if not self.path_exists(source_path):
-            raise FileSystemError("Source Path '{}' does not exist.".format(source_path))
+            raise FileSystemError(
+                "Source Path '{}' does not exist.".format(source_path)
+            )
 
         if not self.is_directory(self._get_base_path(dest_path)):
-            raise FileSystemError("destination path '{}' either isnt a directory or dosent exist. Note that this "
-                                  "method requires a destination path to be the full path including the filename, "
-                                  "not just to the destination folder.".format(self._get_base_path(dest_path)))
+            raise FileSystemError(
+                "destination path '{}' either isnt a directory or dosent exist. Note that this "
+                "method requires a destination path to be the full path including the filename, "
+                "not just to the destination folder.".format(
+                    self._get_base_path(dest_path)
+                )
+            )
 
         shutil.move(source_path, dest_path)
 
@@ -53,12 +59,18 @@ class FileSystem:
         """
 
         if not self.path_exists(source_path):
-            raise FileSystemError("Source Path '{}' does not exist.".format(source_path))
+            raise FileSystemError(
+                "Source Path '{}' does not exist.".format(source_path)
+            )
 
         if not self.is_directory(self._get_base_path(dest_path)):
-            raise FileSystemError("destination path '{}' either isnt a directory or dosent exist. Note that this "
-                                  "method requires a destination path to be the full path including the filename, "
-                                  "not just to the destination folder.".format(self._get_base_path(dest_path)))
+            raise FileSystemError(
+                "destination path '{}' either isnt a directory or dosent exist. Note that this "
+                "method requires a destination path to be the full path including the filename, "
+                "not just to the destination folder.".format(
+                    self._get_base_path(dest_path)
+                )
+            )
 
         shutil.copyfile(source_path, dest_path)
 
@@ -72,7 +84,9 @@ class FileSystem:
         """
 
         if not self.path_exists(file_path):
-            self._logger.info("File path '{}' does not exist. Skipping deletion".format(file_path))
+            self._logger.info(
+                "File path '{}' does not exist. Skipping deletion".format(file_path)
+            )
         else:
             os.remove(file_path)
 
@@ -156,7 +170,9 @@ class FileSystem:
         """
 
         if not self.path_exists(source_path):
-            raise FileSystemError("Source Path '{}' does not exist.".format(source_path))
+            raise FileSystemError(
+                "Source Path '{}' does not exist.".format(source_path)
+            )
 
         shutil.copytree(source_path, dest_path)
 
@@ -170,7 +186,9 @@ class FileSystem:
         """
 
         if not self.path_exists(path_value):
-            self._logger.info("Directory '{}' does not exist. Skipping deletion".format(path_value))
+            self._logger.info(
+                "Directory '{}' does not exist. Skipping deletion".format(path_value)
+            )
         else:
             shutil.rmtree(path_value)
 
@@ -187,7 +205,9 @@ class FileSystem:
         """
 
         if not self.path_exists(source_path):
-            raise FileSystemError("Source path '{}' does not exist.".format(source_path))
+            raise FileSystemError(
+                "Source path '{}' does not exist.".format(source_path)
+            )
 
         shutil.move(source_path, dest_path)
 
@@ -203,7 +223,9 @@ class FileSystem:
         """
 
         if not self.path_exists(folder_path):
-            raise FileSystemError("Source path '{}' does not exist.".format(folder_path))
+            raise FileSystemError(
+                "Source path '{}' does not exist.".format(folder_path)
+            )
 
         path_parts = folder_path.split(os.sep)
         path_parts.pop(-1)

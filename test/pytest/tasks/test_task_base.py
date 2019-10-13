@@ -14,6 +14,7 @@ def args():
         def __init__(self):
             self.task_type = "load_transactions"
             self.runtime = datetime.datetime(2015, 2, 14, 10, 11, 12)
+
     return Args()
 
 
@@ -29,7 +30,9 @@ def test_when_execute_and_successful_then_true_returned(args):
     assert passed
 
 
-@patch("tasks.task_base.BaseTask.do_task", side_effect=[TaskError("task_error_message")])
+@patch(
+    "tasks.task_base.BaseTask.do_task", side_effect=[TaskError("task_error_message")]
+)
 def test_when_execute_and_unsuccessful_then_true_returned(mock_do_task, args):
     task = BaseTask(args)
     with raises(TaskError):
@@ -38,4 +41,7 @@ def test_when_execute_and_unsuccessful_then_true_returned(mock_do_task, args):
 
 def test_when_get_args_repr_then_correct_string_returned(args):
     task = BaseTask(args)
-    assert task.get_args_repr() == "task_type=load_transactions, runtime=2015-02-14 10:11:12"
+    assert (
+        task.get_args_repr()
+        == "task_type=load_transactions, runtime=2015-02-14 10:11:12"
+    )

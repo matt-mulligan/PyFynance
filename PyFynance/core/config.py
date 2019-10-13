@@ -48,7 +48,7 @@ class Configuration(object):
 
         full_path = os.path.abspath(__file__)
         path_elements = full_path.split(os.sep)
-        return os.sep.join(path_elements[:len(path_elements) - 3])
+        return os.sep.join(path_elements[: len(path_elements) - 3])
 
     def _load_config(self):
         """
@@ -58,7 +58,9 @@ class Configuration(object):
         :return: None
         """
 
-        config_resource_string = resource_string("PyFynance.resources.config", "config.json").decode("utf-8")
+        config_resource_string = resource_string(
+            "PyFynance.resources.config", "config.json"
+        ).decode("utf-8")
         config_json = self._substitute_params(config_resource_string)
         return ConfigSchema().loads(config_json.replace("\\", "\\\\"))
 
@@ -72,6 +74,4 @@ class Configuration(object):
 
         template = Template(input_string)
         repo_base_path = self._get_repo_base_path()
-        return template.substitute(repo_base_path=repo_base_path,
-                                   sep=os.sep)
-
+        return template.substitute(repo_base_path=repo_base_path, sep=os.sep)

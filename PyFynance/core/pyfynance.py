@@ -16,8 +16,12 @@ class PyFynance:
     def __init__(self, args):
         self._args = args
         self._config = Configuration()
-        self._logger = self._configure_logger(self._config.paths.logs_path, self._config.version,
-                                              self._args.task_type, self._args.runtime)
+        self._logger = self._configure_logger(
+            self._config.paths.logs_path,
+            self._config.version,
+            self._args.task_type,
+            self._args.runtime,
+        )
 
     def run(self):
         """
@@ -32,15 +36,23 @@ class PyFynance:
         try:
             passed = self._execute_tasks()
             if passed:
-                self._logger.info("PyFynance application ran successfully!  task_type = '{}'".
-                                  format(self._args.task_type))
+                self._logger.info(
+                    "PyFynance application ran successfully!  task_type = '{}'".format(
+                        self._args.task_type
+                    )
+                )
             else:
-                self._logger.info("PyFynance application failed to run successfully :(  task_type = '{}'".
-                                  format(self._args.task_type))
+                self._logger.info(
+                    "PyFynance application failed to run successfully :(  task_type = '{}'".format(
+                        self._args.task_type
+                    )
+                )
         except Exception as e:
             passed = False
-            self._logger.exception("PyFynance experienced a fatal exception while running task of task_type '{}'.  "
-                                   "exception = '{}'".format(self._args.task_type, e))
+            self._logger.exception(
+                "PyFynance experienced a fatal exception while running task of task_type '{}'.  "
+                "exception = '{}'".format(self._args.task_type, e)
+            )
             raise TaskError(e)
         finally:
             exit_code = 0 if passed else 1
@@ -89,7 +101,9 @@ class PyFynance:
         logger = logging.getLogger()
         logger.setLevel(logging.DEBUG)
 
-        formatter = logging.Formatter("%(asctime)s %(name)-35s %(levelname)-8s %(message)s")
+        formatter = logging.Formatter(
+            "%(asctime)s %(name)-35s %(levelname)-8s %(message)s"
+        )
 
         ch = logging.StreamHandler()
         ch.setLevel(logging.DEBUG)
@@ -98,13 +112,16 @@ class PyFynance:
 
         log_datetime = runtime.strftime("%Y%m%d%H%M%S")
         log_folder = os.sep.join([log_path, str(version)])
-        log_filename = "{log_path}{sep}{version}{sep}PyFynance_{task_type}_{timestamp}.log".format(log_path=log_path,
-                                                                                                   sep=os.sep,
-                                                                                                   version=str(version),
-                                                                                                   task_type=task_type,
-                                                                                                   timestamp=log_datetime)
+        log_filename = "{log_path}{sep}{version}{sep}PyFynance_{task_type}_{timestamp}.log".format(
+            log_path=log_path,
+            sep=os.sep,
+            version=str(version),
+            task_type=task_type,
+            timestamp=log_datetime,
+        )
         # delayed import for python path addition
         from services.file_system import FileSystem
+
         fs = FileSystem()
         fs.create_directory(log_folder)
 

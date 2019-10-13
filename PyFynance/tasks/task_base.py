@@ -56,7 +56,11 @@ class BaseTask:
         :return: Boolean representing if the task execution was successful or not
         """
 
-        self._logger.info("Beginning task execution for task type '{}'".format(self.__class__.__name__))
+        self._logger.info(
+            "Beginning task execution for task type '{}'".format(
+                self.__class__.__name__
+            )
+        )
         passed = True
 
         try:
@@ -64,13 +68,18 @@ class BaseTask:
             self.do_task()
         except Exception as e:
             passed = False
-            self._logger.exception("PyFynance encountered an error while running task.  {}".format(e))
+            self._logger.exception(
+                "PyFynance encountered an error while running task.  {}".format(e)
+            )
             raise TaskError(e)
         finally:
             self.after_task()
             status = "Success" if passed else "Failure"
-            self._logger.info("Finished task execution for task type '{}' with status '{}'".
-                              format(self.__class__.__name__, status))
+            self._logger.info(
+                "Finished task execution for task type '{}' with status '{}'".format(
+                    self.__class__.__name__, status
+                )
+            )
         return passed
 
     def get_args_repr(self):

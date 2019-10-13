@@ -62,8 +62,11 @@ class LoadTransactionsTask(BaseTask):
             self._logger.info("Finished do_task method of task '{}'.".format(self))
         except Exception as e:
             self._task_state = "FAILED"
-            raise TaskLoadTransactionsError("An error occurred during the do_task step of the '{}'.  {}".format(self,
-                                                                                                                e))
+            raise TaskLoadTransactionsError(
+                "An error occurred during the do_task step of the '{}'.  {}".format(
+                    self, e
+                )
+            )
 
     def after_task(self):
         """
@@ -94,8 +97,17 @@ class LoadTransactionsTask(BaseTask):
         state_folder = "ingested" if task_status == "PASSED" else "error"
 
         for file_path in self._input_files:
-            dest_file = "{}_{}".format(file_path.split(os.sep)[-1], self._args.runtime.strftime("%Y%m%d%H%M%S"))
-            dest_path = os.sep.join([self._config.paths.input_path, "banking_transactions", state_folder, dest_file])
+            dest_file = "{}_{}".format(
+                file_path.split(os.sep)[-1], self._args.runtime.strftime("%Y%m%d%H%M%S")
+            )
+            dest_path = os.sep.join(
+                [
+                    self._config.paths.input_path,
+                    "banking_transactions",
+                    state_folder,
+                    dest_file,
+                ]
+            )
             self._fs.move_file(file_path, dest_path)
 
     def _load_transactions_from_file(self):
@@ -107,7 +119,9 @@ class LoadTransactionsTask(BaseTask):
 
         self._get_files_to_parse()
         for file_path in self._input_files:
-            self._transactions.extend(self._ofx_parser.parse("banking_transactions", file_path))
+            self._transactions.extend(
+                self._ofx_parser.parse("banking_transactions", file_path)
+            )
 
     def _get_files_to_parse(self):
         """
@@ -116,13 +130,19 @@ class LoadTransactionsTask(BaseTask):
         :return: A list of file paths that either end in .ofx or .qfx
         """
 
-        transactions_input_path = os.sep.join([self._config.paths.input_path, "banking_transactions"])
-        files_to_parse = helpers.find_all_files(transactions_input_path, ["*.ofx", "*.qfx"])
+        transactions_input_path = os.sep.join(
+            [self._config.paths.input_path, "banking_transactions"]
+        )
+        files_to_parse = helpers.find_all_files(
+            transactions_input_path, ["*.ofx", "*.qfx"]
+        )
         for file_path in files_to_parse:
             self._input_files.append(file_path)
         if len(files_to_parse) == 0:
-            raise TaskLoadTransactionsError("No input ofx/qfx files found in input path '{}'.  Are you sure you "
-                                            "placed the file there?".format(transactions_input_path))
+            raise TaskLoadTransactionsError(
+                "No input ofx/qfx files found in input path '{}'.  Are you sure you "
+                "placed the file there?".format(transactions_input_path)
+            )
 
     def _write_transactions_to_db(self):
         """
@@ -140,7 +160,7 @@ class LoadTransactionsTask(BaseTask):
                 "amount": transaction.amount,
                 "narrative": self._get_narrative_from_transaction(transaction),
                 "date_posted": transaction.date_posted.strftime("%Y%m%d%H%M%S"),
-                "date_ingested": self._args.runtime.strftime("%Y%m%d%H%M%S")
+                "date_ingested": self._args.runtime.strftime("%Y%m%d%H%M%S"),
             }
             self._db.insert("transactions", "transactions", data)
 
@@ -165,7 +185,9 @@ class LoadTransactionsTask(BaseTask):
 
         new_transactions = []
         for transaction in self._transactions:
-            key = "{}-{}-{}".format(self._args.institution, self._args.account, transaction.fitid)
+            key = "{}-{}-{}".format(
+                self._args.institution, self._args.account, transaction.fitid
+            )
             if key not in composite_keys:
                 new_transactions.append(transaction)
 
@@ -180,9 +202,12 @@ class LoadTransactionsTask(BaseTask):
         """
 
         columns = ["institution", "account", "tran_id"]
-        where = "institution = \"{institution}\" and account = \"{account}\"".format(institution=self._args.institution,
-                                                                                     account=self._args.account)
-        return self._db.select("transactions", "transactions", columns=columns, where=where)
+        where = 'institution = "{institution}" and account = "{account}"'.format(
+            institution=self._args.institution, account=self._args.account
+        )
+        return self._db.select(
+            "transactions", "transactions", columns=columns, where=where
+        )
 
     @staticmethod
     def _get_narrative_from_transaction(transaction):
@@ -205,5 +230,7 @@ class LoadTransactionsTask(BaseTask):
         elif has_name:
             return transaction.name
         else:
-            raise TaskLoadTransactionsError("Transaction does not have a memo or name attribute.  The transaction "
-                                            "has the following attributes '{}'".format(transaction.__dict__.keys()))
+            raise TaskLoadTransactionsError(
+                "Transaction does not have a memo or name attribute.  The transaction "
+                "has the following attributes '{}'".format(transaction.__dict__.keys())
+            )

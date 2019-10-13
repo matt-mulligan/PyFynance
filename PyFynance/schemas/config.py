@@ -74,6 +74,7 @@ class DatabaseColumnSpecsSchema(Schema):
     This class represents the schema of a configuration.database.column_spec object. Marshmallow uses this class to serialise and
     deserialize python objects to and from json
     """
+
     transactions = fields.Dict(keys=fields.Str(), values=fields.Str())
 
 
