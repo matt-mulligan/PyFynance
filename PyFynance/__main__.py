@@ -10,21 +10,12 @@ def main():  # pragma: no cover
     :return:
     """
 
-    configure_libraries()
     args = parse_arguments(sys.argv[1:])
     from core.pyfynance import PyFynance
 
     app = PyFynance(args)
     exit_code = app.run()
     sys.exit(exit_code)
-
-
-def configure_libraries():
-    """
-    THis method will append the code root of PyFynance to the python path so that all import statements work
-    :return:
-    """
-    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 
 def create_known_arg_parser():  # pragma: no cover

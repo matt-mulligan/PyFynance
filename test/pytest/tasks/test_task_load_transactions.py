@@ -23,7 +23,8 @@ def args():
 
 @fixture
 def task(args):
-    return LoadTransactionsTask(args)
+    with patch("os.path.abspath", MagicMock(return_value="BASE\\REPO\\PATH\\PyFynance\\core\\config.py")):
+        return LoadTransactionsTask(args)
 
 
 @fixture
@@ -269,7 +270,7 @@ def test_when_after_task_and_failed_then_coorect_methods_called(task):
         [
             call.move_file(
                 "file1.ofx",
-                "D:\\git-repos\\PyFynance\\input\\banking_transactions"
+                "BASE\\REPO\\PATH\\input\\banking_transactions"
                 "\\error\\file1.ofx_20150214101112",
             )
         ]
@@ -280,8 +281,7 @@ def test_when_do_task_and_no_files_then_raise_error(task, tran_no_name_memo):
     error_msg = (
         r"An error occurred during the do_task step of the 'PyFynance.Tasks.LoadTransactionsTask("
         r"task_type=load_transactions, institution=MyBank, account=CreditCard, runtime=2015-02-14 10:11:12)'."
-        r"  No input ofx/qfx files found in input path 'D:\git-repos\PyFynance\input\banking_transactions'.  "
-        r"Are you sure you placed the file there?"
+        r"  No input ofx/qfx files found in input path "
     )
     with patch("core.helpers.find_all_files", return_value=[]):
         with raises(TaskLoadTransactionsError) as raised_error:

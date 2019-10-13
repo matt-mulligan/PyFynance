@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9ec472aed0351fbf94599f29d6409df92a1f0aa602c479adebe79c037c46eaa9"
+            "sha256": "4c53e9bb43f963c28e1feceef112ccb746602137caf7fe8fc51cffb6e4b8a742"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -381,6 +381,10 @@
                 "sha256:dc639b046a6e2cff5bbe40194ad65936d6ba360b52b3c3fe1d08a82dd50b5e53"
             ],
             "version": "==1.8.0"
+        },
+        "pyfynance": {
+            "editable": true,
+            "path": "./PyFynance"
         },
         "pygments": {
             "hashes": [
