@@ -7,4 +7,4 @@ install:
 script:
   - pytest --cov=PyFynance
 after_success:
-  — coveralls
+  - coveralls
