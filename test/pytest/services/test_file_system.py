@@ -17,9 +17,17 @@ def test_when_move_file_and_valid_paths_then_correct_call_made(shutil_mock, fs):
     with patch.object(fs, "path_exists", return_value=True):
         with patch.object(fs, "is_directory", return_value=True):
             os.sep.join(["C:", "source", "path", "file"])
-            fs.move_file(os.sep.join(["C:", "source", "path", "file"]), os.sep.join(["C:", "dest", "path", "file"]))
+            fs.move_file(
+                os.sep.join(["C:", "source", "path", "file"]),
+                os.sep.join(["C:", "dest", "path", "file"]),
+            )
     shutil_mock.assert_has_calls(
-        [call(os.sep.join(["C:", "source", "path", "file"]), os.sep.join(["C:", "dest", "path", "file"]))]
+        [
+            call(
+                os.sep.join(["C:", "source", "path", "file"]),
+                os.sep.join(["C:", "dest", "path", "file"]),
+            )
+        ]
     )
 
 
@@ -28,11 +36,13 @@ def test_when_move_file_and_bad_input_then_error_raised(shutil_mock, fs):
     with patch.object(fs, "path_exists", return_value=False):
         with patch.object(fs, "is_directory", return_value=True):
             with raises(FileSystemError) as raised_error:
-                fs.move_file(os.sep.join(["C:", "source", "path", "file"]), os.sep.join(["C:", "dest", "path", "file"]))
+                fs.move_file(
+                    os.sep.join(["C:", "source", "path", "file"]),
+                    os.sep.join(["C:", "dest", "path", "file"]),
+                )
     assert not shutil_mock.called
-    assert (
-        raised_error.value.args[0]
-        == "Source Path '{}' does not exist.".format(os.sep.join(["C:", "source", "path", "file"]))
+    assert raised_error.value.args[0] == "Source Path '{}' does not exist.".format(
+        os.sep.join(["C:", "source", "path", "file"])
     )
 
 
@@ -43,10 +53,15 @@ def test_when_move_file_and_output_folder_dosent_exist_then_error_raised(
     with patch.object(fs, "path_exists", return_value=True):
         with patch.object(fs, "is_directory", return_value=False):
             with raises(FileSystemError) as raised_error:
-                fs.move_file(os.sep.join(["C:", "source", "path", "file"]), os.sep.join(["C:", "dest", "path", "file"]))
+                fs.move_file(
+                    os.sep.join(["C:", "source", "path", "file"]),
+                    os.sep.join(["C:", "dest", "path", "file"]),
+                )
     assert not shutil_mock.called
     assert (
-        "destination path '{}' either isnt a directory or dosent exist".format(os.sep.join(["C:", "dest", "path"]))
+        "destination path '{}' either isnt a directory or dosent exist".format(
+            os.sep.join(["C:", "dest", "path"])
+        )
         in raised_error.value.args[0]
     )
 
@@ -55,9 +70,17 @@ def test_when_move_file_and_output_folder_dosent_exist_then_error_raised(
 def test_when_copy_file_and_valid_paths_then_correct_call_made(shutil_mock, fs):
     with patch.object(fs, "path_exists", return_value=True):
         with patch.object(fs, "is_directory", return_value=True):
-            fs.copy_file(os.sep.join(["C:", "source", "path", "file"]), os.sep.join(["C:", "dest", "path", "file"]))
+            fs.copy_file(
+                os.sep.join(["C:", "source", "path", "file"]),
+                os.sep.join(["C:", "dest", "path", "file"]),
+            )
     shutil_mock.assert_has_calls(
-        [call(os.sep.join(["C:", "source", "path", "file"]), os.sep.join(["C:", "dest", "path", "file"]))]
+        [
+            call(
+                os.sep.join(["C:", "source", "path", "file"]),
+                os.sep.join(["C:", "dest", "path", "file"]),
+            )
+        ]
     )
 
 
@@ -66,11 +89,13 @@ def test_when_copy_file_and_bad_input_then_error_raised(shutil_mock, fs):
     with patch.object(fs, "path_exists", return_value=False):
         with patch.object(fs, "is_directory", return_value=True):
             with raises(FileSystemError) as raised_error:
-                fs.copy_file(os.sep.join(["C:", "source", "path", "file"]), os.sep.join(["C:", "dest", "path", "file"]))
+                fs.copy_file(
+                    os.sep.join(["C:", "source", "path", "file"]),
+                    os.sep.join(["C:", "dest", "path", "file"]),
+                )
     assert not shutil_mock.called
-    assert (
-        raised_error.value.args[0]
-        == "Source Path '{}' does not exist.".format(os.sep.join(["C:", "source", "path", "file"]))
+    assert raised_error.value.args[0] == "Source Path '{}' does not exist.".format(
+        os.sep.join(["C:", "source", "path", "file"])
     )
 
 
@@ -81,10 +106,15 @@ def test_when_copy_file_and_output_folder_dosent_exist_then_error_raised(
     with patch.object(fs, "path_exists", return_value=True):
         with patch.object(fs, "is_directory", return_value=False):
             with raises(FileSystemError) as raised_error:
-                fs.copy_file(os.sep.join(["C:", "source", "path", "file"]), os.sep.join(["C:", "dest", "path", "file"]))
+                fs.copy_file(
+                    os.sep.join(["C:", "source", "path", "file"]),
+                    os.sep.join(["C:", "dest", "path", "file"]),
+                )
     assert not shutil_mock.called
     assert (
-        "destination path '{}' either isnt a directory or dosent exist".format(os.sep.join(["C:", "dest", "path"]))
+        "destination path '{}' either isnt a directory or dosent exist".format(
+            os.sep.join(["C:", "dest", "path"])
+        )
         in raised_error.value.args[0]
     )
 
@@ -108,7 +138,12 @@ def test_when_rename_file_and_file_exists_then_correct_call_made(shutil_mock, fs
     with patch.object(fs, "path_exists", return_value=True):
         fs.rename_file(os.sep.join(["C:", "source", "path", "old_file"]), "new_file")
     shutil_mock.assert_has_calls(
-        [call(os.sep.join(["C:", "source", "path", "old_file"]), os.sep.join(["C:", "source", "path", "new_file"]))]
+        [
+            call(
+                os.sep.join(["C:", "source", "path", "old_file"]),
+                os.sep.join(["C:", "source", "path", "new_file"]),
+            )
+        ]
     )
 
 
@@ -118,11 +153,12 @@ def test_when_rename_file_and_file_does_not_exist_then_correct_call_made(
 ):
     with patch.object(fs, "path_exists", return_value=False):
         with raises(FileSystemError) as raised_error:
-            fs.rename_file(os.sep.join(["C:", "source", "path", "old_file"]), "new_file")
+            fs.rename_file(
+                os.sep.join(["C:", "source", "path", "old_file"]), "new_file"
+            )
     assert not shutil_mock.called
-    assert (
-        raised_error.value.args[0]
-        == "File Path '{}' does not exist.".format(os.sep.join(["C:", "source", "path", "old_file"]))
+    assert raised_error.value.args[0] == "File Path '{}' does not exist.".format(
+        os.sep.join(["C:", "source", "path", "old_file"])
     )
 
 
@@ -168,9 +204,17 @@ def test_when_create_directory_and_not_exists_then_correct_calls_made(
 @patch("shutil.copytree", return_value=MagicMock())
 def test_when_copy_directory_and_input_good_then_correct_call_made(shutil_mock, fs):
     with patch.object(fs, "path_exists", return_value=True):
-        fs.copy_directory(os.sep.join(["C:", "source", "path", "file"]), os.sep.join(["C:", "dest", "path", "file"]))
+        fs.copy_directory(
+            os.sep.join(["C:", "source", "path", "file"]),
+            os.sep.join(["C:", "dest", "path", "file"]),
+        )
     shutil_mock.assert_has_calls(
-        [call(os.sep.join(["C:", "source", "path", "file"]), os.sep.join(["C:", "dest", "path", "file"]))]
+        [
+            call(
+                os.sep.join(["C:", "source", "path", "file"]),
+                os.sep.join(["C:", "dest", "path", "file"]),
+            )
+        ]
     )
 
 
@@ -178,11 +222,13 @@ def test_when_copy_directory_and_input_good_then_correct_call_made(shutil_mock, 
 def test_when_copy_directory_and_input_bad_then_correct_call_made(shutil_mock, fs):
     with patch.object(fs, "path_exists", return_value=False):
         with raises(FileSystemError) as raised_error:
-            fs.copy_directory(os.sep.join(["C:", "source", "path", "file"]), os.sep.join(["C:", "dest", "path", "file"]))
+            fs.copy_directory(
+                os.sep.join(["C:", "source", "path", "file"]),
+                os.sep.join(["C:", "dest", "path", "file"]),
+            )
     assert not shutil_mock.called
-    assert (
-        raised_error.value.args[0]
-        == "Source Path '{}' does not exist.".format(os.sep.join(["C:", "source", "path", "file"]))
+    assert raised_error.value.args[0] == "Source Path '{}' does not exist.".format(
+        os.sep.join(["C:", "source", "path", "file"])
     )
 
 
@@ -190,7 +236,9 @@ def test_when_copy_directory_and_input_bad_then_correct_call_made(shutil_mock, f
 def test_when_delete_directory_and_dir_exists_then_correct_call_made(shutil_mock, fs):
     with patch.object(fs, "path_exists", return_value=True):
         fs.delete_directory(os.sep.join(["C:", "directory", "to", "delete"]))
-    shutil_mock.assert_has_calls([call(os.sep.join(["C:", "directory", "to", "delete"]))])
+    shutil_mock.assert_has_calls(
+        [call(os.sep.join(["C:", "directory", "to", "delete"]))]
+    )
 
 
 @patch("shutil.rmtree", return_value=MagicMock())
@@ -205,19 +253,31 @@ def test_when_delete_directory_and_dir_does_not_exist_then_no_shutil_call(
 @patch("shutil.move", return_value=MagicMock())
 def test_when_move_directory_and_correct_input_then_correct_call_made(shutil_mock, fs):
     with patch.object(fs, "path_exists", return_value=True):
-        fs.move_directory(os.sep.join(["C:", "source", "path", "dir"]), os.sep.join(["C:", "dest", "path", "dir"]))
-    shutil_mock.assert_has_calls([call(os.sep.join(["C:", "source", "path", "dir"]), os.sep.join(["C:", "dest", "path", "dir"]))])
+        fs.move_directory(
+            os.sep.join(["C:", "source", "path", "dir"]),
+            os.sep.join(["C:", "dest", "path", "dir"]),
+        )
+    shutil_mock.assert_has_calls(
+        [
+            call(
+                os.sep.join(["C:", "source", "path", "dir"]),
+                os.sep.join(["C:", "dest", "path", "dir"]),
+            )
+        ]
+    )
 
 
 @patch("shutil.move", return_value=MagicMock())
 def test_when_move_directory_and_incorrect_input_then_raise_error(shutil_mock, fs):
     with patch.object(fs, "path_exists", return_value=False):
         with raises(FileSystemError) as raised_error:
-            fs.move_directory(os.sep.join(["C:", "source", "path", "dir"]), os.sep.join(["C:", "dest", "path", "dir"]))
+            fs.move_directory(
+                os.sep.join(["C:", "source", "path", "dir"]),
+                os.sep.join(["C:", "dest", "path", "dir"]),
+            )
     assert not shutil_mock.called
-    assert (
-        raised_error.value.args[0]
-        == "Source path '{}' does not exist.".format(os.sep.join(["C:", "source", "path", "dir"]))
+    assert raised_error.value.args[0] == "Source path '{}' does not exist.".format(
+        os.sep.join(["C:", "source", "path", "dir"])
     )
 
 
@@ -226,7 +286,12 @@ def test_when_rename_directory_then_correct_call_made(shutil_mock, fs):
     with patch.object(fs, "path_exists", return_value=True):
         fs.rename_directory(os.sep.join(["C:", "source", "path", "old_dir"]), "new_dir")
     shutil_mock.assert_has_calls(
-        [call(os.sep.join(["C:", "source", "path", "old_dir"]), os.sep.join(["C:", "source", "path", "new_dir"]))]
+        [
+            call(
+                os.sep.join(["C:", "source", "path", "old_dir"]),
+                os.sep.join(["C:", "source", "path", "new_dir"]),
+            )
+        ]
     )
 
 
@@ -234,9 +299,10 @@ def test_when_rename_directory_then_correct_call_made(shutil_mock, fs):
 def test_when_rename_directory_and_wrong_input_then_raise_error(shutil_mock, fs):
     with patch.object(fs, "path_exists", return_value=False):
         with raises(FileSystemError) as raised_error:
-            fs.rename_directory(os.sep.join(["C:", "source", "path", "old_dir"]), "new_dir")
+            fs.rename_directory(
+                os.sep.join(["C:", "source", "path", "old_dir"]), "new_dir"
+            )
     assert not shutil_mock.called
-    assert (
-        raised_error.value.args[0]
-        == "Source path '{}' does not exist.".format(os.sep.join(["C:", "source", "path", "old_dir"]))
+    assert raised_error.value.args[0] == "Source path '{}' does not exist.".format(
+        os.sep.join(["C:", "source", "path", "old_dir"])
     )

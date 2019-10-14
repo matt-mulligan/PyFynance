@@ -24,7 +24,14 @@ def args():
 
 @fixture
 def task(args):
-    with patch("os.path.abspath", MagicMock(return_value=os.sep.join(["BASE", "REPO", "PATH", "PyFynance", "core", "config.py"]))):
+    with patch(
+        "os.path.abspath",
+        MagicMock(
+            return_value=os.sep.join(
+                ["BASE", "REPO", "PATH", "PyFynance", "core", "config.py"]
+            )
+        ),
+    ):
         return LoadTransactionsTask(args)
 
 
@@ -271,7 +278,17 @@ def test_when_after_task_and_failed_then_coorect_methods_called(task):
         [
             call.move_file(
                 "file1.ofx",
-                os.sep.join(["BASE", "REPO", "PATH", "input", "banking_transactions", "error", "file1.ofx_20150214101112"])
+                os.sep.join(
+                    [
+                        "BASE",
+                        "REPO",
+                        "PATH",
+                        "input",
+                        "banking_transactions",
+                        "error",
+                        "file1.ofx_20150214101112",
+                    ]
+                ),
             )
         ]
     )

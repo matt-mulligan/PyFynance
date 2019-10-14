@@ -6,5 +6,6 @@ install:
   - pipenv install
 script:
   - pytest --cov=PyFynance
+  - black --check .
 after_success:
   - coveralls
