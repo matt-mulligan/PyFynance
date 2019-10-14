@@ -1,5 +1,5 @@
 {
-    "version": 0.2,
+    "version": 1.0,
     "paths": {
         "repoPath": "${repo_base_path}",
         "codePath": "${repo_base_path}${sep}PyFynance",
@@ -7,6 +7,34 @@
         "outputPath": "${repo_base_path}${sep}output",
         "logsPath": "${repo_base_path}${sep}logs",
         "resourcesPath": "${repo_base_path}${sep}PyFynance${sep}resources",
-        "dbPath": "${repo_base_path}${sep}PyFynance${sep}resources${sep}db"
+        "dbPath": "${repo_base_path}${sep}PyFynance${sep}resources${sep}databases",
+        "testPath": "${repo_base_path}${sep}test"
+    },
+    "ofxParser": {
+        "objectTypes": ["banking_transactions"],
+        "castFields": ["dtposted", "trnamt"],
+        "htmlTags": ["br"]
+    },
+    "database": {
+        "dbNames": ["transactions"],
+        "tables": {
+            "transactions": ["transactions"],
+            "rules": ["base_rules, custom_rules"]
+        },
+        "columnSpecs": {
+            "transactions": {
+                "institution": "text",
+                "account": "text",
+                "tran_id": "text",
+                "tran_type": "text",
+                "amount": "decimal",
+                "narrative": "text",
+                "date_posted": "text",
+                "date_ingested": "text"
+            }
+        },
+        "primaryKeys": {
+            "transactions": ["institution", "account", "tran_id"]
+        }
     }
 }

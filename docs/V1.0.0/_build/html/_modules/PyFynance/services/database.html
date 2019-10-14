@@ -1,0 +1,575 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PyFynance.services.database &mdash; PyFynance  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/sphinx-test-results\common.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="PyFynance  documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PyFynance
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.resources.html">     Resources Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.schemas.html">     Schemas Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.services.html">     Services Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.tasks.html">     Tasks Package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyFynance</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>PyFynance.services.database</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for PyFynance.services.database</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="kn">from</span> <span class="nn">core.config</span> <span class="k">import</span> <span class="n">Configuration</span>
+<span class="kn">from</span> <span class="nn">core.exceptions</span> <span class="k">import</span> <span class="n">DatabaseError</span>
+
+
+<div class="viewcode-block" id="Database"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database">[docs]</a><span class="k">class</span> <span class="nc">Database</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The database service is responsible for all interactions with the sqlite3 databases within PyFynance and is written</span>
+<span class="sd">    as a light-weight API over the sqlite3 library.</span>
+
+<span class="sd">    This API class implements public methods over the standard database operations and are paramterised so that they</span>
+<span class="sd">    can be usable for a wide variety of use cases, while still proving option validation on their calls</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cursors</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_db_statements</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Database.start_db"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database.start_db">[docs]</a>    <span class="k">def</span> <span class="nf">start_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method will start the sqllite3 database specified. This method will create the connection and cursor</span>
+<span class="sd">        object to allow interaction with the database, as well as trigger the table create commands for that database.</span>
+
+<span class="sd">        The database must be within the config.database.db_name list or the service will thrown an error.</span>
+
+<span class="sd">        :param db_name: The name of the database to start</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param current: Signifies if the database service should load the current database (True) or the backup (False).</span>
+<span class="sd">            The default value for this value is True</span>
+<span class="sd">        :type current: Boolean</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Attempting to start the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_db_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
+            <span class="n">db_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_db_path</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">current</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cursors</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">current</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_build_tables</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Successfully started the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Exception occurred while starting database &#39;</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Database.stop_db"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database.stop_db">[docs]</a>    <span class="k">def</span> <span class="nf">stop_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method will stop the sqlite3 database specified. This method will also optionally commit changes to the</span>
+<span class="sd">        database and create a backup of the database if commit value is True</span>
+
+<span class="sd">        :param db_name: The name of the database connection to stop and commit/backup</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param commit: Value used to indicate if the database should be committed and backed up before</span>
+<span class="sd">            closing the connection</span>
+<span class="sd">        :type commit: Boolean</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Attempting to stop the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39; with commit &quot;</span>
+                              <span class="s2">&quot;set to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">commit</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_db_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">commit</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_commit_db</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">commit</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_backup_db</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Successfully stopped the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39; with commit &quot;</span>
+                              <span class="s2">&quot;set to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">commit</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Exception occurred while stopping database &#39;</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Database.insert"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This public method allows users to submit insert queries to the specified database and table to add data.</span>
+
+<span class="sd">        Example Calls:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            db.insert(&quot;database&quot;, &quot;table&quot;, {&quot;ID&quot;: 1, &quot;Name&quot;: &quot;Billy NoMates McGee&quot;})</span>
+<span class="sd">            # above code will insert a new row into database.table where the column &quot;ID&quot; is set to 1 and the column</span>
+<span class="sd">            # name is set to &quot;Billy NoMates McGee&quot; (why would his parents name him that?! so cruel)</span>
+
+<span class="sd">        :param db_name: the name of the database to query. This database must have already been started using</span>
+<span class="sd">            the start_db method</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param table: the name of the table to insert data into from the database specified</span>
+<span class="sd">        :type table: String</span>
+<span class="sd">        :param data: A dictionary of data to insert with key values being the column names and values</span>
+<span class="sd">            being the data to insert for that column</span>
+<span class="sd">        :type data: Dictionary</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Attempting insert of data into &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_db_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_table_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+            <span class="n">column_names</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">data_vals</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">data_val</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">column_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col_name</span><span class="p">)</span>
+                <span class="n">data_vals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cast_data_for_insert</span><span class="p">(</span><span class="n">data_val</span><span class="p">))</span>
+
+            <span class="n">columns</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">column_names</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_vals</span><span class="p">)</span>
+
+            <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;insert&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Successful insert of data into &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Exception occurred while inserting data into &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Database.select"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This public method allows users to submit select statements against the specified database and table.</span>
+
+<span class="sd">        This method allows users to specified the columns to be returned and any where conditions they want to apply to</span>
+<span class="sd">        the select statements</span>
+
+<span class="sd">        Example Calls:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            db.select(&quot;database&quot;, &quot;table&quot;)  # returns all columns for database.table</span>
+<span class="sd">            db.select(&quot;database&quot;, &quot;table&quot;, columns=[&quot;id&quot;, &quot;age&quot;])  # returns the ID and age columns of database.table</span>
+<span class="sd">            db.select(&quot;database&quot;, &quot;table&quot;, where=&quot;age &gt; 13&quot;)  # returns all columns from database.table where age &gt; 13</span>
+
+<span class="sd">        :param db_name: The name of the database to query. This database must have already been started using</span>
+<span class="sd">            the start_db method</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param table: The name of the table to query from the database specified</span>
+<span class="sd">        :type table: String</span>
+<span class="sd">        :param columns: Optional. List of columns to select from table. Default value is None and will select</span>
+<span class="sd">            all columns from the table</span>
+<span class="sd">        :type table: List</span>
+<span class="sd">        :param where: Optional. Where command to filter the select statement with. Default value is None.</span>
+<span class="sd">        :type where: String</span>
+<span class="sd">        :return: List: list of rows returned from the database</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Attempting select of data from &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_db_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_table_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+            <span class="n">sql_key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{cols}</span><span class="s2">_</span><span class="si">{wheres}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span> <span class="k">if</span> <span class="n">columns</span> <span class="k">else</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">wheres</span><span class="o">=</span><span class="s2">&quot;where&quot;</span> <span class="k">if</span> <span class="n">where</span> <span class="k">else</span> <span class="s2">&quot;none&quot;</span><span class="p">)</span>
+            <span class="n">sql</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;none_none&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">][</span><span class="s2">&quot;select_all_from&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;columns_none&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">][</span><span class="s2">&quot;select_columns_from&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;none_where&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">][</span><span class="s2">&quot;select_all_from_where&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;columns_where&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">][</span><span class="s2">&quot;select_columns_from_where&quot;</span><span class="p">]</span>
+            <span class="p">}[</span><span class="n">sql_key</span><span class="p">]</span>
+
+            <span class="n">column_names</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="k">if</span> <span class="n">columns</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">sql</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">column_names</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Successful select of data from &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">data</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Exception occurred while selecting data from &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">_build_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method will build all of the table create statements for the database specified</span>
+
+<span class="sd">        :param db_name: The name of the database to build the tables for.</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">table_creates</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;transactions&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;table_name&quot;</span><span class="p">:</span> <span class="s2">&quot;transactions&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;col_spec&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">column_specs</span><span class="p">[</span><span class="s2">&quot;transactions&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;primary_keys&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">primary_keys</span><span class="o">.</span><span class="n">transactions</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}[</span><span class="n">db_name</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">table_info</span> <span class="ow">in</span> <span class="n">table_creates</span><span class="p">:</span>
+            <span class="n">column_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_column_spec</span><span class="p">(</span><span class="n">table_info</span><span class="p">[</span><span class="s2">&quot;col_spec&quot;</span><span class="p">])</span>
+            <span class="n">primary_keys</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">table_info</span><span class="p">[</span><span class="s2">&quot;primary_keys&quot;</span><span class="p">])</span>
+            <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;create&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table_info</span><span class="p">[</span><span class="s2">&quot;table_name&quot;</span><span class="p">],</span> <span class="n">col_spec</span><span class="o">=</span><span class="n">column_spec</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">primary_keys</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_commit_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method will commit the changes to the database file.</span>
+
+<span class="sd">        :param db_name: The name of the database to commit</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_backup_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method will backup the database instance that has just been stopped.</span>
+
+<span class="sd">        :param db_name: The name of the database to backup</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+        <span class="n">source_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">db_path</span><span class="p">,</span> <span class="s2">&quot;current&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">)])</span>
+        <span class="n">backup_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">db_path</span><span class="p">,</span> <span class="s2">&quot;backup&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)])</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">source_path</span><span class="p">,</span> <span class="n">backup_path</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">sql</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method will execute a database command on the specified database.</span>
+
+<span class="sd">        :param db_name: The name of the database that the command should be run against</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param sql: The sql command that should be executed</span>
+<span class="sd">        :type sql: String</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Attempting to execute sql command &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span>
+        <span class="n">execute_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cursors</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Successful execution of sql command &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">execute_output</span>
+
+    <span class="k">def</span> <span class="nf">_check_db_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method will check that the given db name exists within the names list from the config service.</span>
+
+<span class="sd">        :param db_name: The name of the database to check</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">db_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">db_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Database name specified is not an acceptable PyFynance database. Acceptable &quot;</span>
+                                <span class="s2">&quot;PyFynance databases include </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">db_names</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_check_table_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method will check that the given table name is a known table within the given database</span>
+
+<span class="sd">        :param db_name: The name of the database to check against</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param table: The name of the table to check</span>
+<span class="sd">        :type table: String</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">tables</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;transactions&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">transactions</span><span class="p">,</span>
+            <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">rules</span>
+        <span class="p">}[</span><span class="n">db_name</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">table</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Table name &#39;</span><span class="si">{}</span><span class="s2">&#39; is not a known table for database &#39;</span><span class="si">{}</span><span class="s2">&#39;. Known tables are &#39;</span><span class="si">{}</span><span class="s2">&#39; &quot;</span><span class="o">.</span>
+                                <span class="nb">format</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">tables</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_get_db_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        this private method will return the correct path to the database based on the database name and if they wish</span>
+<span class="sd">        to access the current or backup DB</span>
+
+<span class="sd">        :param db_name: The name of the database to find the path for.</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :param current: Optional. Signifies if the path to be returned should be to the current or backup database.</span>
+<span class="sd">        Default value is to return the current DB</span>
+<span class="sd">        :type current: Boolean</span>
+<span class="sd">        :return: String: path to the database file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;current&quot;</span> <span class="k">if</span> <span class="n">current</span> <span class="k">else</span> <span class="s2">&quot;backup&quot;</span>
+        <span class="n">db_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span> <span class="k">if</span> <span class="n">current</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_backup_db_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">db_path</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">db_name</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_get_backup_db_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method will determine the latest backup version of the db_name that is provided</span>
+
+<span class="sd">        :param db_name: The name of the database to find</span>
+<span class="sd">        :type db_name: String</span>
+<span class="sd">        :return: the name of the latest backup for that database</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">search_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">db_path</span><span class="p">,</span> <span class="s2">&quot;backup&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">*.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">)])</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">search_path</span><span class="p">)</span>
+        <span class="n">paths</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">paths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_build_column_spec</span><span class="p">(</span><span class="n">col_spec</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method will build the column specification string required to create a table.</span>
+
+<span class="sd">        :param col_spec: Contains the column names and data types for the database table</span>
+<span class="sd">        :type col_spec: Dictionary</span>
+<span class="sd">        :return: String: formatted column spec string for table create statement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">column_specs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">col_type</span> <span class="ow">in</span> <span class="n">col_spec</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">column_specs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span> <span class="n">col_type</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">column_specs</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_set_db_statements</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        this private static method creates a dictionary of standard sql statements to be used by the Database class.</span>
+
+<span class="sd">        :return: Dictionary: sql statements to be used by the database class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;create&quot;</span><span class="p">:</span> <span class="s2">&quot;CREATE TABLE IF NOT EXISTS </span><span class="si">{table}</span><span class="s2"> (</span><span class="si">{col_spec}</span><span class="s2">, PRIMARY KEY (</span><span class="si">{keys}</span><span class="s2">));&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;insert&quot;</span><span class="p">:</span> <span class="s2">&quot;INSERT INTO </span><span class="si">{table}</span><span class="s2">(</span><span class="si">{columns}</span><span class="s2">) VALUES(</span><span class="si">{data}</span><span class="s2">);&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;select&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;select_all_from&quot;</span><span class="p">:</span> <span class="s2">&quot;SELECT * FROM </span><span class="si">{table}</span><span class="s2">;&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;select_columns_from&quot;</span><span class="p">:</span> <span class="s2">&quot;SELECT </span><span class="si">{columns}</span><span class="s2"> FROM </span><span class="si">{table}</span><span class="s2">;&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;select_all_from_where&quot;</span><span class="p">:</span> <span class="s2">&quot;SELECT * FROM </span><span class="si">{table}</span><span class="s2"> WHERE </span><span class="si">{where}</span><span class="s2">;&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;select_columns_from_where&quot;</span><span class="p">:</span> <span class="s2">&quot;SELECT </span><span class="si">{columns}</span><span class="s2"> FROM </span><span class="si">{table}</span><span class="s2"> WHERE </span><span class="si">{where}</span><span class="s2">;&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_cast_data_for_insert</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private static method will correctly cast data based on its data type for insertion into a table</span>
+<span class="sd">        using sqlite3</span>
+
+<span class="sd">        :param data: ANY: the data that needs to be cast</span>
+<span class="sd">        :return: ANY: returns the correctly cast data for insertion</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matt Mulligan.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

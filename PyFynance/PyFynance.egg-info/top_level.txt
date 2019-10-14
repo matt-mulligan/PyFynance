@@ -1,0 +1,5 @@
+core
+resources
+schemas
+services
+tasks

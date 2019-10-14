@@ -1,0 +1,11 @@
+dist: xenial
+language: python
+python: 3.7.4
+install:
+  - pip install pipenv
+  - pipenv install
+script:
+  - pytest --cov=PyFynance
+  - black --check .
+after_success:
+  - coveralls

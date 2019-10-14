@@ -1,0 +1,4 @@
+1. change directory to the doc/version folder
+2. run command "pipenv run make clean"
+3. run command "pipenv run sphinx-apidoc -e -M -o .\apidoc ..\..\PyFynance"
+4. run command "pipenv run make html"

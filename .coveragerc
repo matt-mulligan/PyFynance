@@ -1,0 +1,8 @@
+[run]
+omit = 
+	# windows
+	PyFynance\__main__.py
+	PyFynance\setup.py
+	# unix
+	PyFynance/__main__.py
+	PyFynance/setup.py

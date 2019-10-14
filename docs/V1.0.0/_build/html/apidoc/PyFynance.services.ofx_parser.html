@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Services/OFX Parser Module &mdash; PyFynance  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/sphinx-test-results\common.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PyFynance  documentation" href="../index.html"/>
+        <link rel="up" title="PyFynance Services Package" href="PyFynance.services.html"/>
+        <link rel="next" title="PyFynance Tasks Package" href="PyFynance.tasks.html"/>
+        <link rel="prev" title="Services/Database Module" href="PyFynance.services.database.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PyFynance
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="PyFynance.services.html">     Services Package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.services.html#service-modules">Service Modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="PyFynance.services.database.html">Services/Database Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Services/OFX Parser Module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyFynance</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="PyFynance.services.html">PyFynance Services Package</a> &raquo;</li>
+        
+      <li>Services/OFX Parser Module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/apidoc/PyFynance.services.ofx_parser.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-PyFynance.services.ofx_parser">
+<span id="services-ofx-parser-module"></span><h1>Services/OFX Parser Module<a class="headerlink" href="#module-PyFynance.services.ofx_parser" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="PyFynance.services.ofx_parser.OFXParser">
+<em class="property">class </em><code class="sig-prename descclassname">PyFynance.services.ofx_parser.</code><code class="sig-name descname">OFXParser</code><span class="sig-paren">(</span><em class="sig-param">config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/ofx_parser.html#OFXParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.ofx_parser.OFXParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The OFX Parser class is designed to parse input data in the form of OFX/QFX files.</p>
+<p>OFX is a standardised finance information exchange format that PyFynance accepts as an input.</p>
+<dl class="simple">
+<dt>Currently this parsing API only supports OFX files that meet the following specification:</dt><dd><ul class="simple">
+<li><p>OFX Specification: 1.0.2</p></li>
+<li><p>OFX Object Types: Banking-Transactions (found within chapter 11 of the OFX specification)</p></li>
+</ul>
+</dd>
+</dl>
+<p>OFX Specifications can be found here for reference: <a class="reference external" href="https://www.ofx.net/downloads.html">https://www.ofx.net/downloads.html</a></p>
+<p>This class can be used to parse the ofx file inputs into python objects utilising marshmallow schemas.
+this class is intended as a reusable API class that can be extended to support other OFX specification types and
+versions</p>
+<dl class="method">
+<dt id="PyFynance.services.ofx_parser.OFXParser.parse">
+<code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param">ofx_object_type</em>, <em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/ofx_parser.html#OFXParser.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.ofx_parser.OFXParser.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>This public method will parse a ofx file from the provided path with the methods and schemas matching the
+OFX object type value provided</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ofx_object_type</strong> (<em>String</em>) – the type of objects to parse from the ofx file. Currently supported values are
+[“banking_transactions”]</p></li>
+<li><p><strong>path</strong> (<em>String</em>) – The path to the input file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a python object containing all of the parsed ofx data</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="PyFynance.tasks.html" class="btn btn-neutral float-right" title="PyFynance Tasks Package" accesskey="n">Next →</a>
+      
+      
+        <a href="PyFynance.services.database.html" class="btn btn-neutral" title="Services/Database Module" accesskey="p">← Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matt Mulligan.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
