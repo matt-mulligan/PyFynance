@@ -7,5 +7,6 @@ install:
 script:
   - pytest --cov=PyFynance
   - black --check .
+  - behave ./test/behave
 after_success:
   - coveralls
