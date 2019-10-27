@@ -187,7 +187,7 @@
 
 <span class="sd">    The load transactions task will load all ofx files it find in the input/banking_transactions folder of this repo.</span>
 <span class="sd">    Once a file has been loaded using the load_transaction task it will be moved to either:</span>
-<span class="sd">        * /input/banking_transactions/ingested      if the task was successful</span>
+<span class="sd">        * /input/banking_transactions/processed      if the task was successful</span>
 <span class="sd">        * /input/banking_transactions/error         if the task failed</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -243,11 +243,11 @@
         <span class="n">files_to_parse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_files_to_parse</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">files_to_parse</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_transactions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ofx_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;banking_transactions&quot;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_move_transaction_file_to_ingested_folder</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_move_transaction_file_to_processed_folder</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_files_to_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will determine the full file paths to all transaction files that need to be ingested.</span>
+<span class="sd">        This private method will determine the full file paths to all transaction files that need to be processed.</span>
 
 <span class="sd">        :return: A list of file paths that either end in .ofx or .qfx</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -278,23 +278,23 @@
             <span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;transactions&quot;</span><span class="p">,</span> <span class="s2">&quot;transactions&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_move_transaction_file_to_ingested_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ingested_file</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_move_transaction_file_to_processed_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">processed_file</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will move the already ingested file from the input folder into the ingested folder</span>
+<span class="sd">        This private method will move the already processed file from the input folder into the processed folder</span>
 
-<span class="sd">        :param ingested_file: Path to the ingested file</span>
-<span class="sd">        :type ingested_file: String</span>
+<span class="sd">        :param processed_file: Path to the processed file</span>
+<span class="sd">        :type processed_file: String</span>
 <span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">dest_filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ingested_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">))</span>
-        <span class="n">dest_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;banking_transactions&quot;</span><span class="p">,</span> <span class="s2">&quot;ingested&quot;</span><span class="p">,</span> <span class="n">dest_filename</span><span class="p">])</span>
-        <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">ingested_file</span><span class="p">,</span> <span class="n">dest_path</span><span class="p">)</span>
+        <span class="n">dest_filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">processed_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">))</span>
+        <span class="n">dest_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;banking_transactions&quot;</span><span class="p">,</span> <span class="s2">&quot;processed&quot;</span><span class="p">,</span> <span class="n">dest_filename</span><span class="p">])</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">processed_file</span><span class="p">,</span> <span class="n">dest_path</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_filter_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This private method will filter down the list of transactions to only the ones that have not already been</span>
-<span class="sd">        ingested.</span>
+<span class="sd">        processed.</span>
 
 <span class="sd">        This is achieved by deriving a composite key for all of the loaded transactions and checking to see if that</span>
 <span class="sd">        key appears already in the tranasactions database table.</span>

@@ -30,7 +30,7 @@
                 "amount": "decimal",
                 "narrative": "text",
                 "date_posted": "text",
-                "date_ingested": "text"
+                "date_processed": "text"
             }
         },
         "primaryKeys": {
