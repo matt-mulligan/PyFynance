@@ -12,7 +12,7 @@
     },
     "ofxParser": {
         "objectTypes": ["banking_transactions"],
-        "castFields": ["dtposted", "trnamt"],
+        "castFields": ["dtposted", "dtuser", "trnamt"],
         "htmlTags": ["br"]
     },
     "database": {

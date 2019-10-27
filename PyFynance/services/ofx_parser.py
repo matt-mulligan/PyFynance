@@ -129,6 +129,7 @@ class OFXParser:
                 if key in self._config.ofx_parser.cast_fields:
                     cast_method = {
                         "dtposted": self._cast_str_to_datetime_string,
+                        "dtuser": self._cast_str_to_datetime_string,
                         "trnamt": self._cast_str_to_decimal,
                     }[key]
 

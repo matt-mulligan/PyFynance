@@ -10,6 +10,7 @@ class OFXBankingTransactionSchema(Schema):
 
     trn_type = fields.Str(data_key="trntype")
     date_posted = fields.DateTime(data_key="dtposted")
+    date_user = fields.DateTime(data_key="dtuser", allow_none=True)
     amount = fields.Decimal(data_key="trnamt")
     fitid = fields.Str()
     name = fields.Str(allow_none=True)

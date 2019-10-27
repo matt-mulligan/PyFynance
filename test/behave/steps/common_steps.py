@@ -89,6 +89,27 @@ def step_impl(context, filename, input_type, state_folder):
     copy_file(source_path, dest_path)
 
 
+@step(
+    "db resource '{resource_name}' is placed in '{state_folder}' folder as '{db_type}' database named '{db_name}'"
+)
+def step_impl(context, resource_name, state_folder, db_type, db_name):
+    config = Configuration()
+    source_path = os.sep.join(
+        [
+            config.paths.test_path,
+            "resources",
+            context.feature.name,
+            "database_files",
+            db_type,
+            resource_name,
+        ]
+    )
+    dest_path = os.sep.join(
+        [config.paths.resources_path, "databases", state_folder, db_name]
+    )
+    copy_file(source_path, dest_path)
+
+
 @when("I run PyFynance with the arguments '{cmd_line_args}'")
 def step_impl(context, cmd_line_args):
     """
@@ -175,3 +196,8 @@ def step_impl(context, sel_col, table_name, db_name, state_folder, exp_data, ord
     db_cursor.close()
 
     assert str(result) == exp_data
+
+
+@step("message '{exp_message}' can be found in the PyFynance log")
+def step_impl(context, exp_message):
+    assert exp_message in context.log

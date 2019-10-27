@@ -141,7 +141,9 @@ class LoadTransactionsTask(BaseTask):
         if len(files_to_parse) == 0:
             raise TaskLoadTransactionsError(
                 "No input ofx/qfx files found in input path '{}'.  Are you sure you "
-                "placed the file there?".format(transactions_input_path)
+                "placed the file there? Is the file type ofx/qfx?".format(
+                    transactions_input_path
+                )
             )
 
     def _write_transactions_to_db(self):

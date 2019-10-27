@@ -56,7 +56,7 @@ def read_log_file(task_type):
     logs.sort(reverse=True)
 
     with open(logs[0]) as logfile:
-        return logfile.readlines()
+        return logfile.read()
 
 
 def get_db_cursor(db_name, state_folder):
