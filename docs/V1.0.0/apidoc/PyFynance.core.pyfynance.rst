@@ -1,5 +1,5 @@
-PyFynance Application Module
-============================
+PyFynance.core.pyfynance module
+===============================
 
 .. automodule:: PyFynance.core.pyfynance
    :members:

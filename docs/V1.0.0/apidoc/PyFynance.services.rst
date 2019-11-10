@@ -1,4 +1,4 @@
-PyFynance Services Package
+PyFynance.services package
 ==========================
 
 .. automodule:: PyFynance.services
@@ -6,9 +6,11 @@ PyFynance Services Package
    :undoc-members:
    :show-inheritance:
 
-Service Modules
-###############
+Submodules
+----------
+
 .. toctree::
 
-   Services/Database Module <PyFynance.services.database>
-   Services/OFX Parser Module <PyFynance.services.ofx_parser>
+   PyFynance.services.database
+   PyFynance.services.file_system
+   PyFynance.services.ofx_parser

@@ -1,5 +1,5 @@
-Schemas/OFX Banking Transaction Module
-======================================
+PyFynance.schemas.ofx\_banking\_transaction module
+==================================================
 
 .. automodule:: PyFynance.schemas.ofx_banking_transaction
    :members:

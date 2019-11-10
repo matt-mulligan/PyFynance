@@ -17,4 +17,11 @@ We use pytest (https://pypi.org/project/pytest/) for our unit testing suite and 
 Unit Test Suite Results
 =======================
 
-.. test-results:: tests/unit/PyFynance_unit_tests_1.0.0.xml
+.. test-results:: tests/unit/PyFynance_unit_tests.xml
+
+|
+
+Acceptance Test Suite Results
+=============================
+
+.. test-results:: tests/acceptance/PyFynance_acceptance_tests.xml

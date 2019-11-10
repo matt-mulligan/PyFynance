@@ -22,6 +22,7 @@ pre-commit = "*"
 pyfynance = {path = "./PyFynance",editable = true}
 pytest-cov = "*"
 coveralls = "*"
+test-behave = "*"
 
 [requires]
 python_version = "3.7"

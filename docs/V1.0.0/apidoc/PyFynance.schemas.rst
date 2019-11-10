@@ -1,4 +1,4 @@
-PyFynance Schemas Package
+PyFynance.schemas package
 =========================
 
 .. automodule:: PyFynance.schemas
@@ -6,10 +6,11 @@ PyFynance Schemas Package
    :undoc-members:
    :show-inheritance:
 
-Schemas Modules
-###############
+Submodules
+----------
+
 .. toctree::
 
-   Schemas/Config Module <PyFynance.schemas.config>
-   Schemas/Model Module <PyFynance.schemas.model>
-   Schemas/OFX Banking Transaction Module <PyFynance.schemas.ofx_banking_transaction>
+   PyFynance.schemas.config
+   PyFynance.schemas.model
+   PyFynance.schemas.ofx_banking_transaction

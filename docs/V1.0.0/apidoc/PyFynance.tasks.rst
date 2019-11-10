@@ -1,4 +1,4 @@
-PyFynance Tasks Package
+PyFynance.tasks package
 =======================
 
 .. automodule:: PyFynance.tasks
@@ -6,9 +6,10 @@ PyFynance Tasks Package
    :undoc-members:
    :show-inheritance:
 
-Task Modules
-############
+Submodules
+----------
+
 .. toctree::
 
-   Tasks/Base Task Module <PyFynance.tasks.task_base>
-   Tasks/Load Transactions Task Module <PyFynance.tasks.task_load_transactions>
+   PyFynance.tasks.task_base
+   PyFynance.tasks.task_load_transactions
