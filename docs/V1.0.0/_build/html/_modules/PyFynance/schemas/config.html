@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PyFynance.schemas.config &mdash; PyFynance  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/sphinx-test-results\common.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="PyFynance  documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PyFynance
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/tasks.html">     PyFynance Tasks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidocs.html">     PyFynance API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyFynance</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>PyFynance.schemas.config</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for PyFynance.schemas.config</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">marshmallow</span> <span class="k">import</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">post_load</span>
+<span class="kn">from</span> <span class="nn">schemas.model</span> <span class="k">import</span> <span class="n">Model</span>
+
+
+<div class="viewcode-block" id="ConfigPathsSchema"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.ConfigPathsSchema">[docs]</a><span class="k">class</span> <span class="nc">ConfigPathsSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class represents the schema of a configuration.paths object. Marshmallow uses this class to serialise and</span>
+<span class="sd">    deserialize python objects to and from json</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">repo_path</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;repoPath&quot;</span><span class="p">)</span>
+    <span class="n">code_path</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;codePath&quot;</span><span class="p">)</span>
+    <span class="n">input_path</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;inputPath&quot;</span><span class="p">)</span>
+    <span class="n">output_path</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;outputPath&quot;</span><span class="p">)</span>
+    <span class="n">logs_path</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;logsPath&quot;</span><span class="p">)</span>
+    <span class="n">resources_path</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;resourcesPath&quot;</span><span class="p">)</span>
+    <span class="n">db_path</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;dbPath&quot;</span><span class="p">)</span>
+    <span class="n">test_path</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Str</span><span class="p">(</span><span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;testPath&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ConfigPathsSchema.create"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.ConfigPathsSchema.create">[docs]</a>    <span class="nd">@post_load</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        called by marshmallow package when deserialising completes in order to construct a valid instance.</span>
+<span class="sd">        :param data:</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Model</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="OFXParserSchema"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.OFXParserSchema">[docs]</a><span class="k">class</span> <span class="nc">OFXParserSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class represents the schema of a configuration.ofx_parser object. Marshmallow uses this class to serialise and</span>
+<span class="sd">    deserialize python objects to and from json</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">object_types</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;objectTypes&quot;</span><span class="p">)</span>
+    <span class="n">cast_fields</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;castFields&quot;</span><span class="p">)</span>
+    <span class="n">html_tags</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;htmlTags&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="OFXParserSchema.create"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.OFXParserSchema.create">[docs]</a>    <span class="nd">@post_load</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        called by marshmallow package when deserialising completes in order to construct a valid instance.</span>
+<span class="sd">        :param data:</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Model</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DatabaseTablesSchema"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.DatabaseTablesSchema">[docs]</a><span class="k">class</span> <span class="nc">DatabaseTablesSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class represents the schema of a configuration.database.tables object. Marshmallow uses this class to</span>
+<span class="sd">    serialise and deserialize python objects to and from json</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">transactions</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">String</span><span class="p">())</span>
+    <span class="n">rules</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">String</span><span class="p">())</span>
+
+<div class="viewcode-block" id="DatabaseTablesSchema.create"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.DatabaseTablesSchema.create">[docs]</a>    <span class="nd">@post_load</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        called by marshmallow package when deserialising completes in order to construct a valid instance.</span>
+<span class="sd">        :param data:</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Model</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DatabaseColumnSpecsSchema"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.DatabaseColumnSpecsSchema">[docs]</a><span class="k">class</span> <span class="nc">DatabaseColumnSpecsSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class represents the schema of a configuration.database.column_spec object. Marshmallow uses this class to serialise and</span>
+<span class="sd">    deserialize python objects to and from json</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">transactions</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Dict</span><span class="p">(</span><span class="n">keys</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">Str</span><span class="p">(),</span> <span class="n">values</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">Str</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="DatabasePrimaryKeysSchema"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.DatabasePrimaryKeysSchema">[docs]</a><span class="k">class</span> <span class="nc">DatabasePrimaryKeysSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class represents the schema of a configuration.database.primary_keys object. Marshmallow uses this class to serialise and</span>
+<span class="sd">    deserialize python objects to and from json</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">transactions</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">String</span><span class="p">())</span>
+
+<div class="viewcode-block" id="DatabasePrimaryKeysSchema.create"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.DatabasePrimaryKeysSchema.create">[docs]</a>    <span class="nd">@post_load</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        called by marshmallow package when deserialising completes in order to construct a valid instance.</span>
+<span class="sd">        :param data:</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Model</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DatabaseSchema"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.DatabaseSchema">[docs]</a><span class="k">class</span> <span class="nc">DatabaseSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class represents the schema of a configuration.database object. Marshmallow uses this class to serialise and</span>
+<span class="sd">    deserialize python objects to and from json</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">db_names</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">String</span><span class="p">(),</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;dbNames&quot;</span><span class="p">)</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Nested</span><span class="p">(</span><span class="n">DatabaseTablesSchema</span><span class="p">())</span>
+    <span class="n">column_specs</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Nested</span><span class="p">(</span><span class="n">DatabaseColumnSpecsSchema</span><span class="p">(),</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;columnSpecs&quot;</span><span class="p">)</span>
+    <span class="n">primary_keys</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Nested</span><span class="p">(</span><span class="n">DatabasePrimaryKeysSchema</span><span class="p">(),</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;primaryKeys&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DatabaseSchema.create"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.DatabaseSchema.create">[docs]</a>    <span class="nd">@post_load</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        called by marshmallow package when deserialising completes in order to construct a valid instance.</span>
+<span class="sd">        :param data:</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Model</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ConfigSchema"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.ConfigSchema">[docs]</a><span class="k">class</span> <span class="nc">ConfigSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    THis class represents the schema of a configuration object. Marshmallow uses this class to serialise and</span>
+<span class="sd">    deserialize python objects to and from json</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">version</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Decimal</span><span class="p">()</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Nested</span><span class="p">(</span><span class="n">ConfigPathsSchema</span><span class="p">)</span>
+    <span class="n">ofx_parser</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Nested</span><span class="p">(</span><span class="n">OFXParserSchema</span><span class="p">,</span> <span class="n">data_key</span><span class="o">=</span><span class="s2">&quot;ofxParser&quot;</span><span class="p">)</span>
+    <span class="n">database</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Nested</span><span class="p">(</span><span class="n">DatabaseSchema</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ConfigSchema.create"><a class="viewcode-back" href="../../../apidoc/PyFynance.schemas.config.html#PyFynance.schemas.config.ConfigSchema.create">[docs]</a>    <span class="nd">@post_load</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        called by marshmallow package when deserialising completes in order to construct a valid instance.</span>
+<span class="sd">        :param data:</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Model</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matt Mulligan.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
