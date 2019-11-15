@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PyFynance Architecture &mdash; PyFynance  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/sphinx-test-results\common.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="PyFynance  documentation" href="index.html"/>
+        <link rel="next" title="PyFynance Tasks" href="tasks/tasks.html"/>
+        <link rel="prev" title="PyFynance - Personal Pythonic Finance!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PyFynance
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">     PyFynance Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#guiding-design-patterns">Guiding Design Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#task-design">Task Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#runner-design">Runner Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#package-structure">Package Structure</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tasks/tasks.html">     PyFynance Tasks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apidocs.html">     PyFynance API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyFynance</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>PyFynance Architecture</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/architecture.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyfynance-architecture">
+<h1>PyFynance Architecture<a class="headerlink" href="#pyfynance-architecture" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="guiding-design-patterns">
+<h2>Guiding Design Patterns<a class="headerlink" href="#guiding-design-patterns" title="Permalink to this headline">¶</a></h2>
+<p>PyFynance is built on a Task/Runner architecture where a task represents an end-to-end function of PyFynance that end users will use directly.
+The runner is the core/PyFynance module, which controls the flow of execution through all tasks</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="task-design">
+<h2>Task Design<a class="headerlink" href="#task-design" title="Permalink to this headline">¶</a></h2>
+<p>PyFynance task structure implements abstract base classes to ensure consistency in task design.</p>
+<p>all tasks in PyFyance must be child classes that implement tasks/base_task.</p>
+<p>The purpose of this is to ensure that all tasks remain consisten, and that all tasks implement the require abstract methods needed for the runner (core/PyFynance) to proerly trigger and manage each task.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The abstract methods required to be implemented by each task are:</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt>before_task</dt><dd><p>Any setup steps required to run your task. e.g. starting the database services</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>do_task</dt><dd><p>the actual business logic of your task</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>after_task</dt><dd><p>any cleanup / validation required by the task</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="runner-design">
+<h2>Runner Design<a class="headerlink" href="#runner-design" title="Permalink to this headline">¶</a></h2>
+<p>The purpose of the runner (core/PyFynance) within PyFynance is to control the flow of the execution through all tasks. This, along with tasks being abstract meta-classes, ensures that all tasks execute in a predictable way.</p>
+<p>The benefits of this are that tasks always executing the same base steps, in the same order, with the same error management and logging practises built throught.</p>
+<p>This ensure that PyFYnance will always be easy to maintain and extend by simply adding a new child task that implements the abstract base methods of base_task.</p>
+<p>All of the orchestration and triggering of tasks are controlled by the runner module, making PyFynance tasks simple to integrate.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="package-structure">
+<h2>Package Structure<a class="headerlink" href="#package-structure" title="Permalink to this headline">¶</a></h2>
+<p>PyFynance implements a logical package structure to manage the codebase as follows:</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Core Package</dt><dd><p>Contains all the core code modules required to run the higher level packages such as the runner module, the config service and exception classes.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Resources Package</dt><dd><p>Contains all of the data assets required by or created by PyFynance, such as the config jsons and sqlite3 databases</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Schemas Package</dt><dd><p>Contains all of the marshmallow schemas used by PyFynance of serialisation/deserialisation of data</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Services Package</dt><dd><p>Contains all of the service modules that Interact with external entities and truely act as API’s. Examples include the Database service (sqlite3 API) and the OFX Parser Service</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Tasks Package</dt><dd><p>Contains all of the tasks that PyFynance can run and their business logic, including the base_task that all tasks inherit from.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tasks/tasks.html" class="btn btn-neutral float-right" title="PyFynance Tasks" accesskey="n">Next →</a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="PyFynance - Personal Pythonic Finance!" accesskey="p">← Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matt Mulligan.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

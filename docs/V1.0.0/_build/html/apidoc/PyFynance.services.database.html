@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PyFynance.services.database module &mdash; PyFynance  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/sphinx-test-results\common.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PyFynance  documentation" href="../index.html"/>
+        <link rel="up" title="PyFynance.services package" href="PyFynance.services.html"/>
+        <link rel="next" title="PyFynance.services.file_system module" href="PyFynance.services.file_system.html"/>
+        <link rel="prev" title="PyFynance.services package" href="PyFynance.services.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PyFynance
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/tasks.html">     PyFynance Tasks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../apidocs.html">     PyFynance API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.services.html">     Services Package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="PyFynance.services.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PyFynance.services.database module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.services.file_system.html">PyFynance.services.file_system module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.services.ofx_parser.html">PyFynance.services.ofx_parser module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyFynance</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../apidocs.html">PyFynance API Documentation</a> &raquo;</li>
+        
+          <li><a href="PyFynance.services.html">PyFynance.services package</a> &raquo;</li>
+        
+      <li>PyFynance.services.database module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/apidoc/PyFynance.services.database.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-PyFynance.services.database">
+<span id="pyfynance-services-database-module"></span><h1>PyFynance.services.database module<a class="headerlink" href="#module-PyFynance.services.database" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="PyFynance.services.database.Database">
+<em class="property">class </em><code class="sig-prename descclassname">PyFynance.services.database.</code><code class="sig-name descname">Database</code><a class="reference internal" href="../_modules/PyFynance/services/database.html#Database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.database.Database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The database service is responsible for all interactions with the sqlite3 databases within PyFynance and is written
+as a light-weight API over the sqlite3 library.</p>
+<p>This API class implements public methods over the standard database operations and are paramterised so that they
+can be usable for a wide variety of use cases, while still proving option validation on their calls</p>
+<dl class="method">
+<dt id="PyFynance.services.database.Database.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param">db_name</em>, <em class="sig-param">table</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/database.html#Database.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.database.Database.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>This public method allows users to submit insert queries to the specified database and table to add data.</p>
+<p>Example Calls:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;database&quot;</span><span class="p">,</span> <span class="s2">&quot;table&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;ID&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="s2">&quot;Billy NoMates McGee&quot;</span><span class="p">})</span>
+<span class="c1"># above code will insert a new row into database.table where the column &quot;ID&quot; is set to 1 and the column</span>
+<span class="c1"># name is set to &quot;Billy NoMates McGee&quot; (why would his parents name him that?! so cruel)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>db_name</strong> (<em>String</em>) – the name of the database to query. This database must have already been started using
+the start_db method</p></li>
+<li><p><strong>table</strong> (<em>String</em>) – the name of the table to insert data into from the database specified</p></li>
+<li><p><strong>data</strong> (<em>Dictionary</em>) – A dictionary of data to insert with key values being the column names and values
+being the data to insert for that column</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="PyFynance.services.database.Database.select">
+<code class="sig-name descname">select</code><span class="sig-paren">(</span><em class="sig-param">db_name</em>, <em class="sig-param">table</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">where=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/database.html#Database.select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.database.Database.select" title="Permalink to this definition">¶</a></dt>
+<dd><p>This public method allows users to submit select statements against the specified database and table.</p>
+<p>This method allows users to specified the columns to be returned and any where conditions they want to apply to
+the select statements</p>
+<p>Example Calls:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;database&quot;</span><span class="p">,</span> <span class="s2">&quot;table&quot;</span><span class="p">)</span>  <span class="c1"># returns all columns for database.table</span>
+<span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;database&quot;</span><span class="p">,</span> <span class="s2">&quot;table&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">])</span>  <span class="c1"># returns the ID and age columns of database.table</span>
+<span class="n">db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;database&quot;</span><span class="p">,</span> <span class="s2">&quot;table&quot;</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s2">&quot;age &gt; 13&quot;</span><span class="p">)</span>  <span class="c1"># returns all columns from database.table where age &gt; 13</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>db_name</strong> (<em>String</em>) – The name of the database to query. This database must have already been started using
+the start_db method</p></li>
+<li><p><strong>table</strong> (<em>List</em>) – The name of the table to query from the database specified</p></li>
+<li><p><strong>columns</strong> – Optional. List of columns to select from table. Default value is None and will select
+all columns from the table</p></li>
+<li><p><strong>where</strong> (<em>String</em>) – Optional. Where command to filter the select statement with. Default value is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List: list of rows returned from the database</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="PyFynance.services.database.Database.start_db">
+<code class="sig-name descname">start_db</code><span class="sig-paren">(</span><em class="sig-param">db_name</em>, <em class="sig-param">current=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/database.html#Database.start_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.database.Database.start_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method will start the sqllite3 database specified. This method will create the connection and cursor
+object to allow interaction with the database, as well as trigger the table create commands for that database.</p>
+<p>The database must be within the config.database.db_name list or the service will thrown an error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>db_name</strong> (<em>String</em>) – The name of the database to start</p></li>
+<li><p><strong>current</strong> (<em>Boolean</em>) – Signifies if the database service should load the current database (True) or the backup (False).
+The default value for this value is True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="PyFynance.services.database.Database.stop_db">
+<code class="sig-name descname">stop_db</code><span class="sig-paren">(</span><em class="sig-param">db_name</em>, <em class="sig-param">commit=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/services/database.html#Database.stop_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.database.Database.stop_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method will stop the sqlite3 database specified. This method will also optionally commit changes to the
+database and create a backup of the database if commit value is True</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>db_name</strong> (<em>String</em>) – The name of the database connection to stop and commit/backup</p></li>
+<li><p><strong>commit</strong> (<em>Boolean</em>) – Value used to indicate if the database should be committed and backed up before
+closing the connection</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="PyFynance.services.file_system.html" class="btn btn-neutral float-right" title="PyFynance.services.file_system module" accesskey="n">Next →</a>
+      
+      
+        <a href="PyFynance.services.html" class="btn btn-neutral" title="PyFynance.services package" accesskey="p">← Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matt Mulligan.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

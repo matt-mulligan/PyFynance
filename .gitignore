@@ -1,0 +1,27 @@
+# ignoring all folders/files that might contain sensitive user information so that peoples transactions arent accidentally loaded to git
+/input/custom_rules/*
+!/input/custom_rules/.gitkeep
+
+/input/banking_transactions/processed/*
+!/input/banking_transactions/processed/.gitkeep
+/input/banking_transactions/landing/*
+!/input/banking_transactions/landing/.gitkeep
+/input/banking_transactions/error/*
+!/input/banking_transactions/error/.gitkeep
+
+/output/*
+!/output/.gitkeep
+
+/PyFynance/resources/databases/backup/*
+!/PyFynance/resources/databases/backup/.gitkeep
+
+/PyFynance/resources/databases/current/*
+!/PyFynance/resources/databases/current/.gitkeep
+
+# Ignoring log folder
+/logs/*
+!/logs/.gitkeep
+
+# ignore IDE shit
+/.idea
+__pycache__/*

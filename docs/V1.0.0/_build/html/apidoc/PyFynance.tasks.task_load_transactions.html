@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PyFynance.tasks.task_load_transactions module &mdash; PyFynance  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/sphinx-test-results\common.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PyFynance  documentation" href="../index.html"/>
+        <link rel="up" title="PyFynance.tasks package" href="PyFynance.tasks.html"/>
+        <link rel="prev" title="PyFynance.tasks.task_base module" href="PyFynance.tasks.task_base.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PyFynance
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/tasks.html">     PyFynance Tasks</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../apidocs.html">     PyFynance API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.services.html">     Services Package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="PyFynance.tasks.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.tasks.task_base.html">PyFynance.tasks.task_base module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PyFynance.tasks.task_load_transactions module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyFynance</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../apidocs.html">PyFynance API Documentation</a> &raquo;</li>
+        
+          <li><a href="PyFynance.tasks.html">PyFynance.tasks package</a> &raquo;</li>
+        
+      <li>PyFynance.tasks.task_load_transactions module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/apidoc/PyFynance.tasks.task_load_transactions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-PyFynance.tasks.task_load_transactions">
+<span id="pyfynance-tasks-task-load-transactions-module"></span><h1>PyFynance.tasks.task_load_transactions module<a class="headerlink" href="#module-PyFynance.tasks.task_load_transactions" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="PyFynance.tasks.task_load_transactions.LoadTransactionsTask">
+<em class="property">class </em><code class="sig-prename descclassname">PyFynance.tasks.task_load_transactions.</code><code class="sig-name descname">LoadTransactionsTask</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/tasks/task_load_transactions.html#LoadTransactionsTask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.tasks.task_load_transactions.LoadTransactionsTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tasks.task_base.BaseTask</span></code></p>
+<p>The Load Transactions task is responsible for loading in financial transactions to PyFynance from OFX/QFX file
+source.</p>
+<p>This task type will load transactions from OFX files, parse the transactions to python dictionaries, serialise the
+values into OFX Banking Transaction objects within python, then write any new transactions to the
+transactions Database.</p>
+<p>This task is triggered in PyFynance by calling the PyFynance module from the command line with the following named
+values:</p>
+<blockquote>
+<div><ul>
+<li><dl class="option-list">
+<dt><kbd><span class="option">--task_type</span></kbd></dt>
+<dd><p>load_transactions</p>
+</dd>
+</dl>
+</li>
+<li><dl class="option-list">
+<dt><kbd><span class="option">--institution</span></kbd></dt>
+<dd><p>The name of the financial institution the transactions are from</p>
+</dd>
+</dl>
+</li>
+<li><dl class="option-list">
+<dt><kbd><span class="option">--account</span></kbd></dt>
+<dd><p>The name of the account to associate the transactions with</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>The load transactions task will load all ofx files it find in the input/banking_transactions folder of this repo.
+Once a file has been loaded using the load_transaction task it will be moved to either:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>/input/banking_transactions/processed      if the task was successful</p></li>
+<li><p>/input/banking_transactions/error         if the task failed</p></li>
+</ul>
+</div></blockquote>
+<dl class="method">
+<dt id="PyFynance.tasks.task_load_transactions.LoadTransactionsTask.after_task">
+<code class="sig-name descname">after_task</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/tasks/task_load_transactions.html#LoadTransactionsTask.after_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.after_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>this public after task manages all of the teardown tasks that this task performs after its action is done</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="PyFynance.tasks.task_load_transactions.LoadTransactionsTask.before_task">
+<code class="sig-name descname">before_task</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/tasks/task_load_transactions.html#LoadTransactionsTask.before_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.before_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This public before task manages all setup activities required by this task to perform its action</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="PyFynance.tasks.task_load_transactions.LoadTransactionsTask.do_task">
+<code class="sig-name descname">do_task</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/tasks/task_load_transactions.html#LoadTransactionsTask.do_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.do_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This public do task manages all of the actions this task runs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="PyFynance.tasks.task_base.html" class="btn btn-neutral" title="PyFynance.tasks.task_base module" accesskey="p">← Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matt Mulligan.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
