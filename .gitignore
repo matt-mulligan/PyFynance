@@ -24,3 +24,4 @@
 
 # ignore IDE shit
 /.idea
+__pycache__
