@@ -86,22 +86,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.schemas.html">     Schemas Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.services.html">     Services Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.tasks.html">     Tasks Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidocs.html">     PyFynance API Documentation</a></li>
 </ul>
 
             
@@ -211,9 +199,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_object_type</span><span class="p">(</span><span class="n">ofx_object_type</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_input_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
-        <span class="n">parse_method</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;banking_transactions&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_banking_transactions</span>
-        <span class="p">}[</span><span class="n">ofx_object_type</span><span class="p">]</span>
+        <span class="n">parse_method</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;banking_transactions&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_banking_transactions</span><span class="p">}[</span>
+            <span class="n">ofx_object_type</span>
+        <span class="p">]</span>
 
         <span class="k">return</span> <span class="n">parse_method</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
 
@@ -228,9 +216,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">object_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">ofx_parser</span><span class="o">.</span><span class="n">object_types</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">OFXParserError</span><span class="p">(</span><span class="s2">&quot;Object_type value &#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown. &quot;</span>
-                                 <span class="s2">&quot;Acceptable object type values are &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">object_type</span><span class="p">,</span>
-                                                                                 <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">ofx_parser</span><span class="o">.</span><span class="n">object_types</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">OFXParserError</span><span class="p">(</span>
+                <span class="s2">&quot;Object_type value &#39;</span><span class="si">{}</span><span class="s2">&#39; is unknown. &quot;</span>
+                <span class="s2">&quot;Acceptable object type values are &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">object_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">ofx_parser</span><span class="o">.</span><span class="n">object_types</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_parse_banking_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -245,7 +236,9 @@
         <span class="n">raw_trans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_ofx_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="n">tran_dictionaries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_ofx_transactions</span><span class="p">(</span><span class="n">raw_trans</span><span class="p">)</span>
         <span class="n">tran_dictionaries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_ofx_values</span><span class="p">(</span><span class="n">tran_dictionaries</span><span class="p">)</span>
-        <span class="n">transactions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_dictionaries_to_objects</span><span class="p">(</span><span class="s2">&quot;banking_transactions&quot;</span><span class="p">,</span> <span class="n">tran_dictionaries</span><span class="p">)</span>
+        <span class="n">transactions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_dictionaries_to_objects</span><span class="p">(</span>
+            <span class="s2">&quot;banking_transactions&quot;</span><span class="p">,</span> <span class="n">tran_dictionaries</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">transactions</span>
 
     <span class="k">def</span> <span class="nf">_parse_ofx_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ofx_trans</span><span class="p">):</span>
@@ -287,6 +280,7 @@
                 <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">ofx_parser</span><span class="o">.</span><span class="n">cast_fields</span><span class="p">:</span>
                     <span class="n">cast_method</span> <span class="o">=</span> <span class="p">{</span>
                         <span class="s2">&quot;dtposted&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_str_to_datetime_string</span><span class="p">,</span>
+                        <span class="s2">&quot;dtuser&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_str_to_datetime_string</span><span class="p">,</span>
                         <span class="s2">&quot;trnamt&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cast_str_to_decimal</span><span class="p">,</span>
                     <span class="p">}[</span><span class="n">key</span><span class="p">]</span>
 
@@ -310,10 +304,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">OFXParserError</span><span class="p">(</span><span class="s2">&quot;Path provided &#39;</span><span class="si">{path}</span><span class="s2">&#39; either does not exist or isnt a file&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">OFXParserError</span><span class="p">(</span>
+                <span class="s2">&quot;Path provided &#39;</span><span class="si">{path}</span><span class="s2">&#39; either does not exist or isnt a file&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">path</span><span class="o">=</span><span class="n">path</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.ofx&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">path</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.qfx&quot;</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="n">OFXParserError</span><span class="p">(</span><span class="s2">&quot;Path provided &#39;</span><span class="si">{path}</span><span class="s2">&#39; is not an OFX/QFX file.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">OFXParserError</span><span class="p">(</span>
+                <span class="s2">&quot;Path provided &#39;</span><span class="si">{path}</span><span class="s2">&#39; is not an OFX/QFX file.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+            <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_read_ofx_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
@@ -360,9 +360,7 @@
 <span class="sd">        :return: List of python objects loaded to using Marshmallow schemas</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;banking_transactions&quot;</span><span class="p">:</span> <span class="n">OFXBankingTransactionSchema</span>
-        <span class="p">}[</span><span class="n">object_type</span><span class="p">]</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;banking_transactions&quot;</span><span class="p">:</span> <span class="n">OFXBankingTransactionSchema</span><span class="p">}[</span><span class="n">object_type</span><span class="p">]</span>
 
         <span class="n">serialised_objects</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">obj_dict</span> <span class="ow">in</span> <span class="n">object_dictionaries</span><span class="p">:</span>

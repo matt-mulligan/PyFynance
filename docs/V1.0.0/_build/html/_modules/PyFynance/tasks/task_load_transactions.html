@@ -86,22 +86,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.schemas.html">     Schemas Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.services.html">     Services Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.tasks.html">     Tasks Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidocs.html">     PyFynance API Documentation</a></li>
 </ul>
 
             
@@ -162,7 +150,6 @@
             
   <h1>Source code for PyFynance.tasks.task_load_transactions</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
 
 <span class="kn">from</span> <span class="nn">core</span> <span class="k">import</span> <span class="n">helpers</span>
 <span class="kn">from</span> <span class="nn">core.exceptions</span> <span class="k">import</span> <span class="n">TaskLoadTransactionsError</span>
@@ -187,13 +174,15 @@
 
 <span class="sd">    The load transactions task will load all ofx files it find in the input/banking_transactions folder of this repo.</span>
 <span class="sd">    Once a file has been loaded using the load_transaction task it will be moved to either:</span>
-<span class="sd">        * /input/banking_transactions/ingested      if the task was successful</span>
+<span class="sd">        * /input/banking_transactions/processed      if the task was successful</span>
 <span class="sd">        * /input/banking_transactions/error         if the task failed</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">LoadTransactionsTask</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_transactions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_files</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_task_state</span> <span class="o">=</span> <span class="s2">&quot;OK&quot;</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;PyFynance.Tasks.LoadTransactionsTask(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_args_repr</span><span class="p">())</span>
@@ -216,11 +205,19 @@
 <span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Beginning do_task method of task &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_load_transactions_from_file</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_filter_transactions</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_write_transactions_to_db</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished do_task method of task &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Beginning do_task method of task &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load_transactions_from_file</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_filter_transactions</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_write_transactions_to_db</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished do_task method of task &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_task_state</span> <span class="o">=</span> <span class="s2">&quot;FAILED&quot;</span>
+            <span class="k">raise</span> <span class="n">TaskLoadTransactionsError</span><span class="p">(</span>
+                <span class="s2">&quot;An error occurred during the do_task step of the &#39;</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">,</span> <span class="n">e</span>
+                <span class="p">)</span>
+            <span class="p">)</span></div>
 
 <div class="viewcode-block" id="LoadTransactionsTask.after_task"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_load_transactions.html#PyFynance.tasks.task_load_transactions.LoadTransactionsTask.after_task">[docs]</a>    <span class="k">def</span> <span class="nf">after_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -230,8 +227,39 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Beginning after_task method of task &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="o">.</span><span class="n">stop_db</span><span class="p">(</span><span class="s2">&quot;transactions&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_task_state</span> <span class="o">==</span> <span class="s2">&quot;FAILED&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="o">.</span><span class="n">stop_db</span><span class="p">(</span><span class="s2">&quot;transactions&quot;</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_move_input_files</span><span class="p">(</span><span class="s2">&quot;FAILED&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="o">.</span><span class="n">stop_db</span><span class="p">(</span><span class="s2">&quot;transactions&quot;</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_move_input_files</span><span class="p">(</span><span class="s2">&quot;PASSED&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished after_task method of task &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">_move_input_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_status</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method will move all input files to the appropriate location after the load_transactions task is</span>
+<span class="sd">        complete</span>
+
+<span class="sd">        :param task_status: represents if the task passed or failed, acceptable values are [&quot;PASSED&quot;, &quot;FAILED&quot;]</span>
+<span class="sd">        :type task_status: String</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">state_folder</span> <span class="o">=</span> <span class="s2">&quot;processed&quot;</span> <span class="k">if</span> <span class="n">task_status</span> <span class="o">==</span> <span class="s2">&quot;PASSED&quot;</span> <span class="k">else</span> <span class="s2">&quot;error&quot;</span>
+
+        <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_files</span><span class="p">:</span>
+            <span class="n">dest_file</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">file_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">dest_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">input_path</span><span class="p">,</span>
+                    <span class="s2">&quot;banking_transactions&quot;</span><span class="p">,</span>
+                    <span class="n">state_folder</span><span class="p">,</span>
+                    <span class="n">dest_file</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fs</span><span class="o">.</span><span class="n">move_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">dest_path</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_load_transactions_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -240,24 +268,34 @@
 <span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">files_to_parse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_files_to_parse</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">files_to_parse</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_transactions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ofx_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;banking_transactions&quot;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_move_transaction_file_to_ingested_folder</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_files_to_parse</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_files</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transactions</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_ofx_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;banking_transactions&quot;</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_files_to_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will determine the full file paths to all transaction files that need to be ingested.</span>
+<span class="sd">        This private method will determine the full file paths to all transaction files that need to be processed.</span>
 
 <span class="sd">        :return: A list of file paths that either end in .ofx or .qfx</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">transactions_input_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;banking_transactions&quot;</span><span class="p">])</span>
-        <span class="n">files_to_parse</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">find_all_files</span><span class="p">(</span><span class="n">transactions_input_path</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;*.ofx&quot;</span><span class="p">,</span> <span class="s2">&quot;*.qfx&quot;</span><span class="p">])</span>
+        <span class="n">transactions_input_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;banking_transactions&quot;</span><span class="p">,</span> <span class="s2">&quot;landing&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">files_to_parse</span> <span class="o">=</span> <span class="n">helpers</span><span class="o">.</span><span class="n">find_all_files</span><span class="p">(</span>
+            <span class="n">transactions_input_path</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;*.ofx&quot;</span><span class="p">,</span> <span class="s2">&quot;*.qfx&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">files_to_parse</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">files_to_parse</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">TaskLoadTransactionsError</span><span class="p">(</span><span class="s2">&quot;No input ofx/qfx files found in input path &#39;</span><span class="si">{}</span><span class="s2">&#39;.  Are you sure you &quot;</span>
-                                            <span class="s2">&quot;placed the file there?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">transactions_input_path</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">files_to_parse</span>
+            <span class="k">raise</span> <span class="n">TaskLoadTransactionsError</span><span class="p">(</span>
+                <span class="s2">&quot;No input ofx/qfx files found in input path &#39;</span><span class="si">{}</span><span class="s2">&#39;.  Are you sure you &quot;</span>
+                <span class="s2">&quot;placed the file there? Is the file type ofx/qfx?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">transactions_input_path</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_write_transactions_to_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -274,27 +312,15 @@
                 <span class="s2">&quot;tran_type&quot;</span><span class="p">:</span> <span class="n">transaction</span><span class="o">.</span><span class="n">trn_type</span><span class="p">,</span>
                 <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="n">transaction</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span>
                 <span class="s2">&quot;narrative&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_narrative_from_transaction</span><span class="p">(</span><span class="n">transaction</span><span class="p">),</span>
-                <span class="s2">&quot;date_posted&quot;</span><span class="p">:</span> <span class="n">transaction</span><span class="o">.</span><span class="n">date_posted</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+                <span class="s2">&quot;date_posted&quot;</span><span class="p">:</span> <span class="n">transaction</span><span class="o">.</span><span class="n">date_posted</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;date_processed&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">),</span>
             <span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;transactions&quot;</span><span class="p">,</span> <span class="s2">&quot;transactions&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_move_transaction_file_to_ingested_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ingested_file</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This private method will move the already ingested file from the input folder into the ingested folder</span>
-
-<span class="sd">        :param ingested_file: Path to the ingested file</span>
-<span class="sd">        :type ingested_file: String</span>
-<span class="sd">        :return: None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">dest_filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ingested_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">))</span>
-        <span class="n">dest_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">input_path</span><span class="p">,</span> <span class="s2">&quot;banking_transactions&quot;</span><span class="p">,</span> <span class="s2">&quot;ingested&quot;</span><span class="p">,</span> <span class="n">dest_filename</span><span class="p">])</span>
-        <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">ingested_file</span><span class="p">,</span> <span class="n">dest_path</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_filter_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This private method will filter down the list of transactions to only the ones that have not already been</span>
-<span class="sd">        ingested.</span>
+<span class="sd">        processed.</span>
 
 <span class="sd">        This is achieved by deriving a composite key for all of the loaded transactions and checking to see if that</span>
 <span class="sd">        key appears already in the tranasactions database table.</span>
@@ -312,7 +338,9 @@
 
         <span class="n">new_transactions</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">transaction</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transactions</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">institution</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">account</span><span class="p">,</span> <span class="n">transaction</span><span class="o">.</span><span class="n">fitid</span><span class="p">)</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">institution</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">account</span><span class="p">,</span> <span class="n">transaction</span><span class="o">.</span><span class="n">fitid</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">composite_keys</span><span class="p">:</span>
                 <span class="n">new_transactions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transaction</span><span class="p">)</span>
 
@@ -327,9 +355,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;institution&quot;</span><span class="p">,</span> <span class="s2">&quot;account&quot;</span><span class="p">,</span> <span class="s2">&quot;tran_id&quot;</span><span class="p">]</span>
-        <span class="n">where</span> <span class="o">=</span> <span class="s2">&quot;institution = </span><span class="se">\&quot;</span><span class="si">{institution}</span><span class="se">\&quot;</span><span class="s2"> and account = </span><span class="se">\&quot;</span><span class="si">{account}</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">institution</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">institution</span><span class="p">,</span>
-                                                                                     <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">account</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;transactions&quot;</span><span class="p">,</span> <span class="s2">&quot;transactions&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="s1">&#39;institution = &quot;</span><span class="si">{institution}</span><span class="s1">&quot; and account = &quot;</span><span class="si">{account}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">institution</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">institution</span><span class="p">,</span> <span class="n">account</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">account</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+            <span class="s2">&quot;transactions&quot;</span><span class="p">,</span> <span class="s2">&quot;transactions&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span>
+        <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_narrative_from_transaction</span><span class="p">(</span><span class="n">transaction</span><span class="p">):</span>
@@ -352,8 +383,10 @@
         <span class="k">elif</span> <span class="n">has_name</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">transaction</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">TaskLoadTransactionsError</span><span class="p">(</span><span class="s2">&quot;Transaction does not have a memo or name attribute.  The transaction &quot;</span>
-                                            <span class="s2">&quot;has the following attributes &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">transaction</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span></div>
+            <span class="k">raise</span> <span class="n">TaskLoadTransactionsError</span><span class="p">(</span>
+                <span class="s2">&quot;Transaction does not have a memo or name attribute.  The transaction &quot;</span>
+                <span class="s2">&quot;has the following attributes &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">transaction</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="p">)</span></div>
 </pre></div>
 
            </div>

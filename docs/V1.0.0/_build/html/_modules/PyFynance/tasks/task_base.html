@@ -86,22 +86,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.schemas.html">     Schemas Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.services.html">     Services Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.tasks.html">     Tasks Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidocs.html">     PyFynance API Documentation</a></li>
 </ul>
 
             
@@ -167,6 +155,7 @@
 <span class="kn">from</span> <span class="nn">core.config</span> <span class="k">import</span> <span class="n">Configuration</span>
 <span class="kn">from</span> <span class="nn">core.exceptions</span> <span class="k">import</span> <span class="n">TaskError</span>
 <span class="kn">from</span> <span class="nn">services.database</span> <span class="k">import</span> <span class="n">Database</span>
+<span class="kn">from</span> <span class="nn">services.file_system</span> <span class="k">import</span> <span class="n">FileSystem</span>
 <span class="kn">from</span> <span class="nn">services.ofx_parser</span> <span class="k">import</span> <span class="n">OFXParser</span>
 
 
@@ -180,6 +169,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ofx_parser</span> <span class="o">=</span> <span class="n">OFXParser</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_db</span> <span class="o">=</span> <span class="n">Database</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fs</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="p">()</span>
 
 <div class="viewcode-block" id="BaseTask.before_task"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_base.html#PyFynance.tasks.task_base.BaseTask.before_task">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">before_task</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
@@ -217,21 +207,30 @@
 <span class="sd">        :return: Boolean representing if the task execution was successful or not</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Beginning task execution for task type &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Beginning task execution for task type &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
         <span class="n">passed</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">before_task</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">do_task</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">after_task</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">passed</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;PyFynance encountered an error while running task.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                <span class="s2">&quot;PyFynance encountered an error while running task.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="k">raise</span> <span class="n">TaskError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">after_task</span><span class="p">()</span>
             <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;Success&quot;</span> <span class="k">if</span> <span class="n">passed</span> <span class="k">else</span> <span class="s2">&quot;Failure&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished task execution for task type &#39;</span><span class="si">{}</span><span class="s2">&#39; with status &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span>
-                              <span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">status</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Finished task execution for task type &#39;</span><span class="si">{}</span><span class="s2">&#39; with status &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">status</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="n">passed</span></div>
 
 <div class="viewcode-block" id="BaseTask.get_args_repr"><a class="viewcode-back" href="../../../apidoc/PyFynance.tasks.task_base.html#PyFynance.tasks.task_base.BaseTask.get_args_repr">[docs]</a>    <span class="k">def</span> <span class="nf">get_args_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

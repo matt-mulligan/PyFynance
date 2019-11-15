@@ -2,10 +2,12 @@
 /input/custom_rules/*
 !/input/custom_rules/.gitkeep
 
-/input/banking_transactions/*
-!/input/banking_transactions/.gitkeep
-/input/banking_transactions/ingested/*
-!/input/banking_transactions/ingested/.gitkeep
+/input/banking_transactions/processed/*
+!/input/banking_transactions/processed/.gitkeep
+/input/banking_transactions/landing/*
+!/input/banking_transactions/landing/.gitkeep
+/input/banking_transactions/error/*
+!/input/banking_transactions/error/.gitkeep
 
 /output/*
 !/output/.gitkeep
@@ -16,12 +18,10 @@
 /PyFynance/resources/databases/current/*
 !/PyFynance/resources/databases/current/.gitkeep
 
-**.ofx
-**.qfx
-
 # Ignoring log folder
 /logs/*
 !/logs/.gitkeep
 
 # ignore IDE shit
 /.idea
+__pycache__/*

@@ -1,5 +1,5 @@
-Schemas/Config Module
-=====================
+PyFynance.schemas.config module
+===============================
 
 .. automodule:: PyFynance.schemas.config
    :members:

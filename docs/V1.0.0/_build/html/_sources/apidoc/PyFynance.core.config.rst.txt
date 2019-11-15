@@ -1,5 +1,5 @@
-Core/Config Module
-==================
+PyFynance.core.config module
+============================
 
 .. automodule:: PyFynance.core.config
    :members:

@@ -1,5 +1,5 @@
-Core/Exceptions Module
-======================
+PyFynance.core.exceptions module
+================================
 
 .. automodule:: PyFynance.core.exceptions
    :members:

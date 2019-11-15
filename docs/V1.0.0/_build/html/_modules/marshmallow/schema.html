@@ -86,22 +86,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../tests/tests.html">     PyFynance Testing Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../apidoc/PyFynance.core.html">     Core Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../apidoc/PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../apidoc/PyFynance.schemas.html">     Schemas Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../apidoc/PyFynance.services.html">     Services Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../apidoc/PyFynance.tasks.html">     Tasks Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apidocs.html">     PyFynance API Documentation</a></li>
 </ul>
 
             
@@ -684,7 +672,7 @@
             <span class="n">ret</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span> <span class="n">ret</span>
 
-    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">_T</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">_T</span><span class="p">]],</span> <span class="o">*</span><span class="p">,</span> <span class="n">many</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">many</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Serialize an object to native Python data types according to this</span>
 <span class="sd">        Schema&#39;s fields.</span>
 
@@ -704,7 +692,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">many</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">many</span> <span class="k">if</span> <span class="n">many</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bool</span><span class="p">(</span><span class="n">many</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">many</span> <span class="ow">and</span> <span class="n">is_iterable_but_not_string</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-            <span class="n">obj</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">typing</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">typing</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">obj</span><span class="p">))</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_processors</span><span class="p">(</span><span class="n">PRE_DUMP</span><span class="p">):</span>
             <span class="n">processed_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_invoke_dump_processors</span><span class="p">(</span>
@@ -722,13 +710,7 @@
 
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">_T</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">_T</span><span class="p">]],</span>
-        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-        <span class="n">many</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">):</span>
+    <span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">many</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Same as :meth:`dump`, except return a JSON-encoded string.</span>
 
 <span class="sd">        :param obj: The object to serialize.</span>

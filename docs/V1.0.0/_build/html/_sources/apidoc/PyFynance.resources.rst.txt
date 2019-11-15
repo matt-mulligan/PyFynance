@@ -1,4 +1,4 @@
-PyFynance Resources Package
+PyFynance.resources package
 ===========================
 
 .. automodule:: PyFynance.resources
@@ -6,9 +6,10 @@ PyFynance Resources Package
    :undoc-members:
    :show-inheritance:
 
-Resources Modules
-#################
+Subpackages
+-----------
+
 .. toctree::
 
-   Resources/Config Module <PyFynance.resources.config>
-   Resources/Database Module <PyFynance.resources.databases>
+   PyFynance.resources.config
+   PyFynance.resources.databases

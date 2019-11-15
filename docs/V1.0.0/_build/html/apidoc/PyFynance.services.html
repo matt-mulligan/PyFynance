@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PyFynance Services Package &mdash; PyFynance  documentation</title>
+  <title>PyFynance.services package &mdash; PyFynance  documentation</title>
   
 
   
@@ -36,8 +36,9 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="PyFynance  documentation" href="../index.html"/>
-        <link rel="next" title="Services/Database Module" href="PyFynance.services.database.html"/>
-        <link rel="prev" title="Schemas/OFX Banking Transaction Module" href="PyFynance.schemas.ofx_banking_transaction.html"/> 
+        <link rel="up" title="PyFynance API Documentation" href="../apidocs.html"/>
+        <link rel="next" title="PyFynance.services.database module" href="PyFynance.services.database.html"/>
+        <link rel="prev" title="PyFynance.schemas.ofx_banking_transaction module" href="PyFynance.schemas.ofx_banking_transaction.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -87,29 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">     Services Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#service-modules">Service Modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.services.database.html">Services/Database Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.services.ofx_parser.html">Services/OFX Parser Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../apidocs.html">     PyFynance API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">     Services Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.services.database.html">PyFynance.services.database module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.services.file_system.html">PyFynance.services.file_system module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.services.ofx_parser.html">PyFynance.services.ofx_parser module</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
+</li>
 </ul>
 
             
@@ -151,7 +148,9 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>PyFynance Services Package</li>
+          <li><a href="../apidocs.html">PyFynance API Documentation</a> &raquo;</li>
+        
+      <li>PyFynance.services package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -169,7 +168,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-PyFynance.services">
-<span id="pyfynance-services-package"></span><h1>PyFynance Services Package<a class="headerlink" href="#module-PyFynance.services" title="Permalink to this headline">¶</a></h1>
+<span id="pyfynance-services-package"></span><h1>PyFynance.services package<a class="headerlink" href="#module-PyFynance.services" title="Permalink to this headline">¶</a></h1>
 <p>The services package aims to provide API interfaces for all external entities that PyFynance interacts with.</p>
 <p>It is a specific design aim for this project that all modules produced for this package are built as standalone APIs
 so that they may be easily extened and reused in other projects as standard code. This means that all service
@@ -177,12 +176,13 @@ modules should be devoid of business logic for PyFynance and should aim to only 
 in a generic but structured way.</p>
 <p>Current services being maintained within this package are the database module (API interface for sqlite3) and the
 ofx_parser module (logical parser for files meeting the ofx specification)</p>
-<div class="section" id="service-modules">
-<h2>Service Modules<a class="headerlink" href="#service-modules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.services.database.html">Services/Database Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.services.ofx_parser.html">Services/OFX Parser Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PyFynance.services.database.html">PyFynance.services.database module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PyFynance.services.file_system.html">PyFynance.services.file_system module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PyFynance.services.ofx_parser.html">PyFynance.services.ofx_parser module</a></li>
 </ul>
 </div>
 </div>
@@ -195,10 +195,10 @@ ofx_parser module (logical parser for files meeting the ofx specification)</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="PyFynance.services.database.html" class="btn btn-neutral float-right" title="Services/Database Module" accesskey="n">Next →</a>
+        <a href="PyFynance.services.database.html" class="btn btn-neutral float-right" title="PyFynance.services.database module" accesskey="n">Next →</a>
       
       
-        <a href="PyFynance.schemas.ofx_banking_transaction.html" class="btn btn-neutral" title="Schemas/OFX Banking Transaction Module" accesskey="p">← Previous</a>
+        <a href="PyFynance.schemas.ofx_banking_transaction.html" class="btn btn-neutral" title="PyFynance.schemas.ofx_banking_transaction module" accesskey="p">← Previous</a>
       
     </div>
   

@@ -16,3 +16,10 @@ Subpackages
    PyFynance.schemas
    PyFynance.services
    PyFynance.tasks
+
+Submodules
+----------
+
+.. toctree::
+
+   PyFynance.setup

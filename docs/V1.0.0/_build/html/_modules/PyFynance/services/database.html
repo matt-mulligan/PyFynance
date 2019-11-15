@@ -86,22 +86,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.schemas.html">     Schemas Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.services.html">     Services Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.tasks.html">     Tasks Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidocs.html">     PyFynance API Documentation</a></li>
 </ul>
 
             
@@ -204,16 +192,28 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Attempting to start the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Attempting to start the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">db_name</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_check_db_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
             <span class="n">db_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_db_path</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">current</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">db_path</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cursors</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">current</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_build_tables</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Successfully started the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Successfully started the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">db_name</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Exception occurred while starting database &#39;</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span></div>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
+                <span class="s2">&quot;Exception occurred while starting database &#39;</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">db_name</span><span class="p">,</span> <span class="n">e</span>
+                <span class="p">)</span>
+            <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Database.stop_db"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database.stop_db">[docs]</a>    <span class="k">def</span> <span class="nf">stop_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">commit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -229,18 +229,26 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Attempting to stop the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39; with commit &quot;</span>
-                              <span class="s2">&quot;set to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">commit</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Attempting to stop the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39; with commit &quot;</span>
+                <span class="s2">&quot;set to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">commit</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_check_db_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">commit</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_commit_db</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_connections</span><span class="p">[</span><span class="n">db_name</span><span class="p">]</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">commit</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_backup_db</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Successfully stopped the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39; with commit &quot;</span>
-                              <span class="s2">&quot;set to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">commit</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Successfully stopped the database service for database &#39;</span><span class="si">{}</span><span class="s2">&#39; with commit &quot;</span>
+                <span class="s2">&quot;set to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">commit</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Exception occurred while stopping database &#39;</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span></div>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
+                <span class="s2">&quot;Exception occurred while stopping database &#39;</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">db_name</span><span class="p">,</span> <span class="n">e</span>
+                <span class="p">)</span>
+            <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Database.insert"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -266,7 +274,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Attempting insert of data into &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Attempting insert of data into &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_check_db_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_check_table_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
             <span class="n">column_names</span> <span class="o">=</span> <span class="p">[]</span>
@@ -281,9 +291,15 @@
 
             <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;insert&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Successful insert of data into &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Successful insert of data into &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Exception occurred while inserting data into &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span></div>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
+                <span class="s2">&quot;Exception occurred while inserting data into &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">e</span>
+                <span class="p">)</span>
+            <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Database.select"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.database.html#PyFynance.services.database.Database.select">[docs]</a>    <span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -314,23 +330,36 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Attempting select of data from &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Attempting select of data from &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_check_db_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_check_table_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
-            <span class="n">sql_key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{cols}</span><span class="s2">_</span><span class="si">{wheres}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span> <span class="k">if</span> <span class="n">columns</span> <span class="k">else</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">wheres</span><span class="o">=</span><span class="s2">&quot;where&quot;</span> <span class="k">if</span> <span class="n">where</span> <span class="k">else</span> <span class="s2">&quot;none&quot;</span><span class="p">)</span>
+            <span class="n">sql_key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{cols}</span><span class="s2">_</span><span class="si">{wheres}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">cols</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span> <span class="k">if</span> <span class="n">columns</span> <span class="k">else</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                <span class="n">wheres</span><span class="o">=</span><span class="s2">&quot;where&quot;</span> <span class="k">if</span> <span class="n">where</span> <span class="k">else</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">sql</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="s2">&quot;none_none&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">][</span><span class="s2">&quot;select_all_from&quot;</span><span class="p">],</span>
                 <span class="s2">&quot;columns_none&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">][</span><span class="s2">&quot;select_columns_from&quot;</span><span class="p">],</span>
                 <span class="s2">&quot;none_where&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">][</span><span class="s2">&quot;select_all_from_where&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;columns_where&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">][</span><span class="s2">&quot;select_columns_from_where&quot;</span><span class="p">]</span>
+                <span class="s2">&quot;columns_where&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">][</span><span class="s2">&quot;select_columns_from_where&quot;</span><span class="p">],</span>
             <span class="p">}[</span><span class="n">sql_key</span><span class="p">]</span>
 
             <span class="n">column_names</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span> <span class="k">if</span> <span class="n">columns</span> <span class="k">else</span> <span class="kc">None</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">sql</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">column_names</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">))</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Successful select of data from &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">))</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span>
+                <span class="n">db_name</span><span class="p">,</span> <span class="n">sql</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">column_names</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Successful select of data from &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="k">return</span> <span class="n">data</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Exception occurred while selecting data from &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span></div>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
+                <span class="s2">&quot;Exception occurred while selecting data from &#39;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&#39;.  </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">e</span>
+                <span class="p">)</span>
+            <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_build_tables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -346,7 +375,7 @@
                 <span class="p">{</span>
                     <span class="s2">&quot;table_name&quot;</span><span class="p">:</span> <span class="s2">&quot;transactions&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;col_spec&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">column_specs</span><span class="p">[</span><span class="s2">&quot;transactions&quot;</span><span class="p">],</span>
-                    <span class="s2">&quot;primary_keys&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">primary_keys</span><span class="o">.</span><span class="n">transactions</span>
+                    <span class="s2">&quot;primary_keys&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">primary_keys</span><span class="o">.</span><span class="n">transactions</span><span class="p">,</span>
                 <span class="p">}</span>
             <span class="p">]</span>
         <span class="p">}[</span><span class="n">db_name</span><span class="p">]</span>
@@ -354,7 +383,9 @@
         <span class="k">for</span> <span class="n">table_info</span> <span class="ow">in</span> <span class="n">table_creates</span><span class="p">:</span>
             <span class="n">column_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_column_spec</span><span class="p">(</span><span class="n">table_info</span><span class="p">[</span><span class="s2">&quot;col_spec&quot;</span><span class="p">])</span>
             <span class="n">primary_keys</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">table_info</span><span class="p">[</span><span class="s2">&quot;primary_keys&quot;</span><span class="p">])</span>
-            <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;create&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table_info</span><span class="p">[</span><span class="s2">&quot;table_name&quot;</span><span class="p">],</span> <span class="n">col_spec</span><span class="o">=</span><span class="n">column_spec</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">primary_keys</span><span class="p">)</span>
+            <span class="n">sql</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sql</span><span class="p">[</span><span class="s2">&quot;create&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">table</span><span class="o">=</span><span class="n">table_info</span><span class="p">[</span><span class="s2">&quot;table_name&quot;</span><span class="p">],</span> <span class="n">col_spec</span><span class="o">=</span><span class="n">column_spec</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="n">primary_keys</span>
+            <span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
 
@@ -379,8 +410,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
-        <span class="n">source_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">db_path</span><span class="p">,</span> <span class="s2">&quot;current&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">)])</span>
-        <span class="n">backup_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">db_path</span><span class="p">,</span> <span class="s2">&quot;backup&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)])</span>
+        <span class="n">source_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">db_path</span><span class="p">,</span> <span class="s2">&quot;current&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">)]</span>
+        <span class="p">)</span>
+        <span class="n">backup_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">db_path</span><span class="p">,</span>
+                <span class="s2">&quot;backup&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
         <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">source_path</span><span class="p">,</span> <span class="n">backup_path</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">sql</span><span class="p">):</span>
@@ -409,8 +448,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">db_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">db_names</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Database name specified is not an acceptable PyFynance database. Acceptable &quot;</span>
-                                <span class="s2">&quot;PyFynance databases include </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">db_names</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
+                <span class="s2">&quot;Database name specified is not an acceptable PyFynance database. Acceptable &quot;</span>
+                <span class="s2">&quot;PyFynance databases include </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">db_names</span><span class="p">)</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_check_table_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -425,12 +466,15 @@
 
         <span class="n">tables</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;transactions&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">transactions</span><span class="p">,</span>
-            <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">rules</span>
+            <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">rules</span><span class="p">,</span>
         <span class="p">}[</span><span class="n">db_name</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">table</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="s2">&quot;Table name &#39;</span><span class="si">{}</span><span class="s2">&#39; is not a known table for database &#39;</span><span class="si">{}</span><span class="s2">&#39;. Known tables are &#39;</span><span class="si">{}</span><span class="s2">&#39; &quot;</span><span class="o">.</span>
-                                <span class="nb">format</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">tables</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">DatabaseError</span><span class="p">(</span>
+                <span class="s2">&quot;Table name &#39;</span><span class="si">{}</span><span class="s2">&#39; is not a known table for database &#39;</span><span class="si">{}</span><span class="s2">&#39;. Known tables are &#39;</span><span class="si">{}</span><span class="s2">&#39; &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">table</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">tables</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_db_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -446,7 +490,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;current&quot;</span> <span class="k">if</span> <span class="n">current</span> <span class="k">else</span> <span class="s2">&quot;backup&quot;</span>
-        <span class="n">db_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span> <span class="k">if</span> <span class="n">current</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_backup_db_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
+        <span class="n">db_name</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span> <span class="k">if</span> <span class="n">current</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_backup_db_name</span><span class="p">(</span><span class="n">db_name</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">db_path</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">db_name</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">_get_backup_db_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_name</span><span class="p">):</span>
@@ -458,7 +504,9 @@
 <span class="sd">        :return: the name of the latest backup for that database</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">search_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">db_path</span><span class="p">,</span> <span class="s2">&quot;backup&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">*.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">)])</span>
+        <span class="n">search_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">db_path</span><span class="p">,</span> <span class="s2">&quot;backup&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">*.db&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">db_name</span><span class="p">)]</span>
+        <span class="p">)</span>
         <span class="n">paths</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">search_path</span><span class="p">)</span>
         <span class="n">paths</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">paths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -493,8 +541,8 @@
                 <span class="s2">&quot;select_all_from&quot;</span><span class="p">:</span> <span class="s2">&quot;SELECT * FROM </span><span class="si">{table}</span><span class="s2">;&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;select_columns_from&quot;</span><span class="p">:</span> <span class="s2">&quot;SELECT </span><span class="si">{columns}</span><span class="s2"> FROM </span><span class="si">{table}</span><span class="s2">;&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;select_all_from_where&quot;</span><span class="p">:</span> <span class="s2">&quot;SELECT * FROM </span><span class="si">{table}</span><span class="s2"> WHERE </span><span class="si">{where}</span><span class="s2">;&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;select_columns_from_where&quot;</span><span class="p">:</span> <span class="s2">&quot;SELECT </span><span class="si">{columns}</span><span class="s2"> FROM </span><span class="si">{table}</span><span class="s2"> WHERE </span><span class="si">{where}</span><span class="s2">;&quot;</span>
-            <span class="p">}</span>
+                <span class="s2">&quot;select_columns_from_where&quot;</span><span class="p">:</span> <span class="s2">&quot;SELECT </span><span class="si">{columns}</span><span class="s2"> FROM </span><span class="si">{table}</span><span class="s2"> WHERE </span><span class="si">{where}</span><span class="s2">;&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
         <span class="p">}</span>
 
     <span class="nd">@staticmethod</span>
@@ -508,7 +556,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s1">&#39;&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 </pre></div>

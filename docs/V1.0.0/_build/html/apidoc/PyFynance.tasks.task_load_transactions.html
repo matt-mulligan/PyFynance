@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tasks/Load Transactions Task &mdash; PyFynance  documentation</title>
+  <title>PyFynance.tasks.task_load_transactions module &mdash; PyFynance  documentation</title>
   
 
   
@@ -36,8 +36,8 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="PyFynance  documentation" href="../index.html"/>
-        <link rel="up" title="PyFynance Tasks Package" href="PyFynance.tasks.html"/>
-        <link rel="prev" title="Tasks/Base Task Module" href="PyFynance.tasks.task_base.html"/> 
+        <link rel="up" title="PyFynance.tasks package" href="PyFynance.tasks.html"/>
+        <link rel="prev" title="PyFynance.tasks.task_base module" href="PyFynance.tasks.task_base.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -87,25 +87,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.services.html">     Services Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.tasks.html#task-modules">Task Modules</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.tasks.task_base.html">Tasks/Base Task Module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Tasks/Load Transactions Task Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../apidocs.html">     PyFynance API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.services.html">     Services Package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="PyFynance.tasks.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.tasks.task_base.html">PyFynance.tasks.task_base module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PyFynance.tasks.task_load_transactions module</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -151,9 +146,11 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="PyFynance.tasks.html">PyFynance Tasks Package</a> &raquo;</li>
+          <li><a href="../apidocs.html">PyFynance API Documentation</a> &raquo;</li>
         
-      <li>Tasks/Load Transactions Task</li>
+          <li><a href="PyFynance.tasks.html">PyFynance.tasks package</a> &raquo;</li>
+        
+      <li>PyFynance.tasks.task_load_transactions module</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -171,7 +168,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-PyFynance.tasks.task_load_transactions">
-<span id="tasks-load-transactions-task"></span><h1>Tasks/Load Transactions Task<a class="headerlink" href="#module-PyFynance.tasks.task_load_transactions" title="Permalink to this headline">¶</a></h1>
+<span id="pyfynance-tasks-task-load-transactions-module"></span><h1>PyFynance.tasks.task_load_transactions module<a class="headerlink" href="#module-PyFynance.tasks.task_load_transactions" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="PyFynance.tasks.task_load_transactions.LoadTransactionsTask">
 <em class="property">class </em><code class="sig-prename descclassname">PyFynance.tasks.task_load_transactions.</code><code class="sig-name descname">LoadTransactionsTask</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/tasks/task_load_transactions.html#LoadTransactionsTask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.tasks.task_load_transactions.LoadTransactionsTask" title="Permalink to this definition">¶</a></dt>
@@ -209,7 +206,7 @@ values:</p>
 Once a file has been loaded using the load_transaction task it will be moved to either:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>/input/banking_transactions/ingested      if the task was successful</p></li>
+<li><p>/input/banking_transactions/processed      if the task was successful</p></li>
 <li><p>/input/banking_transactions/error         if the task failed</p></li>
 </ul>
 </div></blockquote>
@@ -258,7 +255,7 @@ Once a file has been loaded using the load_transaction task it will be moved to 
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="PyFynance.tasks.task_base.html" class="btn btn-neutral" title="Tasks/Base Task Module" accesskey="p">← Previous</a>
+        <a href="PyFynance.tasks.task_base.html" class="btn btn-neutral" title="PyFynance.tasks.task_base module" accesskey="p">← Previous</a>
       
     </div>
   

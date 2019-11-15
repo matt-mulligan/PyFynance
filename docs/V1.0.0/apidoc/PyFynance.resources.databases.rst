@@ -1,5 +1,5 @@
-Resources/Database Module
-=========================
+PyFynance.resources.databases package
+=====================================
 
 .. automodule:: PyFynance.resources.databases
    :members:

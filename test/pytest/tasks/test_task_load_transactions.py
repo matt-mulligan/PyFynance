@@ -56,7 +56,7 @@ def tran01_data():
         "amount": Decimal(-69.10),
         "narrative": "xbox.com.au subscription",
         "date_posted": "20190924203712",
-        "date_ingested": "20150214101112",
+        "date_processed": "20150214101112",
     }
 
 
@@ -81,7 +81,7 @@ def tran02_data():
         "amount": Decimal(150000000.00),
         "narrative": "powerball winnings",
         "date_posted": "20190913214255",
-        "date_ingested": "20150214101112",
+        "date_processed": "20150214101112",
     }
 
 
@@ -109,7 +109,7 @@ def tran03_data():
         "amount": Decimal(25000.60),
         "narrative": "Company co. - fortnightly pay",
         "date_posted": "20190924180000",
-        "date_ingested": "20150214101112",
+        "date_processed": "20150214101112",
     }
 
 

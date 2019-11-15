@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Schemas/OFX Banking Transaction Module &mdash; PyFynance  documentation</title>
+  <title>PyFynance.schemas.ofx_banking_transaction module &mdash; PyFynance  documentation</title>
   
 
   
@@ -36,9 +36,9 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="PyFynance  documentation" href="../index.html"/>
-        <link rel="up" title="PyFynance Schemas Package" href="PyFynance.schemas.html"/>
-        <link rel="next" title="PyFynance Services Package" href="PyFynance.services.html"/>
-        <link rel="prev" title="Schemas/Model Module" href="PyFynance.schemas.model.html"/> 
+        <link rel="up" title="PyFynance.schemas package" href="PyFynance.schemas.html"/>
+        <link rel="next" title="PyFynance.services package" href="PyFynance.services.html"/>
+        <link rel="prev" title="PyFynance.schemas.model module" href="PyFynance.schemas.model.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,30 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.schemas.html#schemas-modules">Schemas Modules</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.schemas.config.html">Schemas/Config Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.schemas.model.html">Schemas/Model Module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Schemas/OFX Banking Transaction Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../apidocs.html">     PyFynance API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="PyFynance.schemas.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.schemas.config.html">PyFynance.schemas.config module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.schemas.model.html">PyFynance.schemas.model module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PyFynance.schemas.ofx_banking_transaction module</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.services.html">     Services Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.services.html">     Services Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
+</li>
 </ul>
 
             
@@ -153,9 +148,11 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="PyFynance.schemas.html">PyFynance Schemas Package</a> &raquo;</li>
+          <li><a href="../apidocs.html">PyFynance API Documentation</a> &raquo;</li>
         
-      <li>Schemas/OFX Banking Transaction Module</li>
+          <li><a href="PyFynance.schemas.html">PyFynance.schemas package</a> &raquo;</li>
+        
+      <li>PyFynance.schemas.ofx_banking_transaction module</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -173,7 +170,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-PyFynance.schemas.ofx_banking_transaction">
-<span id="schemas-ofx-banking-transaction-module"></span><h1>Schemas/OFX Banking Transaction Module<a class="headerlink" href="#module-PyFynance.schemas.ofx_banking_transaction" title="Permalink to this headline">¶</a></h1>
+<span id="pyfynance-schemas-ofx-banking-transaction-module"></span><h1>PyFynance.schemas.ofx_banking_transaction module<a class="headerlink" href="#module-PyFynance.schemas.ofx_banking_transaction" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="PyFynance.schemas.ofx_banking_transaction.OFXBankingTransactionSchema">
 <em class="property">class </em><code class="sig-prename descclassname">PyFynance.schemas.ofx_banking_transaction.</code><code class="sig-name descname">OFXBankingTransactionSchema</code><span class="sig-paren">(</span><em class="sig-param">*, only: Union[Sequence[str], Set[str]] = None, exclude: Union[Sequence[str], Set[str]] = (), many: bool = False, context: Dict = None, load_only: Union[Sequence[str], Set[str]] = (), dump_only: Union[Sequence[str], Set[str]] = (), partial: Union[bool, Sequence[str], Set[str]] = False, unknown: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/schemas/ofx_banking_transaction.html#OFXBankingTransactionSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.schemas.ofx_banking_transaction.OFXBankingTransactionSchema" title="Permalink to this definition">¶</a></dt>
@@ -204,10 +201,10 @@ deserialize python objects to and from json</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="PyFynance.services.html" class="btn btn-neutral float-right" title="PyFynance Services Package" accesskey="n">Next →</a>
+        <a href="PyFynance.services.html" class="btn btn-neutral float-right" title="PyFynance.services package" accesskey="n">Next →</a>
       
       
-        <a href="PyFynance.schemas.model.html" class="btn btn-neutral" title="Schemas/Model Module" accesskey="p">← Previous</a>
+        <a href="PyFynance.schemas.model.html" class="btn btn-neutral" title="PyFynance.schemas.model module" accesskey="p">← Previous</a>
       
     </div>
   

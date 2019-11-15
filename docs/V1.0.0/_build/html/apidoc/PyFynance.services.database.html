@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Services/Database Module &mdash; PyFynance  documentation</title>
+  <title>PyFynance.services.database module &mdash; PyFynance  documentation</title>
   
 
   
@@ -36,9 +36,9 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="PyFynance  documentation" href="../index.html"/>
-        <link rel="up" title="PyFynance Services Package" href="PyFynance.services.html"/>
-        <link rel="next" title="Services/OFX Parser Module" href="PyFynance.services.ofx_parser.html"/>
-        <link rel="prev" title="PyFynance Services Package" href="PyFynance.services.html"/> 
+        <link rel="up" title="PyFynance.services package" href="PyFynance.services.html"/>
+        <link rel="next" title="PyFynance.services.file_system module" href="PyFynance.services.file_system.html"/>
+        <link rel="prev" title="PyFynance.services package" href="PyFynance.services.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,29 +88,25 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="PyFynance.services.html">     Services Package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.services.html#service-modules">Service Modules</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Services/Database Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.services.ofx_parser.html">Services/OFX Parser Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../apidocs.html">     PyFynance API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.core.html">     Core Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.services.html">     Services Package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="PyFynance.services.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PyFynance.services.database module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.services.file_system.html">PyFynance.services.file_system module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.services.ofx_parser.html">PyFynance.services.ofx_parser module</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
+</li>
 </ul>
 
             
@@ -152,9 +148,11 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="PyFynance.services.html">PyFynance Services Package</a> &raquo;</li>
+          <li><a href="../apidocs.html">PyFynance API Documentation</a> &raquo;</li>
         
-      <li>Services/Database Module</li>
+          <li><a href="PyFynance.services.html">PyFynance.services package</a> &raquo;</li>
+        
+      <li>PyFynance.services.database module</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -172,7 +170,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-PyFynance.services.database">
-<span id="services-database-module"></span><h1>Services/Database Module<a class="headerlink" href="#module-PyFynance.services.database" title="Permalink to this headline">¶</a></h1>
+<span id="pyfynance-services-database-module"></span><h1>PyFynance.services.database module<a class="headerlink" href="#module-PyFynance.services.database" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="PyFynance.services.database.Database">
 <em class="property">class </em><code class="sig-prename descclassname">PyFynance.services.database.</code><code class="sig-name descname">Database</code><a class="reference internal" href="../_modules/PyFynance/services/database.html#Database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.services.database.Database" title="Permalink to this definition">¶</a></dt>
@@ -286,10 +284,10 @@ closing the connection</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="PyFynance.services.ofx_parser.html" class="btn btn-neutral float-right" title="Services/OFX Parser Module" accesskey="n">Next →</a>
+        <a href="PyFynance.services.file_system.html" class="btn btn-neutral float-right" title="PyFynance.services.file_system module" accesskey="n">Next →</a>
       
       
-        <a href="PyFynance.services.html" class="btn btn-neutral" title="PyFynance Services Package" accesskey="p">← Previous</a>
+        <a href="PyFynance.services.html" class="btn btn-neutral" title="PyFynance.services package" accesskey="p">← Previous</a>
       
     </div>
   

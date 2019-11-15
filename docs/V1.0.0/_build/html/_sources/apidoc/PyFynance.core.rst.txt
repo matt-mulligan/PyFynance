@@ -1,17 +1,17 @@
-PyFynance Core Package
+PyFynance.core package
 ======================
 
 .. automodule:: PyFynance.core
    :members:
    :undoc-members:
    :show-inheritance:
-   
-Core Modules
-############   
+
+Submodules
+----------
+
 .. toctree::
 
-   PyFynance Application Module<PyFynance.core.pyfynance>
-   Core/Config Module <PyFynance.core.config>
-   Core/Exceptions Module <PyFynance.core.exceptions>
-   Core/Helpers Module <PyFynance.core.helpers>
-   
+   PyFynance.core.config
+   PyFynance.core.exceptions
+   PyFynance.core.helpers
+   PyFynance.core.pyfynance

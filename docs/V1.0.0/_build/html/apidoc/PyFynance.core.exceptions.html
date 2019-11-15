@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Core/Exceptions Module &mdash; PyFynance  documentation</title>
+  <title>PyFynance.core.exceptions module &mdash; PyFynance  documentation</title>
   
 
   
@@ -36,9 +36,9 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="PyFynance  documentation" href="../index.html"/>
-        <link rel="up" title="PyFynance Core Package" href="PyFynance.core.html"/>
-        <link rel="next" title="Core/Helpers Module" href="PyFynance.core.helpers.html"/>
-        <link rel="prev" title="Core/Config Module" href="PyFynance.core.config.html"/> 
+        <link rel="up" title="PyFynance.core package" href="PyFynance.core.html"/>
+        <link rel="next" title="PyFynance.core.helpers module" href="PyFynance.core.helpers.html"/>
+        <link rel="prev" title="PyFynance.core.config module" href="PyFynance.core.config.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,31 +88,26 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="PyFynance.core.html">     Core Package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.core.html#core-modules">Core Modules</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.core.pyfynance.html">PyFynance Application Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.core.config.html">Core/Config Module</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Core/Exceptions Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.core.helpers.html">Core/Helpers Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../apidocs.html">     PyFynance API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.core.html">     Core Package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="PyFynance.core.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.core.config.html">PyFynance.core.config module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PyFynance.core.exceptions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.core.helpers.html">PyFynance.core.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.core.pyfynance.html">PyFynance.core.pyfynance module</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.services.html">     Services Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.services.html">     Services Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
+</li>
 </ul>
 
             
@@ -154,9 +149,11 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="PyFynance.core.html">PyFynance Core Package</a> &raquo;</li>
+          <li><a href="../apidocs.html">PyFynance API Documentation</a> &raquo;</li>
         
-      <li>Core/Exceptions Module</li>
+          <li><a href="PyFynance.core.html">PyFynance.core package</a> &raquo;</li>
+        
+      <li>PyFynance.core.exceptions module</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -174,7 +171,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-PyFynance.core.exceptions">
-<span id="core-exceptions-module"></span><h1>Core/Exceptions Module<a class="headerlink" href="#module-PyFynance.core.exceptions" title="Permalink to this headline">¶</a></h1>
+<span id="pyfynance-core-exceptions-module"></span><h1>PyFynance.core.exceptions module<a class="headerlink" href="#module-PyFynance.core.exceptions" title="Permalink to this headline">¶</a></h1>
 <p>The exceptions module holds all of the exception classes used throughout the application.</p>
 <p>Each exception class is used to signify where an exception has occured within the PyFynance application</p>
 <dl class="exception">
@@ -182,6 +179,13 @@
 <em class="property">exception </em><code class="sig-prename descclassname">PyFynance.core.exceptions.</code><code class="sig-name descname">DatabaseError</code><a class="reference internal" href="../_modules/PyFynance/core/exceptions.html#DatabaseError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.core.exceptions.DatabaseError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></p>
 <p>Represents an error that occurs within the Database service</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="PyFynance.core.exceptions.FileSystemError">
+<em class="property">exception </em><code class="sig-prename descclassname">PyFynance.core.exceptions.</code><code class="sig-name descname">FileSystemError</code><a class="reference internal" href="../_modules/PyFynance/core/exceptions.html#FileSystemError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.core.exceptions.FileSystemError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></p>
+<p>Represents an error that occurs within the FileSystem service</p>
 </dd></dl>
 
 <dl class="exception">
@@ -214,10 +218,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="PyFynance.core.helpers.html" class="btn btn-neutral float-right" title="Core/Helpers Module" accesskey="n">Next →</a>
+        <a href="PyFynance.core.helpers.html" class="btn btn-neutral float-right" title="PyFynance.core.helpers module" accesskey="n">Next →</a>
       
       
-        <a href="PyFynance.core.config.html" class="btn btn-neutral" title="Core/Config Module" accesskey="p">← Previous</a>
+        <a href="PyFynance.core.config.html" class="btn btn-neutral" title="PyFynance.core.config module" accesskey="p">← Previous</a>
       
     </div>
   

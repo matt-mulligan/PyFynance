@@ -1,6 +1,7 @@
 import glob
 import os
 import shutil
+import sqlite3
 
 from core.config import Configuration
 
@@ -48,9 +49,30 @@ def read_log_file(task_type):
 
     config = Configuration()
     logname_regex = "PyFynance_{}_*.log".format(task_type)
-    search_path = os.sep.join([config.paths.log_path, config.version, logname_regex])
+    search_path = os.sep.join(
+        [config.paths.logs_path, str(config.version), logname_regex]
+    )
     logs = glob.glob(search_path)
-    logpath = logs.sort(reverse=True)[0]
+    logs.sort(reverse=True)
 
-    with open(logpath) as logfile:
-        return logfile.readlines()
+    with open(logs[0]) as logfile:
+        return logfile.read()
+
+
+def get_db_cursor(db_name, state_folder):
+    """
+    This public function will open a connection to a pyfynance database and return the cursor object so that evaluation
+    actions can be performed on the database.
+
+    :param db_name: the name of the PyFynance database to be opened ["transactions"]
+    :param state_folder: the state folder to open the database from ["current" | "backup"]
+    :return: sqlite3 cursor object for the database
+    """
+
+    config = Configuration()
+    db_regex = os.sep.join(
+        [config.paths.db_path, state_folder, "{}*db".format(db_name)]
+    )
+    db_path = glob.glob(db_regex)[0]
+    db_connection = sqlite3.connect(db_path)
+    return db_connection.cursor()

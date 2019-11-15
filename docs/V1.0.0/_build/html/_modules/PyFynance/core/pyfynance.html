@@ -86,22 +86,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tests/tests.html">     PyFynance Testing Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.core.html">     Core Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.schemas.html">     Schemas Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.services.html">     Services Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../apidoc/PyFynance.tasks.html">     Tasks Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidocs.html">     PyFynance API Documentation</a></li>
 </ul>
 
             
@@ -179,8 +167,12 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">=</span> <span class="n">args</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configure_logger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">logs_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
-                                              <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">task_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">runtime</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_configure_logger</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">paths</span><span class="o">.</span><span class="n">logs_path</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">task_type</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">runtime</span><span class="p">,</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="PyFynance.run"><a class="viewcode-back" href="../../../apidoc/PyFynance.core.pyfynance.html#PyFynance.core.pyfynance.PyFynance.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -195,15 +187,23 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">passed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_tasks</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">passed</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;PyFynance application ran successfully!  task_type = &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span>
-                                  <span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">task_type</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;PyFynance application ran successfully!  task_type = &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">task_type</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;PyFynance application failed to run successfully :(  task_type = &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span>
-                                  <span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">task_type</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;PyFynance application failed to run successfully :(  task_type = &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">task_type</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">passed</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;PyFynance experienced a fatal exception while running task of task_type &#39;</span><span class="si">{}</span><span class="s2">&#39;.  &quot;</span>
-                                   <span class="s2">&quot;exception = &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">task_type</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                <span class="s2">&quot;PyFynance experienced a fatal exception while running task of task_type &#39;</span><span class="si">{}</span><span class="s2">&#39;.  &quot;</span>
+                <span class="s2">&quot;exception = &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="o">.</span><span class="n">task_type</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="k">raise</span> <span class="n">TaskError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="n">exit_code</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">passed</span> <span class="k">else</span> <span class="mi">1</span>
@@ -252,7 +252,9 @@
         <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 
-        <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> </span><span class="si">%(name)-35s</span><span class="s2"> </span><span class="si">%(levelname)-8s</span><span class="s2"> </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> </span><span class="si">%(name)-35s</span><span class="s2"> </span><span class="si">%(levelname)-8s</span><span class="s2"> </span><span class="si">%(message)s</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
         <span class="n">ch</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
         <span class="n">ch</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
@@ -260,14 +262,19 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
 
         <span class="n">log_datetime</span> <span class="o">=</span> <span class="n">runtime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
-        <span class="n">log_filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{log_path}{sep}{version}{sep}</span><span class="s2">PyFynance_</span><span class="si">{task_type}</span><span class="s2">_</span><span class="si">{timestamp}</span><span class="s2">.log&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">log_path</span><span class="o">=</span><span class="n">log_path</span><span class="p">,</span>
-                                                                                                   <span class="n">sep</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span>
-                                                                                                   <span class="n">version</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">),</span>
-                                                                                                   <span class="n">task_type</span><span class="o">=</span><span class="n">task_type</span><span class="p">,</span>
-                                                                                                   <span class="n">timestamp</span><span class="o">=</span><span class="n">log_datetime</span><span class="p">)</span>
+        <span class="n">log_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">log_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">)])</span>
+        <span class="n">log_filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{log_path}{sep}{version}{sep}</span><span class="s2">PyFynance_</span><span class="si">{task_type}</span><span class="s2">_</span><span class="si">{timestamp}</span><span class="s2">.log&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">log_path</span><span class="o">=</span><span class="n">log_path</span><span class="p">,</span>
+            <span class="n">sep</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span>
+            <span class="n">version</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">),</span>
+            <span class="n">task_type</span><span class="o">=</span><span class="n">task_type</span><span class="p">,</span>
+            <span class="n">timestamp</span><span class="o">=</span><span class="n">log_datetime</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="c1"># delayed import for python path addition</span>
-        <span class="kn">from</span> <span class="nn">core.helpers</span> <span class="k">import</span> <span class="n">makedirs</span>
-        <span class="n">makedirs</span><span class="p">(</span><span class="n">log_filename</span><span class="p">)</span>
+        <span class="kn">from</span> <span class="nn">services.file_system</span> <span class="k">import</span> <span class="n">FileSystem</span>
+
+        <span class="n">fs</span> <span class="o">=</span> <span class="n">FileSystem</span><span class="p">()</span>
+        <span class="n">fs</span><span class="o">.</span><span class="n">create_directory</span><span class="p">(</span><span class="n">log_folder</span><span class="p">)</span>
 
         <span class="n">fh</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">log_filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
         <span class="n">fh</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>

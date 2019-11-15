@@ -23,7 +23,7 @@ class LoadTransactionsTask(BaseTask):
 
     The load transactions task will load all ofx files it find in the input/banking_transactions folder of this repo.
     Once a file has been loaded using the load_transaction task it will be moved to either:
-        * /input/banking_transactions/ingested      if the task was successful
+        * /input/banking_transactions/processed      if the task was successful
         * /input/banking_transactions/error         if the task failed
     """
 
@@ -94,7 +94,7 @@ class LoadTransactionsTask(BaseTask):
         :return: None
         """
 
-        state_folder = "ingested" if task_status == "PASSED" else "error"
+        state_folder = "processed" if task_status == "PASSED" else "error"
 
         for file_path in self._input_files:
             dest_file = "{}_{}".format(
@@ -125,13 +125,13 @@ class LoadTransactionsTask(BaseTask):
 
     def _get_files_to_parse(self):
         """
-        This private method will determine the full file paths to all transaction files that need to be ingested.
+        This private method will determine the full file paths to all transaction files that need to be processed.
 
         :return: A list of file paths that either end in .ofx or .qfx
         """
 
         transactions_input_path = os.sep.join(
-            [self._config.paths.input_path, "banking_transactions"]
+            [self._config.paths.input_path, "banking_transactions", "landing"]
         )
         files_to_parse = helpers.find_all_files(
             transactions_input_path, ["*.ofx", "*.qfx"]
@@ -141,7 +141,9 @@ class LoadTransactionsTask(BaseTask):
         if len(files_to_parse) == 0:
             raise TaskLoadTransactionsError(
                 "No input ofx/qfx files found in input path '{}'.  Are you sure you "
-                "placed the file there?".format(transactions_input_path)
+                "placed the file there? Is the file type ofx/qfx?".format(
+                    transactions_input_path
+                )
             )
 
     def _write_transactions_to_db(self):
@@ -160,14 +162,14 @@ class LoadTransactionsTask(BaseTask):
                 "amount": transaction.amount,
                 "narrative": self._get_narrative_from_transaction(transaction),
                 "date_posted": transaction.date_posted.strftime("%Y%m%d%H%M%S"),
-                "date_ingested": self._args.runtime.strftime("%Y%m%d%H%M%S"),
+                "date_processed": self._args.runtime.strftime("%Y%m%d%H%M%S"),
             }
             self._db.insert("transactions", "transactions", data)
 
     def _filter_transactions(self):
         """
         This private method will filter down the list of transactions to only the ones that have not already been
-        ingested.
+        processed.
 
         This is achieved by deriving a composite key for all of the loaded transactions and checking to see if that
         key appears already in the tranasactions database table.

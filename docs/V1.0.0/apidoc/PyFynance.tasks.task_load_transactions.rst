@@ -1,5 +1,5 @@
-Tasks/Load Transactions Task
-============================
+PyFynance.tasks.task\_load\_transactions module
+===============================================
 
 .. automodule:: PyFynance.tasks.task_load_transactions
    :members:

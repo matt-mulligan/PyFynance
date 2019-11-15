@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PyFynance Application Module &mdash; PyFynance  documentation</title>
+  <title>PyFynance.core.pyfynance module &mdash; PyFynance  documentation</title>
   
 
   
@@ -36,9 +36,9 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="PyFynance  documentation" href="../index.html"/>
-        <link rel="up" title="PyFynance Core Package" href="PyFynance.core.html"/>
-        <link rel="next" title="Core/Config Module" href="PyFynance.core.config.html"/>
-        <link rel="prev" title="PyFynance Core Package" href="PyFynance.core.html"/> 
+        <link rel="up" title="PyFynance.core package" href="PyFynance.core.html"/>
+        <link rel="next" title="PyFynance.resources package" href="PyFynance.resources.html"/>
+        <link rel="prev" title="PyFynance.core.helpers module" href="PyFynance.core.helpers.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -88,31 +88,26 @@
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tests/tests.html">     PyFynance Testing Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="PyFynance.core.html">     Core Package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.core.html#core-modules">Core Modules</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">PyFynance Application Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.core.config.html">Core/Config Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.core.exceptions.html">Core/Exceptions Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="PyFynance.core.helpers.html">Core/Helpers Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../apidocs.html">     PyFynance API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="PyFynance.core.html">     Core Package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="PyFynance.core.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.core.config.html">PyFynance.core.config module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.core.exceptions.html">PyFynance.core.exceptions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="PyFynance.core.helpers.html">PyFynance.core.helpers module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">PyFynance.core.pyfynance module</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.services.html">     Services Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.schemas.html">     Schemas Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.services.html">     Services Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="PyFynance.tasks.html">     Tasks Package</a></li>
+</li>
 </ul>
 
             
@@ -154,9 +149,11 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="PyFynance.core.html">PyFynance Core Package</a> &raquo;</li>
+          <li><a href="../apidocs.html">PyFynance API Documentation</a> &raquo;</li>
         
-      <li>PyFynance Application Module</li>
+          <li><a href="PyFynance.core.html">PyFynance.core package</a> &raquo;</li>
+        
+      <li>PyFynance.core.pyfynance module</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -174,7 +171,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="module-PyFynance.core.pyfynance">
-<span id="pyfynance-application-module"></span><h1>PyFynance Application Module<a class="headerlink" href="#module-PyFynance.core.pyfynance" title="Permalink to this headline">¶</a></h1>
+<span id="pyfynance-core-pyfynance-module"></span><h1>PyFynance.core.pyfynance module<a class="headerlink" href="#module-PyFynance.core.pyfynance" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="PyFynance.core.pyfynance.PyFynance">
 <em class="property">class </em><code class="sig-prename descclassname">PyFynance.core.pyfynance.</code><code class="sig-name descname">PyFynance</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/PyFynance/core/pyfynance.html#PyFynance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#PyFynance.core.pyfynance.PyFynance" title="Permalink to this definition">¶</a></dt>
@@ -205,10 +202,10 @@ executing tasks within PyFynance.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="PyFynance.core.config.html" class="btn btn-neutral float-right" title="Core/Config Module" accesskey="n">Next →</a>
+        <a href="PyFynance.resources.html" class="btn btn-neutral float-right" title="PyFynance.resources package" accesskey="n">Next →</a>
       
       
-        <a href="PyFynance.core.html" class="btn btn-neutral" title="PyFynance Core Package" accesskey="p">← Previous</a>
+        <a href="PyFynance.core.helpers.html" class="btn btn-neutral" title="PyFynance.core.helpers module" accesskey="p">← Previous</a>
       
     </div>
   

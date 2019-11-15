@@ -43,8 +43,42 @@ As PyFynance is a command line tool, all tasks are triggered from the command li
 
 See below the list of tasks that PyFynance currently can perform:
 
+|
+
     :ref:`task_load_transactions` - Loads your financial transactions from OFX/QFX files into PyFynance for analysis
 
+|
+
+
+PyFynance Feature Roadmap
+=========================
+PyFyanance currently have the below features in our backlog for development
+
+* Task: Categorise Transactions - PyFynanace to try and categorise what each transaction is to provide insight on your spending
+* Task: Analyse Spending - PyFyanace to perform analytics (basic at first) on loaded and categorised transactions
+* Task: Add Custom Categorisation Rules - PyFynance to allow users to provide their own categorisation rules and weightings
+* Task: Add / Analyse Goals - PyFyannce to allow users to define spending / saving goals to be tracked against
+* Interface: PyFynance GUI Interface - PyFynance to transation from cmd line interface to interactive GUI
+
+|
+
+PyFynance Testing Approach / CICD
+=================================
+PyFynance utilises TDD/BDD principals and maintains both unit and acceptance test suites.
+
+Unit testing is carried out using the pytest library and is run on all public interfaces. The unit test suite is
+maintained at >95% coverage for all branches on the remote repo
+
+Acceptance testing is carried out using the beahve library and run on all tasks/features of PyFynance. All new features
+in PyFynance must submit behave tests to fully test their feature
+
+CICD build and test pipelines are setup and maintained using travis-ci. PyFynance CICD pipeline will trigger the following:
+
+* Code styling check via Black library
+* Pytest unit testing suite run for success and code coverage
+* Behave acceptance test suite run for success
+
+|
 
 PyFynance API Documentation
 ===========================
@@ -62,29 +96,10 @@ API documentation was generated using Sphinx-apidoc
 .. toctree::
    :maxdepth: 4
    
-	PyFynance Testing Approach <tests/tests.rst>
+	PyFynance Tasks <tasks/tasks.rst>
 	
 .. toctree::
    :maxdepth: 4
    
-	Core Package <apidoc/PyFynance.core.rst>
+	PyFynance API Documentation <apidocs.rst>
 	
-.. toctree::
-   :maxdepth: 4
-   
-	Resources Package <apidoc/PyFynance.resources.rst>
-	
-.. toctree::
-   :maxdepth: 4
-   
-	Schemas Package <apidoc/PyFynance.schemas.rst>
-	
-.. toctree::
-   :maxdepth: 4
-   
-	Services Package <apidoc/PyFynance.services.rst>
-	
-.. toctree::
-   :maxdepth: 4
-   
-	Tasks Package <apidoc/PyFynance.tasks.rst>

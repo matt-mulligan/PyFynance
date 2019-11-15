@@ -86,22 +86,10 @@
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">     PyFynance Architecture</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tests/tests.html">     PyFynance Testing Approach</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/tasks.html">     PyFynance Tasks</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/PyFynance.core.html">     Core Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/PyFynance.resources.html">     Resources Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/PyFynance.schemas.html">     Schemas Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/PyFynance.services.html">     Services Package</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/PyFynance.tasks.html">     Tasks Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidocs.html">     PyFynance API Documentation</a></li>
 </ul>
 
             
@@ -204,9 +192,46 @@ pipenv install
 <div class="line"><br /></div>
 </div>
 <p>See below the list of tasks that PyFynance currently can perform:</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <blockquote>
 <div><p><a class="reference internal" href="tasks/task_load_transactions.html#task-load-transactions"><span class="std std-ref">PyFynance Task - Load Transactions</span></a> - Loads your financial transactions from OFX/QFX files into PyFynance for analysis</p>
 </div></blockquote>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="pyfynance-feature-roadmap">
+<h2>PyFynance Feature Roadmap<a class="headerlink" href="#pyfynance-feature-roadmap" title="Permalink to this headline">¶</a></h2>
+<p>PyFyanance currently have the below features in our backlog for development</p>
+<ul class="simple">
+<li><p>Task: Categorise Transactions - PyFynanace to try and categorise what each transaction is to provide insight on your spending</p></li>
+<li><p>Task: Analyse Spending - PyFyanace to perform analytics (basic at first) on loaded and categorised transactions</p></li>
+<li><p>Task: Add Custom Categorisation Rules - PyFynance to allow users to provide their own categorisation rules and weightings</p></li>
+<li><p>Task: Add / Analyse Goals - PyFyannce to allow users to define spending / saving goals to be tracked against</p></li>
+<li><p>Interface: PyFynance GUI Interface - PyFynance to transation from cmd line interface to interactive GUI</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="pyfynance-testing-approach-cicd">
+<h2>PyFynance Testing Approach / CICD<a class="headerlink" href="#pyfynance-testing-approach-cicd" title="Permalink to this headline">¶</a></h2>
+<p>PyFynance utilises TDD/BDD principals and maintains both unit and acceptance test suites.</p>
+<p>Unit testing is carried out using the pytest library and is run on all public interfaces. The unit test suite is
+maintained at &gt;95% coverage for all branches on the remote repo</p>
+<p>Acceptance testing is carried out using the beahve library and run on all tasks/features of PyFynance. All new features
+in PyFynance must submit behave tests to fully test their feature</p>
+<p>CICD build and test pipelines are setup and maintained using travis-ci. PyFynance CICD pipeline will trigger the following:</p>
+<ul class="simple">
+<li><p>Code styling check via Black library</p></li>
+<li><p>Pytest unit testing suite run for success and code coverage</p></li>
+<li><p>Behave acceptance test suite run for success</p></li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 </div>
 <div class="section" id="pyfynance-api-documentation">
 <h2>PyFynance API Documentation<a class="headerlink" href="#pyfynance-api-documentation" title="Permalink to this headline">¶</a></h2>
@@ -229,21 +254,12 @@ API documentation was generated using Sphinx-apidoc</p>
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tests/tests.html">     PyFynance Testing Approach</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tests/tests.html#pyfynance-testing-approach">PyFynance Testing Approach</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tests/tests.html#unit-test-suite-results">Unit Test Suite Results</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/PyFynance.core.html">     Core Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="apidoc/PyFynance.core.html#core-modules">Core Modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.core.pyfynance.html">PyFynance Application Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.core.config.html">Core/Config Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.core.exceptions.html">Core/Exceptions Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.core.helpers.html">Core/Helpers Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tasks/tasks.html">     PyFynance Tasks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tasks/task_load_transactions.html">     Load Transactions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tasks/task_load_transactions.html#task-purpose">Task Purpose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tasks/task_load_transactions.html#how-to-call-this-task">How to call this task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tasks/task_load_transactions.html#example-usage-of-the-task">Example Usage of the Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tasks/task_load_transactions.html#common-errors-troubleshooting">Common Errors / Troubleshooting</a></li>
 </ul>
 </li>
 </ul>
@@ -252,47 +268,49 @@ API documentation was generated using Sphinx-apidoc</p>
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/PyFynance.resources.html">     Resources Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="apidoc/PyFynance.resources.html#resources-modules">Resources Modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.resources.config.html">Resources/Config Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.resources.databases.html">Resources/Database Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apidocs.html">     PyFynance API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apidoc/PyFynance.core.html">     Core Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.core.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.core.config.html">PyFynance.core.config module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.core.exceptions.html">PyFynance.core.exceptions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.core.helpers.html">PyFynance.core.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.core.pyfynance.html">PyFynance.core.pyfynance module</a></li>
 </ul>
 </li>
 </ul>
 </li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/PyFynance.schemas.html">     Schemas Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="apidoc/PyFynance.schemas.html#schemas-modules">Schemas Modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.schemas.config.html">Schemas/Config Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.schemas.model.html">Schemas/Model Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.schemas.ofx_banking_transaction.html">Schemas/OFX Banking Transaction Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apidoc/PyFynance.resources.html">     Resources Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.resources.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.resources.config.html">PyFynance.resources.config package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.resources.databases.html">PyFynance.resources.databases package</a></li>
 </ul>
 </li>
 </ul>
 </li>
-</ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/PyFynance.services.html">     Services Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="apidoc/PyFynance.services.html#service-modules">Service Modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.services.database.html">Services/Database Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.services.ofx_parser.html">Services/OFX Parser Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apidoc/PyFynance.schemas.html">     Schemas Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.schemas.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.schemas.config.html">PyFynance.schemas.config module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.schemas.model.html">PyFynance.schemas.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.schemas.ofx_banking_transaction.html">PyFynance.schemas.ofx_banking_transaction module</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="apidoc/PyFynance.services.html">     Services Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.services.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.services.database.html">PyFynance.services.database module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.services.file_system.html">PyFynance.services.file_system module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.services.ofx_parser.html">PyFynance.services.ofx_parser module</a></li>
 </ul>
-</div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="apidoc/PyFynance.tasks.html">     Tasks Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="apidoc/PyFynance.tasks.html#task-modules">Task Modules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.tasks.task_base.html">Tasks/Base Task Module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.tasks.task_load_transactions.html">Tasks/Load Transactions Task Module</a></li>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="apidoc/PyFynance.tasks.html">     Tasks Package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apidoc/PyFynance.tasks.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.tasks.task_base.html">PyFynance.tasks.task_base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apidoc/PyFynance.tasks.task_load_transactions.html">PyFynance.tasks.task_load_transactions module</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

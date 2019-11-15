@@ -1,7 +1,8 @@
 import argparse
 import datetime
-import os
 import sys
+
+TASKS_LOAD_TRANS = "load_transactions"
 
 
 def main():  # pragma: no cover
@@ -29,7 +30,7 @@ def create_known_arg_parser():  # pragma: no cover
         "--task_type",
         metavar="task_type",
         help="task_type",
-        choices=["load_transactions"],
+        choices=[TASKS_LOAD_TRANS],
         required=True,
     )
     return parser
@@ -60,7 +61,7 @@ def parse_arguments(cmd_line_args):  # pragma: no cover
     known_args_parser = create_known_arg_parser()
     args, remaining_args = known_args_parser.parse_known_args(cmd_line_args)
 
-    if args.task_type == "load_transactions":
+    if args.task_type == TASKS_LOAD_TRANS:
         lt_parser = create_load_tran_parser()
         lt_parser.parse_args(remaining_args, namespace=args)
 

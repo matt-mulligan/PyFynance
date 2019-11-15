@@ -1,5 +1,5 @@
-Core/Helpers Module
-===================
+PyFynance.core.helpers module
+=============================
 
 .. automodule:: PyFynance.core.helpers
    :members:

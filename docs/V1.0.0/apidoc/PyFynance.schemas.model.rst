@@ -1,5 +1,5 @@
-Schemas/Model Module
-====================
+PyFynance.schemas.model module
+==============================
 
 .. automodule:: PyFynance.schemas.model
    :members:

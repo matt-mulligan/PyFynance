@@ -16,7 +16,6 @@ sphinx = "*"
 beautifulsoup4 = "*"
 behave = "*"
 rtcat-sphinx-theme = "*"
-sphinx-test-reports = "*"
 black = "==19.3b0"
 pre-commit = "*"
 pyfynance = {path = "./PyFynance",editable = true}
