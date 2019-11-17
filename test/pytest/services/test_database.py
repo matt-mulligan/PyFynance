@@ -40,6 +40,10 @@ def insert_data():
         "amount": Decimal("-135000.00"),
         "narrative": "sweet ass tesla",
         "date_posted": "20600707103000",
+        "rule_id": None,
+        "tran_category": None,
+        "primary_category": None,
+        "secondary_category": None,
     }
 
 
@@ -99,7 +103,8 @@ def test_when_start_db_and_current_and_good_db_name_then_db_started(
                 call().execute(
                     "CREATE TABLE IF NOT EXISTS transactions (institution text, account text, tran_id text, "
                     "tran_type text, amount decimal, narrative text, date_posted text, date_processed text, "
-                    "category_01 text, category_02 text, PRIMARY KEY (institution, account, tran_id));"
+                    "rule_id text, tran_category text, primary_category text, secondary_category text, "
+                    "PRIMARY KEY (institution, account, tran_id));"
                 ),
             ]
         )
@@ -213,8 +218,9 @@ def test_when_insert_and_db_good_and_table_good_then_sql_called(
     cursor_mock.assert_has_calls(
         [
             call.execute(
-                "INSERT INTO transactions(institution, account, tran_id, tran_type, amount, narrative, date_posted) "
-                "VALUES(?, ?, ?, ?, ?, ?, ?);",
+                "INSERT INTO transactions(institution, account, tran_id, tran_type, amount, narrative, date_posted, "
+                "rule_id, tran_category, primary_category, secondary_category) "
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
                 (
                     "matts_fully_sick_bank",
                     "multi-billion_dollar_savings",
@@ -223,6 +229,10 @@ def test_when_insert_and_db_good_and_table_good_then_sql_called(
                     "-135000.00",
                     "sweet ass tesla",
                     "20600707103000",
+                    None,
+                    None,
+                    None,
+                    None,
                 ),
             )
         ]

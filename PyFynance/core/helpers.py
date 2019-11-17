@@ -35,3 +35,33 @@ def find_all_files(path, patterns, recursive=False, full_path=True):
             cleaned_matches.append(match.split(os.sep)[-1])
 
     return cleaned_matches
+
+
+def convert_tuple_to_dict(data_tuple, keys_list):
+    """
+    this helper method will convert a tuple of data to a dictionary with the specified column names
+
+    :param data_tuple: a tuple containign the data you wish to convert to a dictionary
+    :type data_tuple: tuple
+    :param keys_list: a list of strings which will be used for dictionary keys
+    :type keys_list: list
+    :return: Dictionary containing the tuple data with appropriate key values
+    """
+
+    if len(data_tuple) != len(keys_list):
+        raise AttributeError(
+            f"Length of data_tuple ({len(data_tuple)}) and keys_list ({len(keys_list)}) do not match. "
+            "Both parameters must be the same length to convert them to a dictionary"
+        )
+
+    if type(data_tuple) != tuple:
+        raise AttributeError(
+            f"Data type of argument 'data_tuple' is {type(data_tuple)}. Expected type is tuple."
+        )
+
+    if type(keys_list) != list:
+        raise AttributeError(
+            f"Data type of argument 'keys_list' is {type(keys_list)}. Expected type is list."
+        )
+
+    return dict(zip(keys_list, list(data_tuple)))

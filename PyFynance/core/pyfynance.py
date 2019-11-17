@@ -80,7 +80,7 @@ class PyFynance:
 
         return {
             self._config.tasks.load_transactions: "tasks.task_load_transactions.LoadTransactionsTask",
-            self._config.tasks.categorize_transactions: "tasks.task_load_transactions.CategorizeTransactionsTask",
+            self._config.tasks.categorize_transactions: "tasks.task_categorize_transactions.CategorizeTransactionsTask",
         }[self._args.task_type]
 
     @staticmethod

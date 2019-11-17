@@ -37,12 +37,28 @@ def task(args):
 
 @fixture
 def tran01():
-    tran = MagicMock(spec=["fitid", "trn_type", "amount", "name", "date_posted"])
+    tran = MagicMock(
+        spec=[
+            "fitid",
+            "trn_type",
+            "amount",
+            "name",
+            "date_posted",
+            "rule_id",
+            "tran_category",
+            "primary_category",
+            "secondary_category",
+        ]
+    )
     tran.fitid = "tran0001"
     tran.trn_type = "CREDIT"
     tran.amount = Decimal(-69.10)
     tran.name = "xbox.com.au subscription"
     tran.date_posted = datetime.datetime(2019, 9, 24, 20, 37, 12)
+    tran.rule_id = None
+    tran.tran_category = None
+    tran.primary_category = None
+    tran.secondary_category = None
     return tran
 
 
@@ -57,19 +73,37 @@ def tran01_data():
         "narrative": "xbox.com.au subscription",
         "date_posted": "20190924203712",
         "date_processed": "20150214101112",
-        "category_01": None,
-        "category_02": None,
+        "rule_id": None,
+        "tran_category": None,
+        "primary_category": None,
+        "secondary_category": None,
     }
 
 
 @fixture
 def tran02():
-    tran = MagicMock(spec=["fitid", "trn_type", "amount", "memo", "date_posted"])
+    tran = MagicMock(
+        spec=[
+            "fitid",
+            "trn_type",
+            "amount",
+            "memo",
+            "date_posted",
+            "rule_id",
+            "tran_category",
+            "primary_category",
+            "secondary_category",
+        ]
+    )
     tran.fitid = "tran0002"
     tran.trn_type = "DEBIT"
     tran.amount = Decimal(150000000.00)
     tran.memo = "powerball winnings"
     tran.date_posted = datetime.datetime(2019, 9, 13, 21, 42, 55)
+    tran.rule_id = None
+    tran.tran_category = None
+    tran.primary_category = None
+    tran.secondary_category = None
     return tran
 
 
@@ -84,15 +118,27 @@ def tran02_data():
         "narrative": "powerball winnings",
         "date_posted": "20190913214255",
         "date_processed": "20150214101112",
-        "category_01": None,
-        "category_02": None,
+        "rule_id": None,
+        "tran_category": None,
+        "primary_category": None,
+        "secondary_category": None,
     }
 
 
 @fixture
 def tran03():
     tran = MagicMock(
-        spec=["fitid", "trn_type", "amount", "name", "memo", "date_posted"]
+        spec=[
+            "fitid",
+            "trn_type",
+            "amount",
+            "name",
+            "date_posted",
+            "rule_id",
+            "tran_category",
+            "primary_category",
+            "secondary_category",
+        ]
     )
     tran.fitid = "tran0003"
     tran.trn_type = "CREDIT"
@@ -100,6 +146,10 @@ def tran03():
     tran.name = "Company co."
     tran.memo = "fortnightly pay"
     tran.date_posted = datetime.datetime(2019, 9, 24, 18, 0, 0)
+    tran.rule_id = None
+    tran.tran_category = None
+    tran.primary_category = None
+    tran.secondary_category = None
     return tran
 
 
@@ -114,8 +164,10 @@ def tran03_data():
         "narrative": "Company co. - fortnightly pay",
         "date_posted": "20190924180000",
         "date_processed": "20150214101112",
-        "category_01": None,
-        "category_02": None,
+        "rule_id": None,
+        "tran_category": None,
+        "primary_category": None,
+        "secondary_category": None,
     }
 
 

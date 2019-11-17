@@ -164,8 +164,10 @@ class LoadTransactionsTask(BaseTask):
                 "narrative": self._get_narrative_from_transaction(transaction),
                 "date_posted": transaction.date_posted.strftime("%Y%m%d%H%M%S"),
                 "date_processed": self._args.runtime.strftime("%Y%m%d%H%M%S"),
-                "category_01": None,
-                "category_02": None,
+                "rule_id": None,
+                "tran_category": None,
+                "primary_category": None,
+                "secondary_category": None,
             }
             self._db.insert("transactions", "transactions", data)
 

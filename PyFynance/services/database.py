@@ -474,4 +474,4 @@ class Database:
         :return: ANY: returns the correctly cast data for insertion
         """
 
-        return str(data)
+        return str(data) if data is not None else data

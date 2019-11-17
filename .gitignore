@@ -14,9 +14,11 @@
 
 /PyFynance/resources/databases/backup/*
 !/PyFynance/resources/databases/backup/.gitkeep
+!/PyFynance/resources/databases/backup/rules_backup.db
 
 /PyFynance/resources/databases/current/*
 !/PyFynance/resources/databases/current/.gitkeep
+!/PyFynance/resources/databases/current/rules.db
 
 # Ignoring log folder
 /logs/*

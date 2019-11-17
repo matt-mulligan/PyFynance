@@ -99,6 +99,26 @@ class DatabasePrimaryKeysSchema(Schema):
         return Model(**data)
 
 
+class DatabaseColumnsSchema(Schema):
+    """
+    This class represents the schema of a configuration.ofx_parser object. Marshmallow uses this class to serialise and
+    deserialize python objects to and from json
+    """
+
+    transactions = fields.List(fields.String())
+    base_rules = fields.List(fields.String())
+
+    @post_load
+    def create(self, data, **kwargs):
+        """
+        called by marshmallow package when deserialising completes in order to construct a valid instance.
+        :param data:
+        :return: None
+        """
+
+        return Model(**data)
+
+
 class DatabaseSchema(Schema):
     """
     This class represents the schema of a configuration.database object. Marshmallow uses this class to serialise and
@@ -109,6 +129,7 @@ class DatabaseSchema(Schema):
     tables = fields.Nested(DatabaseTablesSchema())
     column_specs = fields.Nested(DatabaseColumnSpecsSchema(), data_key="columnSpecs")
     primary_keys = fields.Nested(DatabasePrimaryKeysSchema(), data_key="primaryKeys")
+    columns = fields.Nested(DatabaseColumnsSchema())
 
     @post_load
     def create(self, data, **kwargs):

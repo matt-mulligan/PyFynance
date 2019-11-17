@@ -23,7 +23,7 @@
         "dbNames": ["transactions", "rules"],
         "tables": {
             "transactions": ["transactions"],
-            "rules": ["base_rules, custom_rules"]
+            "rules": ["base_rules", "custom_rules"]
         },
         "columnSpecs": {
             "transactions": {
@@ -35,23 +35,31 @@
                 "narrative": "text",
                 "date_posted": "text",
                 "date_processed": "text",
-                "category_01": "text",
-                "category_02": "text"
+                "rule_id": "text",
+                "tran_category": "text",
+                "primary_category": "text",
+                "secondary_category": "text"
             },
             "base_rules": {
-                "ruleId": "text",
-                "ruleType": "text",
-                "ruleOperation": "text",
-                "ruleValue": "text",
-                "ruleConfidence": "integer",
-                "tranCategory": "text",
-                "category01": "text",
-                "category02": "text"
+                "id": "text",
+                "type": "text",
+                "operation": "text",
+                "value": "text",
+                "confidence": "integer",
+                "tran_category": "text",
+                "primary_category": "text",
+                "secondary_category": "text"
             }
         },
         "primaryKeys": {
             "transactions": ["institution", "account", "tran_id"],
             "base_rules": ["ruleId"]
+        },
+        "columns": {
+            "transactions": ["institution", "account", "tran_id", "tran_type", "amount", "narrative", "date_posted",
+                "date_processed", "rule_id", "tran_category", "primary_category", "secondary_category"],
+            "base_rules": ["id", "type", "operation", "value", "confidence", "tran_category", "primary_category",
+                "secondary_category"]
         }
     }
 }
