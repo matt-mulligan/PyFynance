@@ -2,6 +2,7 @@ import os
 
 from core import helpers
 from core.exceptions import TaskLoadTransactionsError
+from services.ofx_parser import OFXParser
 from tasks.task_base import BaseTask
 
 
@@ -25,16 +26,20 @@ class LoadTransactionsTask(BaseTask):
     Once a file has been loaded using the load_transaction task it will be moved to either:
         * /input/banking_transactions/processed      if the task was successful
         * /input/banking_transactions/error         if the task failed
+
+    ChangeLog:
+        - original implementation of this task added to PyFynance in Release 1.0
     """
 
     def __init__(self, args):
         super(LoadTransactionsTask, self).__init__(args)
+        self._ofx_parser = OFXParser(self._config)
         self._transactions = []
         self._input_files = []
         self._task_state = "OK"
 
     def __repr__(self):
-        return "PyFynance.Tasks.LoadTransactionsTask({})".format(self.get_args_repr())
+        return f"PyFynance.Tasks.LoadTransactionsTask({self.get_args_repr()})"
 
     def before_task(self):
         """
@@ -43,9 +48,9 @@ class LoadTransactionsTask(BaseTask):
         :return: None
         """
 
-        self._logger.info("Beginning before_task method of task '{}'.".format(self))
+        self._logger.info(f"Beginning before_task method of task '{self}'.")
         self._db.start_db("transactions")
-        self._logger.info("Finished before_task method of task '{}'.".format(self))
+        self._logger.info(f"Finished before_task method of task '{self}'.")
 
     def do_task(self):
         """
@@ -55,17 +60,15 @@ class LoadTransactionsTask(BaseTask):
         """
 
         try:
-            self._logger.info("Beginning do_task method of task '{}'.".format(self))
+            self._logger.info(f"Beginning do_task method of task '{self}'.")
             self._load_transactions_from_file()
             self._filter_transactions()
             self._write_transactions_to_db()
-            self._logger.info("Finished do_task method of task '{}'.".format(self))
+            self._logger.info(f"Finished do_task method of task '{self}'.")
         except Exception as e:
             self._task_state = "FAILED"
             raise TaskLoadTransactionsError(
-                "An error occurred during the do_task step of the '{}'.  {}".format(
-                    self, e
-                )
+                f"An error occurred during the do_task step of the '{self}'.  {e}"
             )
 
     def after_task(self):
@@ -75,14 +78,14 @@ class LoadTransactionsTask(BaseTask):
         :return: None
         """
 
-        self._logger.info("Beginning after_task method of task '{}'.".format(self))
+        self._logger.info(f"Beginning after_task method of task '{self}'.")
         if self._task_state == "FAILED":
             self._db.stop_db("transactions", commit=False)
             self._move_input_files("FAILED")
         else:
             self._db.stop_db("transactions", commit=True)
             self._move_input_files("PASSED")
-        self._logger.info("Finished after_task method of task '{}'.".format(self))
+        self._logger.info(f"Finished after_task method of task '{self}'.")
 
     def _move_input_files(self, task_status):
         """
@@ -97,9 +100,9 @@ class LoadTransactionsTask(BaseTask):
         state_folder = "processed" if task_status == "PASSED" else "error"
 
         for file_path in self._input_files:
-            dest_file = "{}_{}".format(
-                file_path.split(os.sep)[-1], self._args.runtime.strftime("%Y%m%d%H%M%S")
-            )
+            filename = file_path.split(os.sep)[-1]
+            timestamp = self._args.runtime.strftime("%Y%m%d%H%M%S")
+            dest_file = f"{filename}_{timestamp}"
             dest_path = os.sep.join(
                 [
                     self._config.paths.input_path,
@@ -140,10 +143,8 @@ class LoadTransactionsTask(BaseTask):
             self._input_files.append(file_path)
         if len(files_to_parse) == 0:
             raise TaskLoadTransactionsError(
-                "No input ofx/qfx files found in input path '{}'.  Are you sure you "
-                "placed the file there? Is the file type ofx/qfx?".format(
-                    transactions_input_path
-                )
+                f"No input ofx/qfx files found in input path '{transactions_input_path}'.  Are you sure you "
+                "placed the file there? Is the file type ofx/qfx?"
             )
 
     def _write_transactions_to_db(self):
@@ -163,6 +164,8 @@ class LoadTransactionsTask(BaseTask):
                 "narrative": self._get_narrative_from_transaction(transaction),
                 "date_posted": transaction.date_posted.strftime("%Y%m%d%H%M%S"),
                 "date_processed": self._args.runtime.strftime("%Y%m%d%H%M%S"),
+                "category_01": None,
+                "category_02": None,
             }
             self._db.insert("transactions", "transactions", data)
 
@@ -183,13 +186,11 @@ class LoadTransactionsTask(BaseTask):
 
         composite_keys = []
         for row in transaction_data:
-            composite_keys.append("{}-{}-{}".format(row[0], row[1], row[2]))
+            composite_keys.append(f"{row[0]}-{row[1]}-{row[2]}")
 
         new_transactions = []
         for transaction in self._transactions:
-            key = "{}-{}-{}".format(
-                self._args.institution, self._args.account, transaction.fitid
-            )
+            key = f"{self._args.institution}-{self._args.account}-{transaction.fitid}"
             if key not in composite_keys:
                 new_transactions.append(transaction)
 
@@ -204,9 +205,7 @@ class LoadTransactionsTask(BaseTask):
         """
 
         columns = ["institution", "account", "tran_id"]
-        where = 'institution = "{institution}" and account = "{account}"'.format(
-            institution=self._args.institution, account=self._args.account
-        )
+        where = f'institution = "{self._args.institution}" and account = "{self._args.account}"'
         return self._db.select(
             "transactions", "transactions", columns=columns, where=where
         )
@@ -226,7 +225,7 @@ class LoadTransactionsTask(BaseTask):
         has_memo = hasattr(transaction, "memo")
 
         if has_name and has_memo:
-            return "{} - {}".format(transaction.name, transaction.memo)
+            return f"{transaction.name} - {transaction.memo}"
         elif has_memo:
             return transaction.memo
         elif has_name:
@@ -234,5 +233,5 @@ class LoadTransactionsTask(BaseTask):
         else:
             raise TaskLoadTransactionsError(
                 "Transaction does not have a memo or name attribute.  The transaction "
-                "has the following attributes '{}'".format(transaction.__dict__.keys())
+                f"has the following attributes '{transaction.__dict__.keys()}'"
             )

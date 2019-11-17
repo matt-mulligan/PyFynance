@@ -5,7 +5,6 @@ from core.config import Configuration
 from core.exceptions import TaskError
 from services.database import Database
 from services.file_system import FileSystem
-from services.ofx_parser import OFXParser
 
 
 class BaseTask:
@@ -16,7 +15,6 @@ class BaseTask:
         self._args = args
         self._logger = logging.getLogger(__name__)
         self._config = Configuration()
-        self._ofx_parser = OFXParser(self._config)
         self._db = Database()
         self._fs = FileSystem()
 
@@ -57,9 +55,7 @@ class BaseTask:
         """
 
         self._logger.info(
-            "Beginning task execution for task type '{}'".format(
-                self.__class__.__name__
-            )
+            f"Beginning task execution for task type '{self.__class__.__name__}'"
         )
         passed = True
 
@@ -69,16 +65,14 @@ class BaseTask:
         except Exception as e:
             passed = False
             self._logger.exception(
-                "PyFynance encountered an error while running task.  {}".format(e)
+                f"PyFynance encountered an error while running task.  {e}"
             )
             raise TaskError(e)
         finally:
             self.after_task()
             status = "Success" if passed else "Failure"
             self._logger.info(
-                "Finished task execution for task type '{}' with status '{}'".format(
-                    self.__class__.__name__, status
-                )
+                f"Finished task execution for task type '{self.__class__.__name__}' with status '{status}'"
             )
         return passed
 
@@ -91,5 +85,5 @@ class BaseTask:
 
         repr_string = ""
         for key, value in self._args.__dict__.items():
-            repr_string += "{}={}, ".format(key, value)
+            repr_string += f"{key}={value}, "
         return repr_string[:-2]

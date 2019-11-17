@@ -3,6 +3,7 @@ import datetime
 import sys
 
 TASKS_LOAD_TRANS = "load_transactions"
+TASKS_CAT_TRANS = "categorize_transactions"
 
 
 def main():  # pragma: no cover
@@ -30,7 +31,7 @@ def create_known_arg_parser():  # pragma: no cover
         "--task_type",
         metavar="task_type",
         help="task_type",
-        choices=[TASKS_LOAD_TRANS],
+        choices=[TASKS_LOAD_TRANS, TASKS_CAT_TRANS],
         required=True,
     )
     return parser

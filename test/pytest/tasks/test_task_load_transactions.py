@@ -57,6 +57,8 @@ def tran01_data():
         "narrative": "xbox.com.au subscription",
         "date_posted": "20190924203712",
         "date_processed": "20150214101112",
+        "category_01": None,
+        "category_02": None,
     }
 
 
@@ -82,6 +84,8 @@ def tran02_data():
         "narrative": "powerball winnings",
         "date_posted": "20190913214255",
         "date_processed": "20150214101112",
+        "category_01": None,
+        "category_02": None,
     }
 
 
@@ -110,6 +114,8 @@ def tran03_data():
         "narrative": "Company co. - fortnightly pay",
         "date_posted": "20190924180000",
         "date_processed": "20150214101112",
+        "category_01": None,
+        "category_02": None,
     }
 
 

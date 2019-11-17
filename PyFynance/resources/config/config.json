@@ -1,5 +1,9 @@
 {
     "version": 1.0,
+    "tasks": {
+        "loadTransactions": "load_transactions",
+        "categorizeTransactions": "categorize_transactions"
+    },
     "paths": {
         "repoPath": "${repo_base_path}",
         "codePath": "${repo_base_path}${sep}PyFynance",
@@ -16,7 +20,7 @@
         "htmlTags": ["br"]
     },
     "database": {
-        "dbNames": ["transactions"],
+        "dbNames": ["transactions", "rules"],
         "tables": {
             "transactions": ["transactions"],
             "rules": ["base_rules, custom_rules"]
@@ -30,11 +34,24 @@
                 "amount": "decimal",
                 "narrative": "text",
                 "date_posted": "text",
-                "date_processed": "text"
+                "date_processed": "text",
+                "category_01": "text",
+                "category_02": "text"
+            },
+            "base_rules": {
+                "ruleId": "text",
+                "ruleType": "text",
+                "ruleOperation": "text",
+                "ruleValue": "text",
+                "ruleConfidence": "integer",
+                "tranCategory": "text",
+                "category01": "text",
+                "category02": "text"
             }
         },
         "primaryKeys": {
-            "transactions": ["institution", "account", "tran_id"]
+            "transactions": ["institution", "account", "tran_id"],
+            "base_rules": ["ruleId"]
         }
     }
 }

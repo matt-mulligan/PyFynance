@@ -53,7 +53,7 @@ def test_when_init_then_database_service_returned():
 
     assert db._sql == {
         "create": "CREATE TABLE IF NOT EXISTS {table} ({col_spec}, PRIMARY KEY ({keys}));",
-        "insert": "INSERT INTO {table}({columns}) VALUES({data});",
+        "insert": "INSERT INTO {table}({columns}) VALUES({placeholders});",
         "select": {
             "select_all_from": "SELECT * FROM {table};",
             "select_columns_from": "SELECT {columns} FROM {table};",
@@ -83,11 +83,13 @@ def test_when_start_db_and_current_and_good_db_name_then_db_started(
         connection_mock.cursor.assert_called()
         connection_mock.cursor.assert_has_calls(
             [
+                call(),
+                call(),
                 call().execute(
                     "CREATE TABLE IF NOT EXISTS transactions (institution text, account text, tran_id text, "
-                    "tran_type text, amount decimal, narrative text, date_posted text, date_processed text, PRIMARY KEY "
-                    "(institution, account, tran_id));"
-                )
+                    "tran_type text, amount decimal, narrative text, date_posted text, date_processed text, "
+                    "category_01 text, category_02 text, PRIMARY KEY (institution, account, tran_id));"
+                ),
             ]
         )
 
@@ -138,7 +140,7 @@ def test_when_start_db_and_bad_db_name_then_error(db):
         raised_error.value.args[0]
         == "Exception occurred while starting database 'not_a_real_db'.  Database name "
         "specified is not an acceptable PyFynance database. Acceptable PyFynance "
-        "databases include ['transactions']"
+        "databases include ['transactions', 'rules']"
     )
 
 
@@ -188,7 +190,7 @@ def test_when_stop_db_and_bad_db_name_then_error(db):
         raised_error.value.args[0]
         == "Exception occurred while stopping database 'not_a_real_db'.  Database name "
         "specified is not an acceptable PyFynance database. Acceptable PyFynance "
-        "databases include ['transactions']"
+        "databases include ['transactions', 'rules']"
     )
 
 
@@ -200,9 +202,17 @@ def test_when_insert_and_db_good_and_table_good_then_sql_called(
     cursor_mock.assert_has_calls(
         [
             call.execute(
-                "INSERT INTO transactions(institution, account, tran_id, tran_type, amount, narrative, "
-                'date_posted) VALUES("matts_fully_sick_bank", "multi-billion_dollar_savings", "42069", '
-                '"CREDIT", -135000.00, "sweet ass tesla", "20600707103000");'
+                "INSERT INTO transactions(institution, account, tran_id, tran_type, amount, narrative, date_posted) "
+                "VALUES(?, ?, ?, ?, ?, ?, ?);",
+                (
+                    "matts_fully_sick_bank",
+                    "multi-billion_dollar_savings",
+                    "42069",
+                    "CREDIT",
+                    "-135000.00",
+                    "sweet ass tesla",
+                    "20600707103000",
+                ),
             )
         ]
     )
@@ -215,7 +225,7 @@ def test_when_insert_and_bad_db_name_then_error(db, insert_data):
         raised_error.value.args[0]
         == "Exception occurred while inserting data into 'not_a_real_db.transactions'."
         "  Database name specified is not an acceptable PyFynance database. "
-        "Acceptable PyFynance databases include ['transactions']"
+        "Acceptable PyFynance databases include ['transactions', 'rules']"
     )
 
 
@@ -290,7 +300,7 @@ def test_when_select_and_bad_db_name_then_error(db):
         raised_error.value.args[0]
         == "Exception occurred while selecting data from 'not_a_real_db.transactions'."
         "  Database name specified is not an acceptable PyFynance database. "
-        "Acceptable PyFynance databases include ['transactions']"
+        "Acceptable PyFynance databases include ['transactions', 'rules']"
     )
 
 

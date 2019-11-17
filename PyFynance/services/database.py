@@ -4,6 +4,7 @@ import logging
 import os
 import sqlite3
 import shutil
+from decimal import Decimal
 
 from core.config import Configuration
 from core.exceptions import DatabaseError
@@ -42,9 +43,7 @@ class Database:
 
         try:
             self._logger.info(
-                "Attempting to start the database service for database '{}'".format(
-                    db_name
-                )
+                f"Attempting to start the database service for database '{db_name}'"
             )
             self._check_db_name(db_name)
             db_path = self._get_db_path(db_name, current)
@@ -53,15 +52,11 @@ class Database:
             if current:
                 self._build_tables(db_name)
             self._logger.info(
-                "Successfully started the database service for database '{}'".format(
-                    db_name
-                )
+                f"Successfully started the database service for database '{db_name}'"
             )
         except Exception as e:
             raise DatabaseError(
-                "Exception occurred while starting database '{}'.  {}".format(
-                    db_name, e
-                )
+                f"Exception occurred while starting database '{db_name}'.  {e}"
             )
 
     def stop_db(self, db_name, commit=True):
@@ -79,8 +74,7 @@ class Database:
 
         try:
             self._logger.info(
-                "Attempting to stop the database service for database '{}' with commit "
-                "set to {}".format(db_name, commit)
+                f"Attempting to stop the database service for database '{db_name}' with commit set to {commit}"
             )
             self._check_db_name(db_name)
             if commit:
@@ -89,14 +83,11 @@ class Database:
             if commit:
                 self._backup_db(db_name)
             self._logger.info(
-                "Successfully stopped the database service for database '{}' with commit "
-                "set to {}".format(db_name, commit)
+                f"Successfully stopped the database service for database '{db_name}' with commit set to {commit}"
             )
         except Exception as e:
             raise DatabaseError(
-                "Exception occurred while stopping database '{}'.  {}".format(
-                    db_name, e
-                )
+                f"Exception occurred while stopping database '{db_name}'.  {e}"
             )
 
     def insert(self, db_name, table, data):
@@ -123,31 +114,30 @@ class Database:
         """
 
         try:
-            self._logger.info(
-                "Attempting insert of data into '{}.{}'".format(db_name, table)
-            )
+            self._logger.info(f"Attempting insert of data into '{db_name}.{table}'")
             self._check_db_name(db_name)
             self._check_table_name(db_name, table)
             column_names = []
             data_vals = []
+            data_inserts = []
 
             for col_name, data_val in data.items():
                 column_names.append(col_name)
+                data_inserts.append("?")
                 data_vals.append(self._cast_data_for_insert(data_val))
 
             columns = ", ".join(column_names)
-            data = ", ".join(data_vals)
+            data = tuple(data_vals)
+            data_placeholders = ", ".join(data_inserts)
 
-            sql = self._sql["insert"].format(table=table, columns=columns, data=data)
-            self._execute(db_name, sql)
-            self._logger.info(
-                "Successful insert of data into '{}.{}'".format(db_name, table)
+            sql = self._sql["insert"].format(
+                table=table, columns=columns, placeholders=data_placeholders
             )
+            self._execute(db_name, sql, data)
+            self._logger.info(f"Successful insert of data into '{db_name}.{table}'")
         except Exception as e:
             raise DatabaseError(
-                "Exception occurred while inserting data into '{}.{}'.  {}".format(
-                    db_name, table, e
-                )
+                f"Exception occurred while inserting data into '{db_name}.{table}'.  {e}"
             )
 
     def select(self, db_name, table, columns=None, where=None):
@@ -179,15 +169,12 @@ class Database:
         """
 
         try:
-            self._logger.info(
-                "Attempting select of data from '{}.{}'".format(db_name, table)
-            )
+            self._logger.info(f"Attempting select of data from '{db_name}.{table}'")
             self._check_db_name(db_name)
             self._check_table_name(db_name, table)
-            sql_key = "{cols}_{wheres}".format(
-                cols="columns" if columns else "none",
-                wheres="where" if where else "none",
-            )
+            cols = "columns" if columns else "none"
+            wheres = "where" if where else "none"
+            sql_key = f"{cols}_{wheres}"
             sql = {
                 "none_none": self._sql["select"]["select_all_from"],
                 "columns_none": self._sql["select"]["select_columns_from"],
@@ -199,15 +186,11 @@ class Database:
             data = self._execute(
                 db_name, sql.format(table=table, columns=column_names, where=where)
             ).fetchall()
-            self._logger.info(
-                "Successful select of data from '{}.{}'".format(db_name, table)
-            )
+            self._logger.info(f"Successful select of data from '{db_name}.{table}'")
             return data
         except Exception as e:
             raise DatabaseError(
-                "Exception occurred while selecting data from '{}.{}'.  {}".format(
-                    db_name, table, e
-                )
+                f"Exception occurred while selecting data from '{db_name}.{table}'.  {e}"
             )
 
     def _build_tables(self, db_name):
@@ -226,7 +209,14 @@ class Database:
                     "col_spec": self._config.database.column_specs["transactions"],
                     "primary_keys": self._config.database.primary_keys.transactions,
                 }
-            ]
+            ],
+            "rules": [
+                {
+                    "table_name": "base_rules",
+                    "col_spec": self._config.database.column_specs["base_rules"],
+                    "primary_keys": self._config.database.primary_keys.base_rules,
+                }
+            ],
         }[db_name]
 
         for table_info in table_creates:
@@ -260,18 +250,14 @@ class Database:
 
         timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
         source_path = os.sep.join(
-            [self._config.paths.db_path, "current", "{}.db".format(db_name)]
+            [self._config.paths.db_path, "current", f"{db_name}.db"]
         )
         backup_path = os.sep.join(
-            [
-                self._config.paths.db_path,
-                "backup",
-                "{}_{}.db".format(db_name, timestamp),
-            ]
+            [self._config.paths.db_path, "backup", f"{db_name}_{timestamp}.db"]
         )
         shutil.copyfile(source_path, backup_path)
 
-    def _execute(self, db_name, sql):
+    def _execute(self, db_name, sql, data=None):
         """
         This private method will execute a database command on the specified database.
 
@@ -279,12 +265,22 @@ class Database:
         :type db_name: String
         :param sql: The sql command that should be executed
         :type sql: String
+        :param data: the data to be inserted if this is a data command
+        :type data: Tuple
         :return: None
         """
 
-        self._logger.debug("Attempting to execute sql command '{}'".format(sql))
-        execute_output = self._cursors[db_name].execute(sql)
-        self._logger.debug("Successful execution of sql command '{}'".format(sql))
+        self._logger.debug(
+            f"Attempting to execute sql command '{sql}' with data '{data}'"
+        )
+        execute_output = (
+            self._cursors[db_name].execute(sql, data)
+            if data
+            else self._cursors[db_name].execute(sql)
+        )
+        self._logger.debug(
+            f"Successful execution of sql command '{sql}' with data '{data}'"
+        )
         return execute_output
 
     def _check_db_name(self, db_name):
@@ -299,7 +295,7 @@ class Database:
         if db_name not in self._config.database.db_names:
             raise DatabaseError(
                 "Database name specified is not an acceptable PyFynance database. Acceptable "
-                "PyFynance databases include {}".format(self._config.database.db_names)
+                f"PyFynance databases include {self._config.database.db_names}"
             )
 
     def _check_table_name(self, db_name, table):
@@ -320,9 +316,7 @@ class Database:
 
         if table not in tables:
             raise DatabaseError(
-                "Table name '{}' is not a known table for database '{}'. Known tables are '{}' ".format(
-                    table, db_name, tables
-                )
+                f"Table name '{table}' is not a known table for database '{db_name}'. Known tables are '{tables}' "
             )
 
     def _get_db_path(self, db_name, current=True):
@@ -339,9 +333,7 @@ class Database:
         """
 
         state = "current" if current else "backup"
-        db_name = (
-            "{}.db".format(db_name) if current else self._get_backup_db_name(db_name)
-        )
+        db_name = f"{db_name}.db" if current else self._get_backup_db_name(db_name)
         return os.sep.join([self._config.paths.db_path, state, db_name])
 
     def _get_backup_db_name(self, db_name):
@@ -354,7 +346,7 @@ class Database:
         """
 
         search_path = os.sep.join(
-            [self._config.paths.db_path, "backup", "{}*.db".format(db_name)]
+            [self._config.paths.db_path, "backup", f"{db_name}*.db"]
         )
         paths = glob.glob(search_path)
         paths.sort(reverse=True)
@@ -372,7 +364,7 @@ class Database:
 
         column_specs = []
         for col_name, col_type in col_spec.items():
-            column_specs.append("{} {}".format(col_name, col_type))
+            column_specs.append(f"{col_name} {col_type}")
         return ", ".join(column_specs)
 
     @staticmethod
@@ -385,7 +377,7 @@ class Database:
 
         return {
             "create": "CREATE TABLE IF NOT EXISTS {table} ({col_spec}, PRIMARY KEY ({keys}));",
-            "insert": "INSERT INTO {table}({columns}) VALUES({data});",
+            "insert": "INSERT INTO {table}({columns}) VALUES({placeholders});",
             "select": {
                 "select_all_from": "SELECT * FROM {table};",
                 "select_columns_from": "SELECT {columns} FROM {table};",
@@ -404,7 +396,4 @@ class Database:
         :return: ANY: returns the correctly cast data for insertion
         """
 
-        if type(data) is str:
-            return '"{}"'.format(data)
-        else:
-            return str(data)
+        return str(data)

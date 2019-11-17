@@ -76,6 +76,7 @@ class DatabaseColumnSpecsSchema(Schema):
     """
 
     transactions = fields.Dict(keys=fields.Str(), values=fields.Str())
+    base_rules = fields.Dict(keys=fields.Str(), values=fields.Str())
 
 
 class DatabasePrimaryKeysSchema(Schema):
@@ -85,6 +86,7 @@ class DatabasePrimaryKeysSchema(Schema):
     """
 
     transactions = fields.List(fields.String())
+    base_rules = fields.List(fields.String())
 
     @post_load
     def create(self, data, **kwargs):
@@ -119,6 +121,26 @@ class DatabaseSchema(Schema):
         return Model(**data)
 
 
+class TasksSchema(Schema):
+    """
+    This class represents the schema of a configuration.database object. Marshmallow uses this class to serialise and
+    deserialize python objects to and from json
+    """
+
+    load_transactions = fields.Str(data_key="loadTransactions")
+    categorize_transactions = fields.Str(data_key="categorizeTransactions")
+
+    @post_load
+    def create(self, data, **kwargs):
+        """
+        called by marshmallow package when deserialising completes in order to construct a valid instance.
+        :param data:
+        :return: None
+        """
+
+        return Model(**data)
+
+
 class ConfigSchema(Schema):
     """
     THis class represents the schema of a configuration object. Marshmallow uses this class to serialise and
@@ -126,6 +148,7 @@ class ConfigSchema(Schema):
     """
 
     version = fields.Decimal()
+    tasks = fields.Nested(TasksSchema)
     paths = fields.Nested(ConfigPathsSchema)
     ofx_parser = fields.Nested(OFXParserSchema, data_key="ofxParser")
     database = fields.Nested(DatabaseSchema)
