@@ -193,6 +193,83 @@ class Database:
                 f"Exception occurred while selecting data from '{db_name}.{table}'.  {e}"
             )
 
+    def update(self, db_name, table, data, primary_keys):
+        """
+        This public method allows users to update a row of a table.
+
+        This method requires the user to specify the columns and values to update, as well as the primary keys
+        and their values to select against
+
+        Example Calls:
+
+        .. code-block:: python
+
+            db.update(db_name="database",
+                      table="table",
+                      data={age: 26, job: "engineer"},
+                      primary_keys={name: "Matt Mulligan", id: 007})
+
+            # the above statement will attempt to update rows of database.table
+            # it will update the value of "age" to 26 and "job" to engineer for any row where "name" = "Matt Mulligan"
+            # and "id" = 007
+
+
+        :param db_name: The name of the database to query. This database must have already been started using
+            the start_db method
+        :type db_name: String
+        :param table: The name of the table to query from the database specified
+        :type table: String
+        :param data: Dictionary of columns to update for a row, they the key is the column name and the value is
+        the value to update
+        :type data: Dictionary
+        :param primary_keys: a dictionary used to select which rows to update, where the key is the column name and
+        the value is the value of the columns.
+        :type primary_keys: Dictionary
+        :return: None
+        """
+
+        try:
+            self._logger.info(
+                f"Attempting update data from '{db_name}.{table}' for rows matching {primary_keys}"
+            )
+            self._logger.info(f"Values to update are {data}")
+            self._check_db_name(db_name)
+            self._check_table_name(db_name, table)
+            update_cols = []
+            pk_cols = []
+            update_vals = []
+
+            for col_name, col_val in data.items():
+                update_cols.append(col_name)
+                update_vals.append(self._cast_data_for_insert(col_val))
+
+            for pk_name, pk_val in primary_keys.items():
+                pk_cols.append(pk_name)
+                update_vals.append(self._cast_data_for_insert(pk_val))
+
+            data_str = " = ?, ".join(update_cols)
+            data_str += " = ?"
+
+            pk_str = " = ?, ".join(pk_cols)
+            pk_str += " = ?"
+
+            update_vals = tuple(update_vals)
+            sql = self._sql["update"].format(
+                table=table, data=data_str, primary_keys=pk_str
+            )
+            self._logger.info(
+                f"SQL statement to insert data is '{sql}' with data values of {update_vals}"
+            )
+
+            self._execute(db_name, sql, update_vals)
+            self._logger.info(
+                f"Successful update of data into '{db_name}.{table} for rows matching {primary_keys}'"
+            )
+        except Exception as e:
+            raise DatabaseError(
+                f"Exception occurred while updating data in '{db_name}.{table}'.  {e}"
+            )
+
     def _build_tables(self, db_name):
         """
         This private method will build all of the table create statements for the database specified
@@ -378,6 +455,7 @@ class Database:
         return {
             "create": "CREATE TABLE IF NOT EXISTS {table} ({col_spec}, PRIMARY KEY ({keys}));",
             "insert": "INSERT INTO {table}({columns}) VALUES({placeholders});",
+            "update": "UPDATE {table} SET {data} WHERE {primary_keys}",
             "select": {
                 "select_all_from": "SELECT * FROM {table};",
                 "select_columns_from": "SELECT {columns} FROM {table};",

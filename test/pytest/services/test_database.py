@@ -43,6 +43,16 @@ def insert_data():
     }
 
 
+@fixture
+def update_data():
+    return {"age": 26, "job": "Engineer"}
+
+
+@fixture
+def update_pks():
+    return {"name": "Matt Mulligan", "id": "ID-007"}
+
+
 def test_when_init_then_database_service_returned():
     db = Database()
     assert hasattr(db, "_logger")
@@ -54,6 +64,7 @@ def test_when_init_then_database_service_returned():
     assert db._sql == {
         "create": "CREATE TABLE IF NOT EXISTS {table} ({col_spec}, PRIMARY KEY ({keys}));",
         "insert": "INSERT INTO {table}({columns}) VALUES({placeholders});",
+        "update": "UPDATE {table} SET {data} WHERE {primary_keys}",
         "select": {
             "select_all_from": "SELECT * FROM {table};",
             "select_columns_from": "SELECT {columns} FROM {table};",
@@ -311,5 +322,42 @@ def test_when_select_and_bad_table_name_then_error(db):
         raised_error.value.args[0]
         == "Exception occurred while selecting data from 'transactions.not_a_real_db'"
         ".  Table name 'not_a_real_db' is not a known table for database "
+        "'transactions'. Known tables are '['transactions']' "
+    )
+
+
+def test_when_update_and_db_good_and_table_good_then_sql_called(
+    db, cursor_mock, update_data, update_pks
+):
+    db._cursors["transactions"] = cursor_mock
+    db.update("transactions", "transactions", update_data, update_pks)
+    cursor_mock.assert_has_calls(
+        [
+            call.execute(
+                "UPDATE transactions SET age = ?, job = ? WHERE name = ?, id = ?",
+                ("26", "Engineer", "Matt Mulligan", "ID-007"),
+            )
+        ]
+    )
+
+
+def test_when_update_and_bad_db_name_then_error(db, update_data, update_pks):
+    with raises(DatabaseError) as raised_error:
+        db.update("not_a_real_db", "transactions", update_data, update_pks)
+    assert (
+        raised_error.value.args[0]
+        == "Exception occurred while updating data in 'not_a_real_db.transactions'."
+        "  Database name specified is not an acceptable PyFynance database. "
+        "Acceptable PyFynance databases include ['transactions', 'rules']"
+    )
+
+
+def test_when_update_and_bad_table_name_then_error(db, update_data, update_pks):
+    with raises(DatabaseError) as raised_error:
+        db.update("transactions", "not_a_real_table", update_data, update_pks)
+    assert (
+        raised_error.value.args[0]
+        == "Exception occurred while updating data in 'transactions.not_a_real_table'"
+        ".  Table name 'not_a_real_table' is not a known table for database "
         "'transactions'. Known tables are '['transactions']' "
     )

@@ -40,6 +40,7 @@ class CategorizeTransactionsTask(BaseTask):
 
         try:
             self._logger.info(f"Beginning do_task method of task '{self}'.")
+
             self._logger.info(f"Finished do_task method of task '{self}'.")
         except Exception as error_msg:
             self._task_state = "FAILED"
