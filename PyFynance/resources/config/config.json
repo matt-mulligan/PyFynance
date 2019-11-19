@@ -23,7 +23,7 @@
         "dbNames": ["transactions", "rules"],
         "tables": {
             "transactions": ["transactions"],
-            "rules": ["base_rules", "custom_rules"]
+            "rules": ["base_rules", "custom_rules", "rule_categories"]
         },
         "columnSpecs": {
             "transactions": {
@@ -35,10 +35,8 @@
                 "narrative": "text",
                 "date_posted": "text",
                 "date_processed": "text",
-                "rule_id": "text",
-                "tran_category": "text",
-                "primary_category": "text",
-                "secondary_category": "text"
+                "primary_rule_id": "text",
+                "supp_rule_ids": "text"
             },
             "base_rules": {
                 "id": "text",
@@ -46,20 +44,34 @@
                 "operation": "text",
                 "value": "text",
                 "confidence": "integer",
-                "tran_category": "text",
+                "category_id": "text"
+            },
+            "custom_rules": {
+                "id": "text",
+                "type": "text",
+                "operation": "text",
+                "value": "text",
+                "confidence": "integer",
+                "category_id": "text"
+            },
+            "rule_categories": {
+                "id": "text",
                 "primary_category": "text",
                 "secondary_category": "text"
             }
         },
         "primaryKeys": {
             "transactions": ["institution", "account", "tran_id"],
-            "base_rules": ["ruleId"]
+            "base_rules": ["id"],
+            "custom_rules": ["id"],
+            "rule_categories": ["id"]
         },
         "columns": {
             "transactions": ["institution", "account", "tran_id", "tran_type", "amount", "narrative", "date_posted",
-                "date_processed", "rule_id", "tran_category", "primary_category", "secondary_category"],
-            "base_rules": ["id", "type", "operation", "value", "confidence", "tran_category", "primary_category",
-                "secondary_category"]
+                "date_processed", "primary_rule_id", "supp_rule_ids"],
+            "base_rules": ["id", "type", "operation", "value", "confidence", "rule_category"],
+            "custom_rules": ["id", "type", "operation", "value", "confidence", "rule_category"],
+            "rule_categories": ["id", "primary_category", "secondary_category"]
         }
     }
 }

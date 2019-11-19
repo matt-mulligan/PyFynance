@@ -1,5 +1,7 @@
 from core.exceptions import TaskCategorizeTransactionsError
+from core.helpers import convert_tuple_to_dict
 from schemas.rules import RulesSchema
+from schemas.transactions import TransactionSchema
 from services.categorization_engine import CategorizationEngine
 from tasks.task_base import BaseTask
 
@@ -74,7 +76,13 @@ class CategorizeTransactionsTask(BaseTask):
         :return: None
         """
 
-        self._transactions = self._db.select("transactions", "transactions")
+        self._transactions = []
+        transactions_tuples = self._db.select("transactions", "transactions")
+        for transaction_tuple in transactions_tuples:
+            transaction_dict = convert_tuple_to_dict(
+                transaction_tuple, self._config.database.columns.transactions
+            )
+            self._transactions.append(TransactionSchema().load(transaction_dict))
 
     def _categorise_transactions(self):
         """
@@ -84,7 +92,7 @@ class CategorizeTransactionsTask(BaseTask):
         """
 
         rules = self._load_rules_from_db()
-        self._categorization_engine = CategorizationEngine(rules)
+        self._categorization_engine = CategorizationEngine(rules, self._config)
         self._transactions = self._categorization_engine.categorize_transactions(
             self._transactions
         )
@@ -98,6 +106,8 @@ class CategorizeTransactionsTask(BaseTask):
         rules = []
         rules_data = self._db.select("rules", "base_rules")
         for rule_obj in rules_data:
-            rule_dict = convert_tuple_to_dict()
-            rules.append(RulesSchema().load(rule_obj))
+            rule_dict = convert_tuple_to_dict(
+                rule_obj, self._config.database.columns.base_rules
+            )
+            rules.append(RulesSchema().load(rule_dict))
         return rules

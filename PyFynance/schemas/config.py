@@ -77,6 +77,8 @@ class DatabaseColumnSpecsSchema(Schema):
 
     transactions = fields.Dict(keys=fields.Str(), values=fields.Str())
     base_rules = fields.Dict(keys=fields.Str(), values=fields.Str())
+    custom_rules = fields.Dict(keys=fields.Str(), values=fields.Str())
+    rule_categories = fields.Dict(keys=fields.Str(), values=fields.Str())
 
 
 class DatabasePrimaryKeysSchema(Schema):
@@ -87,6 +89,8 @@ class DatabasePrimaryKeysSchema(Schema):
 
     transactions = fields.List(fields.String())
     base_rules = fields.List(fields.String())
+    custom_rules = fields.List(fields.String())
+    rule_categories = fields.List(fields.String())
 
     @post_load
     def create(self, data, **kwargs):
@@ -107,6 +111,8 @@ class DatabaseColumnsSchema(Schema):
 
     transactions = fields.List(fields.String())
     base_rules = fields.List(fields.String())
+    custom_rules = fields.List(fields.String())
+    rule_categories = fields.List(fields.String())
 
     @post_load
     def create(self, data, **kwargs):
