@@ -50,7 +50,7 @@ class CategorizationEngine:
         for rule in self._ruleset:
             rule_match = self._test_rule(rule, transaction)
             if rule_match:
-                rule_matches.append(rule.id)
+                rule_matches.append(rule)
 
         return self._assess_rule_matches(rule_matches)
 
@@ -64,10 +64,11 @@ class CategorizationEngine:
         """
 
         rule_method = {  # add these in config
-            self._config.categorisation_engine.operation.contains: self._test_rule_contains,
-            self._config.categorisation_engine.operation.starts_with: self._test_rule_starts_with,
-            self._config.categorisation_engine.operation.ends_with: self._test_rule_ends_with,
-            self._config.categorisation_engine.operation.regex: self._test_rule_regex,
+            self._config.categorization_engine.operations.contains: self._test_rule_contains,
+            self._config.categorization_engine.operations.starts_with: self._test_rule_starts_with,
+            self._config.categorization_engine.operations.ends_with: self._test_rule_ends_with,
+            self._config.categorization_engine.operations.regex: self._test_rule_regex,
+            self._config.categorization_engine.operations.multi_contains: self._test_rule_multi_contains,
         }[rule.operation]
 
         return rule_method(rule, transaction)
@@ -172,3 +173,28 @@ class CategorizationEngine:
 
         found = re.search(rule.value, transaction.narrative)
         return False if found is None else True
+
+    @staticmethod
+    def _test_rule_multi_contains(rule, transaction):
+        """
+        This pirvate method is responsible for testing rules with the operator of "multi_contains"
+        This method will split the rule.value on the dash character (-) to obtain a list of search values.
+        This method will only return true if all search values are found in transaction.narative.
+        this test is case-insensitive. all values will be converted to lowercase before comparison is made.
+        this test will not attempt to trim any whitespace or excessive spacing
+
+        :param rule: rule model object containing the rule operator, logic and categrisation
+        :type rule: Model object
+
+        :param transaction: data object containing transaction data
+        :type transaction: Model Object
+        """
+
+        search_values = rule.value.split("-")
+        rule_passing = True
+
+        for value in search_values:
+            if value.lower() not in transaction.narrative.lower():
+                rule_passing = False
+
+        return rule_passing

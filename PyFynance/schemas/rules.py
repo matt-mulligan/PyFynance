@@ -2,6 +2,10 @@ from marshmallow import Schema, fields, post_load
 from schemas.model import Model
 
 
+def operation_validator(value):
+    return value in ["contains", "multi_contains", "starts_with", "ends_with", "regex"]
+
+
 class RulesSchema(Schema):
     """
     This class represents the schema of a Pyfynance rules object. Marshmallow uses this class to serialise and
@@ -10,10 +14,9 @@ class RulesSchema(Schema):
 
     id = fields.Str()
     type = fields.Str()
-    operation = fields.Str()
+    operation = fields.Str(validate=operation_validator)
     value = fields.Str()
     confidence = fields.Int()
-    tran_category = fields.Str()
     category_id = fields.Str()
 
     @post_load

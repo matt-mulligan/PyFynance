@@ -64,10 +64,11 @@ class CategorizeTransactionsTask(BaseTask):
         """
 
         self._logger.info(f"Beginning after_task method of task '{self}'.")
+        self._db.stop_db("rules", commit=False)
         if self._task_state == "FAILED":
-            pass
+            self._db.stop_db("transactions", commit=False)
         else:
-            pass
+            self._db.stop_db("transactions", commit=True)
         self._logger.info(f"Finished after_task method of task '{self}'.")
 
     def _load_transactions(self):
@@ -97,6 +98,24 @@ class CategorizeTransactionsTask(BaseTask):
             self._transactions
         )
 
+    def _post_categorisations_to_db(self):
+        """
+        this private method is responsible for writing the transactions back to the database
+        :return:
+        """
+
+        for transaction in self._transactions:
+            update_data = {
+                "primary_rule_id": transaction.primary_rule_id,
+                "supp_rule_ids": transaction.supp_rule_ids,
+            }
+            primary_keys = {
+                "institution": transaction.institution,
+                "account": transaction.account,
+                "tran_id": transaction.tran_id,
+            }
+            self._db.update("transactions", "transactions", update_data, primary_keys)
+
     def _load_rules_from_db(self):
         """
         THis private method manages the loading of rules objects from the database
@@ -105,6 +124,7 @@ class CategorizeTransactionsTask(BaseTask):
 
         rules = []
         rules_data = self._db.select("rules", "base_rules")
+        rules_data.extend(self._db.select("rules", "custom_rules"))
         for rule_obj in rules_data:
             rule_dict = convert_tuple_to_dict(
                 rule_obj, self._config.database.columns.base_rules

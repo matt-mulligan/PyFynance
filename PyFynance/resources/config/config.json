@@ -23,7 +23,7 @@
         "dbNames": ["transactions", "rules"],
         "tables": {
             "transactions": ["transactions"],
-            "rules": ["base_rules", "custom_rules", "rule_categories"]
+            "rules": ["base_rules", "custom_rules", "base_rule_categories", "custom_rule_categories"]
         },
         "columnSpecs": {
             "transactions": {
@@ -54,7 +54,12 @@
                 "confidence": "integer",
                 "category_id": "text"
             },
-            "rule_categories": {
+            "base_rule_categories": {
+                "id": "text",
+                "primary_category": "text",
+                "secondary_category": "text"
+            },
+            "custom_rule_categories": {
                 "id": "text",
                 "primary_category": "text",
                 "secondary_category": "text"
@@ -64,14 +69,25 @@
             "transactions": ["institution", "account", "tran_id"],
             "base_rules": ["id"],
             "custom_rules": ["id"],
-            "rule_categories": ["id"]
+            "base_rule_categories": ["id"],
+            "custom_rule_categories": ["id"]
         },
         "columns": {
             "transactions": ["institution", "account", "tran_id", "tran_type", "amount", "narrative", "date_posted",
                 "date_processed", "primary_rule_id", "supp_rule_ids"],
-            "base_rules": ["id", "type", "operation", "value", "confidence", "rule_category"],
-            "custom_rules": ["id", "type", "operation", "value", "confidence", "rule_category"],
-            "rule_categories": ["id", "primary_category", "secondary_category"]
+            "base_rules": ["id", "type", "operation", "value", "confidence", "category_id"],
+            "custom_rules": ["id", "type", "operation", "value", "confidence", "category_id"],
+            "base_rule_categories": ["id", "primary_category", "secondary_category"],
+            "custom_rule_categories": ["id", "primary_category", "secondary_category"]
+        }
+    },
+    "categorizationEngine": {
+        "operations": {
+            "contains": "contains",
+            "startsWith": "starts_with",
+            "endsWith": "ends_with",
+            "regex": "regex",
+            "multiContains": "multi_contains"
         }
     }
 }

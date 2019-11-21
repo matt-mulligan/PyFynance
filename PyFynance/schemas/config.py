@@ -78,7 +78,8 @@ class DatabaseColumnSpecsSchema(Schema):
     transactions = fields.Dict(keys=fields.Str(), values=fields.Str())
     base_rules = fields.Dict(keys=fields.Str(), values=fields.Str())
     custom_rules = fields.Dict(keys=fields.Str(), values=fields.Str())
-    rule_categories = fields.Dict(keys=fields.Str(), values=fields.Str())
+    base_rule_categories = fields.Dict(keys=fields.Str(), values=fields.Str())
+    custom_rule_categories = fields.Dict(keys=fields.Str(), values=fields.Str())
 
 
 class DatabasePrimaryKeysSchema(Schema):
@@ -90,7 +91,8 @@ class DatabasePrimaryKeysSchema(Schema):
     transactions = fields.List(fields.String())
     base_rules = fields.List(fields.String())
     custom_rules = fields.List(fields.String())
-    rule_categories = fields.List(fields.String())
+    base_rule_categories = fields.List(fields.String())
+    custom_rule_categories = fields.List(fields.String())
 
     @post_load
     def create(self, data, **kwargs):
@@ -112,7 +114,8 @@ class DatabaseColumnsSchema(Schema):
     transactions = fields.List(fields.String())
     base_rules = fields.List(fields.String())
     custom_rules = fields.List(fields.String())
-    rule_categories = fields.List(fields.String())
+    base_rule_categories = fields.List(fields.String())
+    custom_rule_categories = fields.List(fields.String())
 
     @post_load
     def create(self, data, **kwargs):
@@ -168,6 +171,48 @@ class TasksSchema(Schema):
         return Model(**data)
 
 
+class CategorizationEngineOperationsSchema(Schema):
+    """
+    This class represents the schema of a configuration.database object. Marshmallow uses this class to serialise and
+    deserialize python objects to and from json
+    """
+
+    contains = fields.Str()
+    starts_with = fields.Str(data_key="startsWith")
+    ends_with = fields.Str(data_key="endsWith")
+    regex = fields.Str()
+    multi_contains = fields.Str(data_key="multiContains")
+
+    @post_load
+    def create(self, data, **kwargs):
+        """
+        called by marshmallow package when deserialising completes in order to construct a valid instance.
+        :param data:
+        :return: None
+        """
+
+        return Model(**data)
+
+
+class CategorizationEngineSchema(Schema):
+    """
+    This class represents the schema of a configuration.database object. Marshmallow uses this class to serialise and
+    deserialize python objects to and from json
+    """
+
+    operations = fields.Nested(CategorizationEngineOperationsSchema)
+
+    @post_load
+    def create(self, data, **kwargs):
+        """
+        called by marshmallow package when deserialising completes in order to construct a valid instance.
+        :param data:
+        :return: None
+        """
+
+        return Model(**data)
+
+
 class ConfigSchema(Schema):
     """
     THis class represents the schema of a configuration object. Marshmallow uses this class to serialise and
@@ -179,6 +224,9 @@ class ConfigSchema(Schema):
     paths = fields.Nested(ConfigPathsSchema)
     ofx_parser = fields.Nested(OFXParserSchema, data_key="ofxParser")
     database = fields.Nested(DatabaseSchema)
+    categorization_engine = fields.Nested(
+        CategorizationEngineSchema, data_key="categorizationEngine"
+    )
 
     @post_load
     def create(self, data, **kwargs):

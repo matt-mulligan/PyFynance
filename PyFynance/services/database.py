@@ -250,7 +250,7 @@ class Database:
             data_str = " = ?, ".join(update_cols)
             data_str += " = ?"
 
-            pk_str = " = ?, ".join(pk_cols)
+            pk_str = " = ? AND ".join(pk_cols)
             pk_str += " = ?"
 
             update_vals = tuple(update_vals)
@@ -455,7 +455,7 @@ class Database:
         return {
             "create": "CREATE TABLE IF NOT EXISTS {table} ({col_spec}, PRIMARY KEY ({keys}));",
             "insert": "INSERT INTO {table}({columns}) VALUES({placeholders});",
-            "update": "UPDATE {table} SET {data} WHERE {primary_keys}",
+            "update": "UPDATE {table} SET {data} WHERE {primary_keys};",
             "select": {
                 "select_all_from": "SELECT * FROM {table};",
                 "select_columns_from": "SELECT {columns} FROM {table};",
