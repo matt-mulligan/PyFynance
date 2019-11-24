@@ -16,6 +16,7 @@ class RulesSchema(Schema):
     type = fields.Str()
     operation = fields.Str(validate=operation_validator)
     value = fields.Str()
+    description = fields.Str()
     confidence = fields.Int()
     category_id = fields.Str()
 
