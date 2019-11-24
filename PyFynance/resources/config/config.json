@@ -68,7 +68,7 @@
             }
         },
         "primaryKeys": {
-            "transactions": ["institution", "account", "tran_id"],
+            "transactions": ["institution", "account", "tran_type", "tran_id", "narrative"],
             "base_rules": ["id"],
             "custom_rules": ["id"],
             "base_rule_categories": ["id"],
