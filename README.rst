@@ -82,7 +82,7 @@ CICD build and test pipelines are setup and maintained using travis-ci. PyFynanc
 |
 
 Technologies Used
-===========================
+==================
     * Python 3.7
     * Pipenv - virtual environment dependency management
     * Marshmallow - object serialisation / deserialisation
@@ -94,5 +94,6 @@ Technologies Used
     * Black - code styling and PEP-8
 
 
-## License
-[GPL-3](https://choosealicense.com/licenses/gpl-3.0/)
+License
+==================
+`GPL-3 <https://choosealicense.com/licenses/gpl-3.0/>`_
