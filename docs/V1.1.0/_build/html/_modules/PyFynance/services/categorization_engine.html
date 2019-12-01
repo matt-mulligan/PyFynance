@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PyFynance.services.categorization_engine &mdash; PyFynance  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="PyFynance  documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PyFynance
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">     PyFynance Architecture</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tasks/tasks.html">     PyFynance Tasks</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apidocs.html">     PyFynance API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyFynance</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>PyFynance.services.categorization_engine</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for PyFynance.services.categorization_engine</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+
+
+<div class="viewcode-block" id="CategorizationEngine"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.categorization_engine.html#PyFynance.services.categorization_engine.CategorizationEngine">[docs]</a><span class="k">class</span> <span class="nc">CategorizationEngine</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Categorisation Engine service is responsible for all categorisation decisions within PyFynance.</span>
+
+<span class="sd">    The class accepts a rules object which it expects to be a list of rule objects that meet thh standards setout in</span>
+<span class="sd">    the RuleSchema marshmallow class</span>
+
+<span class="sd">    This API class provides public methods to allow flexibly categorization of any specific set or subset of rules</span>
+<span class="sd">    or transactions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rules</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The constructor method for the Categorization Engine class</span>
+
+<span class="sd">        :param rules: a list of rules objects that meet the standard setout in the RuleSchema class</span>
+<span class="sd">        :type rules: List</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ruleset</span> <span class="o">=</span> <span class="n">rules</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span>
+
+<div class="viewcode-block" id="CategorizationEngine.categorize_transactions"><a class="viewcode-back" href="../../../apidoc/PyFynance.services.categorization_engine.html#PyFynance.services.categorization_engine.CategorizationEngine.categorize_transactions">[docs]</a>    <span class="k">def</span> <span class="nf">categorize_transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transactions</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The public interface for the categorization class</span>
+<span class="sd">        :param transactions:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">transaction</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">transactions</span><span class="p">):</span>
+            <span class="n">primary_rule_id</span><span class="p">,</span> <span class="n">supp_rule_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_categorize</span><span class="p">(</span><span class="n">transaction</span><span class="p">)</span>
+            <span class="n">transactions</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">primary_rule_id</span> <span class="o">=</span> <span class="n">primary_rule_id</span>
+            <span class="n">transactions</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">supp_rule_ids</span> <span class="o">=</span> <span class="n">supp_rule_ids</span>
+
+        <span class="k">return</span> <span class="n">transactions</span></div>
+
+    <span class="k">def</span> <span class="nf">_categorize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transaction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method will run the ruleset across the specified transaction and determine the best categorisation</span>
+
+<span class="sd">        :param transaction: a transaction model object</span>
+<span class="sd">        :return: returns a transaction model object with categorisation information added</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">rule_matches</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ruleset</span><span class="p">:</span>
+            <span class="n">rule_match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_rule</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">transaction</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">rule_match</span><span class="p">:</span>
+                <span class="n">rule_matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assess_rule_matches</span><span class="p">(</span><span class="n">rule_matches</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_test_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="n">transaction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        this private method will determine the correct rule testing method to call to assess rule matches for the</span>
+<span class="sd">        given transaction and rule</span>
+<span class="sd">        :param rule: a rule model object</span>
+<span class="sd">        :param transaction: a transaction model object</span>
+<span class="sd">        :return: boolean indicating if the rule was a match to the transaction</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">rule_method</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># add these in config</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">categorization_engine</span><span class="o">.</span><span class="n">operations</span><span class="o">.</span><span class="n">contains</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_rule_contains</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">categorization_engine</span><span class="o">.</span><span class="n">operations</span><span class="o">.</span><span class="n">starts_with</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_rule_starts_with</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">categorization_engine</span><span class="o">.</span><span class="n">operations</span><span class="o">.</span><span class="n">ends_with</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_rule_ends_with</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">categorization_engine</span><span class="o">.</span><span class="n">operations</span><span class="o">.</span><span class="n">regex</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_rule_regex</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">categorization_engine</span><span class="o">.</span><span class="n">operations</span><span class="o">.</span><span class="n">multi_contains</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test_rule_multi_contains</span><span class="p">,</span>
+        <span class="p">}[</span><span class="n">rule</span><span class="o">.</span><span class="n">operation</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">rule_method</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">transaction</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_assess_rule_matches</span><span class="p">(</span><span class="n">matches</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        this private method will sort through the rule matches for a given transaction and select the primary rule</span>
+<span class="sd">        match as well as providing an ordered list of supplimentary rule matches.</span>
+
+<span class="sd">        The categorisation engine performs rule sorting based on the following logic;</span>
+<span class="sd">            - The rule with the highest confidence is selected as the primary rule</span>
+<span class="sd">            - if two or more rules share the highest confidence rating then a random rule is selected as the winner</span>
+<span class="sd">            (no idea how to do this better)</span>
+<span class="sd">            - all other matched rules will be concatenated into aa string and returned as supplementary_rules_id</span>
+<span class="sd">            - the supplimentary rule ids will also be ordered based on confidence</span>
+<span class="sd">            - if no rule matches then CB99999999 will be returned for primary rule id</span>
+<span class="sd">            - if only one match then that rule will be the primary rule id and None returned for supplementary rule id</span>
+
+<span class="sd">        :param matches: a list of rule objects to sort</span>
+<span class="sd">        :type matches: List of Rule model objects</span>
+<span class="sd">        :return: primary_rule_id, supp_rule_ids</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;RB99999999&quot;</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="kc">None</span>
+
+        <span class="n">matches</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">rule</span><span class="p">:</span> <span class="n">rule</span><span class="o">.</span><span class="n">confidence</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">primary_rule_id</span> <span class="o">=</span> <span class="n">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">supp_rule_ids</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">rule</span><span class="p">:</span> <span class="n">rule</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">matches</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+        <span class="k">return</span> <span class="n">primary_rule_id</span><span class="p">,</span> <span class="n">supp_rule_ids</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_test_rule_contains</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">transaction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This pirvate method is responsible for testing rules with the operator of &quot;contains&quot;</span>
+<span class="sd">        this method will check to see if the rule value is contained anywhere within the transaction narrative.\</span>
+<span class="sd">        this test is case-insensitive. all values will be converted to lowercase before comparison is made</span>
+<span class="sd">        this test will not attempt to trim any whitespace or excessive spacing</span>
+
+<span class="sd">        :param rule: rule model object containing the rule operator, logic and categrisation</span>
+<span class="sd">        :type rule: Model object</span>
+
+<span class="sd">        :param transaction: data object containing transaction data</span>
+<span class="sd">        :type transaction: Model Object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">rule</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">transaction</span><span class="o">.</span><span class="n">narrative</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">else</span> <span class="kc">False</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_test_rule_starts_with</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">transaction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This private method is responsible for testing rules with the operator of &quot;begins_with&quot;</span>
+<span class="sd">        this method will check to see if the transaction narrative begins with the rule value</span>
+<span class="sd">        this test is case-insensitive. all values will be converted to lowercase before comparison is made.</span>
+<span class="sd">        this test will not attempt to trim any whitespace or excessive spacing</span>
+
+<span class="sd">        :param rule: rule model object containing the rule operator, logic and categrisation</span>
+<span class="sd">        :type rule: Model object</span>
+
+<span class="sd">        :param transaction: data object containing transaction data</span>
+<span class="sd">        :type transaction: Model Object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">transaction</span><span class="o">.</span><span class="n">narrative</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_test_rule_ends_with</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">transaction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This pirvate method is responsible for testing rules with the operator of &quot;ends_with&quot;</span>
+<span class="sd">        this method will check to see if the transaction narrative ends with the rule value</span>
+<span class="sd">        this test is case-insensitive. all values will be converted to lowercase before comparison is made.</span>
+<span class="sd">        this test will not attempt to trim any whitespace or excessive spacing</span>
+
+<span class="sd">        :param rule: rule model object containing the rule operator, logic and categrisation</span>
+<span class="sd">        :type rule: Model object</span>
+
+<span class="sd">        :param transaction: data object containing transaction data</span>
+<span class="sd">        :type transaction: Model Object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">transaction</span><span class="o">.</span><span class="n">narrative</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_test_rule_regex</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">transaction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This pirvate method is responsible for testing rules with the operator of &quot;regex&quot;</span>
+<span class="sd">        this method will run a regex search over the transaction.narrative for the regex provided in the rule_value</span>
+<span class="sd">        and will return true if any match is found</span>
+<span class="sd">        this test is case-sensitive. no value conversion is performed as this could affect the regex provided.</span>
+<span class="sd">        this test will not attempt to trim any whitespace or excessive spacing</span>
+
+<span class="sd">        :param rule: rule model object containing the rule operator, logic and categrisation</span>
+<span class="sd">        :type rule: Model object</span>
+
+<span class="sd">        :param transaction: data object containing transaction data</span>
+<span class="sd">        :type transaction: Model Object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">found</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">transaction</span><span class="o">.</span><span class="n">narrative</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">found</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">True</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_test_rule_multi_contains</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">transaction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This pirvate method is responsible for testing rules with the operator of &quot;multi_contains&quot;</span>
+<span class="sd">        This method will split the rule.value on the dash character (-) to obtain a list of search values.</span>
+<span class="sd">        This method will only return true if all search values are found in transaction.narative.</span>
+<span class="sd">        this test is case-insensitive. all values will be converted to lowercase before comparison is made.</span>
+<span class="sd">        this test will not attempt to trim any whitespace or excessive spacing</span>
+
+<span class="sd">        :param rule: rule model object containing the rule operator, logic and categrisation</span>
+<span class="sd">        :type rule: Model object</span>
+
+<span class="sd">        :param transaction: data object containing transaction data</span>
+<span class="sd">        :type transaction: Model Object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">search_values</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+        <span class="n">rule_passing</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">search_values</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">transaction</span><span class="o">.</span><span class="n">narrative</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">rule_passing</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">rule_passing</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Matt Mulligan.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

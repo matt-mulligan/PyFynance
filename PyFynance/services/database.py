@@ -220,10 +220,10 @@ class Database:
         :param table: The name of the table to query from the database specified
         :type table: String
         :param data: Dictionary of columns to update for a row, they the key is the column name and the value is
-        the value to update
+            the value to update
         :type data: Dictionary
         :param primary_keys: a dictionary used to select which rows to update, where the key is the column name and
-        the value is the value of the columns.
+            the value is the value of the columns.
         :type primary_keys: Dictionary
         :return: None
         """
