@@ -1,5 +1,9 @@
 {
     "version": 1.0,
+    "tasks": {
+        "loadTransactions": "load_transactions",
+        "categorizeTransactions": "categorize_transactions"
+    },
     "paths": {
         "repoPath": "${repo_base_path}",
         "codePath": "${repo_base_path}${sep}PyFynance",
@@ -16,10 +20,11 @@
         "htmlTags": ["br"]
     },
     "database": {
-        "dbNames": ["transactions"],
+        "dbNames": ["transactions", "rules_base", "rules_custom"],
         "tables": {
             "transactions": ["transactions"],
-            "rules": ["base_rules, custom_rules"]
+            "rules_base": ["base_rules", "base_rule_categories"],
+            "rules_custom": ["custom_rules", "custom_rule_categories"]
         },
         "columnSpecs": {
             "transactions": {
@@ -30,11 +35,62 @@
                 "amount": "decimal",
                 "narrative": "text",
                 "date_posted": "text",
-                "date_processed": "text"
+                "date_processed": "text",
+                "primary_rule_id": "text",
+                "supp_rule_ids": "text"
+            },
+            "base_rules": {
+                "id": "text",
+                "type": "text",
+                "operation": "text",
+                "value": "text",
+                "description": "text",
+                "confidence": "integer",
+                "category_id": "text"
+            },
+            "custom_rules": {
+                "id": "text",
+                "type": "text",
+                "operation": "text",
+                "value": "text",
+                "description": "text",
+                "confidence": "integer",
+                "category_id": "text"
+            },
+            "base_rule_categories": {
+                "id": "text",
+                "primary_category": "text",
+                "secondary_category": "text"
+            },
+            "custom_rule_categories": {
+                "id": "text",
+                "primary_category": "text",
+                "secondary_category": "text"
             }
         },
         "primaryKeys": {
-            "transactions": ["institution", "account", "tran_id"]
+            "transactions": ["institution", "account", "tran_type", "tran_id", "narrative"],
+            "base_rules": ["id"],
+            "custom_rules": ["id"],
+            "base_rule_categories": ["id"],
+            "custom_rule_categories": ["id"]
+        },
+        "columns": {
+            "transactions": ["institution", "account", "tran_id", "tran_type", "amount", "narrative", "date_posted",
+                "date_processed", "primary_rule_id", "supp_rule_ids"],
+            "base_rules": ["id", "type", "operation", "value", "description", "confidence", "category_id"],
+            "custom_rules": ["id", "type", "operation", "value", "description", "confidence", "category_id"],
+            "base_rule_categories": ["id", "primary_category", "secondary_category"],
+            "custom_rule_categories": ["id", "primary_category", "secondary_category"]
+        }
+    },
+    "categorizationEngine": {
+        "operations": {
+            "contains": "contains",
+            "startsWith": "starts_with",
+            "endsWith": "ends_with",
+            "regex": "regex",
+            "multiContains": "multi_contains"
         }
     }
 }

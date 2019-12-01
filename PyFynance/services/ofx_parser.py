@@ -66,10 +66,8 @@ class OFXParser:
 
         if object_type not in self._config.ofx_parser.object_types:
             raise OFXParserError(
-                "Object_type value '{}' is unknown. "
-                "Acceptable object type values are '{}'".format(
-                    object_type, self._config.ofx_parser.object_types
-                )
+                f"Object_type value '{object_type}' is unknown. "
+                f"Acceptable object type values are '{self._config.ofx_parser.object_types}'"
             )
 
     def _parse_banking_transactions(self, path):
@@ -154,15 +152,11 @@ class OFXParser:
 
         if not os.path.isfile(path):
             raise OFXParserError(
-                "Path provided '{path}' either does not exist or isnt a file".format(
-                    path=path
-                )
+                f"Path provided '{path}' either does not exist or isnt a file"
             )
 
         if not (path.lower().endswith(".ofx") or path.lower().endswith(".qfx")):
-            raise OFXParserError(
-                "Path provided '{path}' is not an OFX/QFX file.".format(path=path)
-            )
+            raise OFXParserError(f"Path provided '{path}' is not an OFX/QFX file.")
 
     @staticmethod
     def _read_ofx_file(path):

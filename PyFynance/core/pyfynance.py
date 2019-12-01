@@ -37,21 +37,17 @@ class PyFynance:
             passed = self._execute_tasks()
             if passed:
                 self._logger.info(
-                    "PyFynance application ran successfully!  task_type = '{}'".format(
-                        self._args.task_type
-                    )
+                    f"PyFynance application ran successfully!  task_type = '{self._args.task_type}'"
                 )
             else:
                 self._logger.info(
-                    "PyFynance application failed to run successfully :(  task_type = '{}'".format(
-                        self._args.task_type
-                    )
+                    f"PyFynance application failed to run successfully :(  task_type = '{self._args.task_type}'"
                 )
         except Exception as e:
             passed = False
             self._logger.exception(
-                "PyFynance experienced a fatal exception while running task of task_type '{}'.  "
-                "exception = '{}'".format(self._args.task_type, e)
+                f"PyFynance experienced a fatal exception while running task of task_type '{self._args.task_type}'.  "
+                f"exception = '{e}'"
             )
             raise TaskError(e)
         finally:
@@ -83,7 +79,8 @@ class PyFynance:
         """
 
         return {
-            "load_transactions": "tasks.task_load_transactions.LoadTransactionsTask"
+            self._config.tasks.load_transactions: "tasks.task_load_transactions.LoadTransactionsTask",
+            self._config.tasks.categorize_transactions: "tasks.task_categorize_transactions.CategorizeTransactionsTask",
         }[self._args.task_type]
 
     @staticmethod
@@ -112,13 +109,7 @@ class PyFynance:
 
         log_datetime = runtime.strftime("%Y%m%d%H%M%S")
         log_folder = os.sep.join([log_path, str(version)])
-        log_filename = "{log_path}{sep}{version}{sep}PyFynance_{task_type}_{timestamp}.log".format(
-            log_path=log_path,
-            sep=os.sep,
-            version=str(version),
-            task_type=task_type,
-            timestamp=log_datetime,
-        )
+        log_filename = f"{log_path}{os.sep}{version}{os.sep}PyFynance_{task_type}_{log_datetime}.log"
         # delayed import for python path addition
         from services.file_system import FileSystem
 
@@ -131,8 +122,8 @@ class PyFynance:
         logger.addHandler(fh)
 
         logger.info("Logging Service Initalised")
-        logger.info("PyFynance Version = {}".format(version))
-        logger.info("PyFynance Task Type = {}".format(task_type))
+        logger.info(f"PyFynance Version = {version}")
+        logger.info(f"PyFynance Task Type = {task_type}")
 
         return logger
 
