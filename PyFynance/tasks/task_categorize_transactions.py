@@ -18,7 +18,6 @@ class CategorizeTransactionsTask(BaseTask):
 
     def __init__(self, args):
         super(CategorizeTransactionsTask, self).__init__(args)
-        self._task_state = "OK"
         self._transactions = None
         self._categorization_engine = None
 
@@ -34,7 +33,8 @@ class CategorizeTransactionsTask(BaseTask):
 
         self._logger.info(f"Beginning before_task method of task '{self}'.")
         self._db.start_db("transactions")
-        self._db.start_db("rules")
+        self._db.start_db("rules_base")
+        self._db.start_db("rules_custom")
         self._logger.info(f"Finished before_task method of task '{self}'.")
 
     def do_task(self):
@@ -46,17 +46,16 @@ class CategorizeTransactionsTask(BaseTask):
 
         try:
             self._logger.info(f"Beginning do_task method of task '{self}'.")
-            self._load_transactions()
-            self._categorise_transactions()
-            self._post_categorisations_to_db()
+            self.load_transactions()
+            self.categorize_transactions()
+            self.post_categorisations_to_db()
             self._logger.info(f"Finished do_task method of task '{self}'.")
         except Exception as error_msg:
-            self._task_state = "FAILED"
             raise TaskCategorizeTransactionsError(
-                f"An error occurred during the do_task step of the '{self}'.  {error_msg}"
+                f"An error occurred during the do_task step of '{self}'.  {error_msg}"
             )
 
-    def after_task(self):
+    def after_task(self, passed):
         """
         this public after task manages all of the teardown tasks that this task performs after its action is done
 
@@ -64,16 +63,18 @@ class CategorizeTransactionsTask(BaseTask):
         """
 
         self._logger.info(f"Beginning after_task method of task '{self}'.")
-        self._db.stop_db("rules", commit=False)
-        if self._task_state == "FAILED":
-            self._db.stop_db("transactions", commit=False)
-        else:
+        self._db.stop_db("rules_base", commit=False)
+        self._db.stop_db("rules_custom", commit=False)
+        if passed:
             self._db.stop_db("transactions", commit=True)
+        else:
+            self._db.stop_db("transactions", commit=False)
+
         self._logger.info(f"Finished after_task method of task '{self}'.")
 
-    def _load_transactions(self):
+    def load_transactions(self):
         """
-        This private method deals with loading the transactions from the database into a transactions object on this class
+        This method deals with loading the transactions from the database into a transactions object on this class
         :return: None
         """
 
@@ -85,7 +86,7 @@ class CategorizeTransactionsTask(BaseTask):
             )
             self._transactions.append(TransactionSchema().load(transaction_dict))
 
-    def _categorise_transactions(self):
+    def categorize_transactions(self):
         """
         this private method deals with the orchestration of categorizing transactions using the CategorizationEngine
         service
@@ -98,7 +99,7 @@ class CategorizeTransactionsTask(BaseTask):
             self._transactions
         )
 
-    def _post_categorisations_to_db(self):
+    def post_categorisations_to_db(self):
         """
         this private method is responsible for writing the transactions back to the database
         :return:
@@ -123,8 +124,8 @@ class CategorizeTransactionsTask(BaseTask):
         """
 
         rules = []
-        rules_data = self._db.select("rules", "base_rules")
-        rules_data.extend(self._db.select("rules", "custom_rules"))
+        rules_data = self._db.select("rules_base", "base_rules")
+        rules_data.extend(self._db.select("rules_custom", "custom_rules"))
         for rule_obj in rules_data:
             rule_dict = convert_tuple_to_dict(
                 rule_obj, self._config.database.columns.base_rules

@@ -56,7 +56,8 @@ class DatabaseTablesSchema(Schema):
     """
 
     transactions = fields.List(fields.String())
-    rules = fields.List(fields.String())
+    rules_base = fields.List(fields.String())
+    rules_custom = fields.List(fields.String())
 
     @post_load
     def create(self, data, **kwargs):

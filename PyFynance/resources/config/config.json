@@ -20,10 +20,11 @@
         "htmlTags": ["br"]
     },
     "database": {
-        "dbNames": ["transactions", "rules"],
+        "dbNames": ["transactions", "rules_base", "rules_custom"],
         "tables": {
             "transactions": ["transactions"],
-            "rules": ["base_rules", "custom_rules", "base_rule_categories", "custom_rule_categories"]
+            "rules_base": ["base_rules", "base_rule_categories"],
+            "rules_custom": ["custom_rules", "custom_rule_categories"]
         },
         "columnSpecs": {
             "transactions": {

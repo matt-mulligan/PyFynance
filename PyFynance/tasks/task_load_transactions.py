@@ -36,7 +36,6 @@ class LoadTransactionsTask(BaseTask):
         self._ofx_parser = OFXParser(self._config)
         self._transactions = []
         self._input_files = []
-        self._task_state = "OK"
 
     def __repr__(self):
         return f"PyFynance.Tasks.LoadTransactionsTask({self.get_args_repr()})"
@@ -66,12 +65,11 @@ class LoadTransactionsTask(BaseTask):
             self._write_transactions_to_db()
             self._logger.info(f"Finished do_task method of task '{self}'.")
         except Exception as e:
-            self._task_state = "FAILED"
             raise TaskLoadTransactionsError(
                 f"An error occurred during the do_task step of the '{self}'.  {e}"
             )
 
-    def after_task(self):
+    def after_task(self, passed):
         """
         this public after task manages all of the teardown tasks that this task performs after its action is done
 
@@ -79,12 +77,13 @@ class LoadTransactionsTask(BaseTask):
         """
 
         self._logger.info(f"Beginning after_task method of task '{self}'.")
-        if self._task_state == "FAILED":
-            self._db.stop_db("transactions", commit=False)
-            self._move_input_files("FAILED")
-        else:
+        if passed:
             self._db.stop_db("transactions", commit=True)
             self._move_input_files("PASSED")
+        else:
+            self._db.stop_db("transactions", commit=False)
+            self._move_input_files("FAILED")
+
         self._logger.info(f"Finished after_task method of task '{self}'.")
 
     def _move_input_files(self, task_status):

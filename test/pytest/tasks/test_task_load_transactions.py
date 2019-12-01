@@ -299,20 +299,21 @@ def test_when_do_task_and_tran_no_name_memo_then_raise_error(task, tran_no_name_
 
 
 def test_when_after_task_then_correct_methods_called(task):
+    passed = True
     with patch.object(task, "_db", return_value=MagicMock()) as db_mock:
-        task.after_task()
+        task.after_task(passed)
     db_mock.assert_has_calls([call.stop_db("transactions", commit=True)])
 
 
 def test_when_after_task_and_failed_then_coorect_methods_called(task):
-    task._task_state = "FAILED"
+    passed = False
     db_mock = MagicMock()
     fs_mock = MagicMock()
     task._db = db_mock
     task._fs = fs_mock
     task._input_files = ["file1.ofx"]
 
-    task.after_task()
+    task.after_task(passed)
     db_mock.assert_has_calls([call.stop_db("transactions", commit=False)])
     fs_mock.assert_has_calls(
         [

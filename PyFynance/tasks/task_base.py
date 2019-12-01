@@ -39,7 +39,7 @@ class BaseTask:
         pass
 
     @abstractmethod
-    def after_task(self):  # pragma: no cover
+    def after_task(self, passed):  # pragma: no cover
         """
         this abstract method manages the execution of all post-task activities required.
 
@@ -69,7 +69,7 @@ class BaseTask:
             )
             raise TaskError(e)
         finally:
-            self.after_task()
+            self.after_task(passed)
             status = "Success" if passed else "Failure"
             self._logger.info(
                 f"Finished task execution for task type '{self.__class__.__name__}' with status '{status}'"

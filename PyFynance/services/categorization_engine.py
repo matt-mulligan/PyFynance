@@ -85,7 +85,7 @@ class CategorizationEngine:
             (no idea how to do this better)
             - all other matched rules will be concatenated into aa string and returned as supplementary_rules_id
             - the supplimentary rule ids will also be ordered based on confidence
-            - if no rule matches then None will be returned for primary and supplementary rule ids
+            - if no rule matches then CB99999999 will be returned for primary rule id
             - if only one match then that rule will be the primary rule id and None returned for supplementary rule id
 
         :param matches: a list of rule objects to sort
@@ -94,7 +94,7 @@ class CategorizationEngine:
         """
 
         if len(matches) == 0:
-            return None, None
+            return "RB99999999", None
 
         if len(matches) == 1:
             return matches[0].id, None

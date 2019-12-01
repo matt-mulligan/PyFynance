@@ -287,11 +287,18 @@ class Database:
                     "primary_keys": self._config.database.primary_keys.transactions,
                 }
             ],
-            "rules": [
+            "rules_base": [
                 {
                     "table_name": "base_rules",
                     "col_spec": self._config.database.column_specs["base_rules"],
                     "primary_keys": self._config.database.primary_keys.base_rules,
+                }
+            ],
+            "rules_custom": [
+                {
+                    "table_name": "custom_rules",
+                    "col_spec": self._config.database.column_specs["custom_rules"],
+                    "primary_keys": self._config.database.primary_keys.custom_rules,
                 }
             ],
         }[db_name]
@@ -388,7 +395,8 @@ class Database:
 
         tables = {
             "transactions": self._config.database.tables.transactions,
-            "rules": self._config.database.tables.rules,
+            "rules_base": self._config.database.tables.rules_base,
+            "rules_custom": self._config.database.tables.rules_custom,
         }[db_name]
 
         if table not in tables:
