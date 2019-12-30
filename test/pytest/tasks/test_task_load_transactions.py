@@ -165,9 +165,11 @@ class TestLoadTransactionsTask:
         with patch("core.helpers.find_all_files", return_value=files_to_parse):
             with patch("services.ofx_parser.OFXParser.parse", return_value=trans):
                 with patch("shutil.move", MagicMock()):
-                    with patch("services.database.Database.select", return_value=[]):
+                    with patch(
+                        "services.database.service.Database.select", return_value=[]
+                    ):
                         with patch(
-                            "services.database.Database.insert", MagicMock()
+                            "services.database.service.Database.insert", MagicMock()
                         ) as db_insert_mock:
                             task.do_task()
         assert task._transactions == trans
@@ -186,11 +188,11 @@ class TestLoadTransactionsTask:
             with patch("services.ofx_parser.OFXParser.parse", return_value=trans):
                 with patch("shutil.move", MagicMock()):
                     with patch(
-                        "services.database.Database.select",
+                        "services.database.service.Database.select",
                         return_value=[("MyBank", "CreditCard", "tran0002")],
                     ):
                         with patch(
-                            "services.database.Database.insert", MagicMock()
+                            "services.database.service.Database.insert", MagicMock()
                         ) as db_insert_mock:
                             task.do_task()
         assert task._transactions == [trans[0], trans[2]]
@@ -212,7 +214,7 @@ class TestLoadTransactionsTask:
             with patch("services.ofx_parser.OFXParser.parse", return_value=trans):
                 with patch("shutil.move", MagicMock()):
                     with patch(
-                        "services.database.Database.select",
+                        "services.database.service.Database.select",
                         return_value=[
                             ("MyBank", "CreditCard", "tran0001"),
                             ("MyBank", "CreditCard", "tran0002"),
@@ -220,7 +222,7 @@ class TestLoadTransactionsTask:
                         ],
                     ):
                         with patch(
-                            "services.database.Database.insert", MagicMock()
+                            "services.database.service.Database.insert", MagicMock()
                         ) as db_insert_mock:
                             task.do_task()
         assert task._transactions == []
@@ -246,7 +248,9 @@ class TestLoadTransactionsTask:
                 return_value=[self.tran_no_name_memo()],
             ):
                 with patch("shutil.move", MagicMock()):
-                    with patch("services.database.Database.select", return_value=[]):
+                    with patch(
+                        "services.database.service.Database.select", return_value=[]
+                    ):
                         with raises(TaskLoadTransactionsError) as raised_error:
                             task.do_task()
         assert error_msg in raised_error.value.args[0]

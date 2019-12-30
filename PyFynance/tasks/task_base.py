@@ -3,8 +3,9 @@ from abc import ABCMeta, abstractmethod
 
 from core.config import Configuration
 from core.exceptions import TaskError
-from services.database import Database
 from services.file_system import FileSystem
+from services.database.client import SqliteClient
+from services.database.service import Database
 
 
 class BaseTask:
@@ -15,7 +16,7 @@ class BaseTask:
         self._args = args
         self._logger = logging.getLogger(__name__)
         self._config = Configuration()
-        self._db = Database()
+        self._db = Database(SqliteClient(), Configuration())
         self._fs = FileSystem()
 
     @abstractmethod

@@ -38,27 +38,29 @@ class TestTaskCategorizeTransactions:
     @fixture
     def config_mock(self):
         config_mock = MagicMock()
-        config_mock.database.columns.transactions = [
-            "institution",
-            "account",
-            "tran_id",
-            "tran_type",
-            "amount",
-            "narrative",
-            "date_posted",
-            "date_processed",
-            "primary_rule_id",
-            "supp_rule_ids",
-        ]
-        config_mock.database.columns.base_rules = [
-            "id",
-            "type",
-            "operation",
-            "value",
-            "description",
-            "confidence",
-            "category_id",
-        ]
+        config_mock.database.columns = {
+            "transactions": [
+                "institution",
+                "account",
+                "tran_id",
+                "tran_type",
+                "amount",
+                "narrative",
+                "date_posted",
+                "date_processed",
+                "primary_rule_id",
+                "supp_rule_ids",
+            ],
+            "base_rules": [
+                "id",
+                "type",
+                "operation",
+                "value",
+                "description",
+                "confidence",
+                "category_id",
+            ],
+        }
         return config_mock
 
     @fixture

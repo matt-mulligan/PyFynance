@@ -82,7 +82,7 @@ class CategorizeTransactionsTask(BaseTask):
         transactions_tuples = self._db.select("transactions", "transactions")
         for transaction_tuple in transactions_tuples:
             transaction_dict = convert_tuple_to_dict(
-                transaction_tuple, self._config.database.columns.transactions
+                transaction_tuple, self._config.database.columns["transactions"]
             )
             self._transactions.append(TransactionSchema().load(transaction_dict))
 
@@ -128,7 +128,7 @@ class CategorizeTransactionsTask(BaseTask):
         rules_data.extend(self._db.select("rules_custom", "custom_rules"))
         for rule_obj in rules_data:
             rule_dict = convert_tuple_to_dict(
-                rule_obj, self._config.database.columns.base_rules
+                rule_obj, self._config.database.columns["base_rules"]
             )
             rules.append(RulesSchema().load(rule_dict))
         return rules

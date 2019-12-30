@@ -1,5 +1,9 @@
+import datetime
 import glob
 import os
+
+from schemas.rules import RulesSchema, RuleCategorySchema
+from schemas.transactions import TransactionSchema
 
 """
 The helpers module is a collection of useful public functions that can be called in multiple other classes.
@@ -65,3 +69,71 @@ def convert_tuple_to_dict(data_tuple, keys_list):
         )
 
     return dict(zip(keys_list, list(data_tuple)))
+
+
+def get_current_time_string():  # pragma: no cover
+    return datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+
+
+def load_objects_from_db(config, db, object_type):
+    """
+    This helper method will load entries of a certain type from the PyFynance database as model objects
+    :param config: Instance of the PyFynance config class
+    :param db: Instance of the PyFynance database class
+    :param object_type: the object type to load. [transactions|base_rules|custom_rules|base_categories|custom_categories]
+    :return: list of model objects
+    """
+
+    object_types = [
+        "transactions",
+        "base_rules",
+        "custom_rules",
+        "base_categories",
+        "custom_categories",
+    ]
+    if object_type not in object_types:
+        raise ValueError(
+            f"Invalid object type provided '{object_type}'. Acceptable object types are '{object_types}'"
+        )
+
+    database, table, columns, schema = {
+        "transactions": (
+            "transaction",
+            "transaction",
+            config.database.columns["transactions"],
+            TransactionSchema,
+        ),
+        "base_rules": (
+            "rules_base",
+            "base_rules",
+            config.database.columns["base_rules"],
+            RulesSchema,
+        ),
+        "custom_rules": (
+            "rules_custom",
+            "custom_rules",
+            config.database.columns["custom_rules"],
+            RulesSchema,
+        ),
+        "base_categories": (
+            "rules_base",
+            "base_rule_categories",
+            config.database.columns["base_rule_categories"],
+            RuleCategorySchema,
+        ),
+        "custom_categories": (
+            "rules_custom",
+            "custom_rule_categories",
+            config.database.columns["custom_rule_categories"],
+            RuleCategorySchema,
+        ),
+    }[object_type]
+
+    objects = []
+    obj_tuples = db.select(database, table)
+
+    for obj_tuple in obj_tuples:
+        obj_dict = convert_tuple_to_dict(obj_tuple, columns)
+        objects.append(schema().load(obj_dict))
+
+    return objects

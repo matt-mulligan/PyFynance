@@ -49,86 +49,6 @@ class OFXParserSchema(Schema):
         return Model(**data)
 
 
-class DatabaseTablesSchema(Schema):
-    """
-    This class represents the schema of a configuration.database.tables object. Marshmallow uses this class to
-    serialise and deserialize python objects to and from json
-    """
-
-    transactions = fields.List(fields.String())
-    rules_base = fields.List(fields.String())
-    rules_custom = fields.List(fields.String())
-
-    @post_load
-    def create(self, data, **kwargs):
-        """
-        called by marshmallow package when deserialising completes in order to construct a valid instance.
-        :param data:
-        :return: None
-        """
-
-        return Model(**data)
-
-
-class DatabaseColumnSpecsSchema(Schema):
-    """
-    This class represents the schema of a configuration.database.column_spec object. Marshmallow uses this class to serialise and
-    deserialize python objects to and from json
-    """
-
-    transactions = fields.Dict(keys=fields.Str(), values=fields.Str())
-    base_rules = fields.Dict(keys=fields.Str(), values=fields.Str())
-    custom_rules = fields.Dict(keys=fields.Str(), values=fields.Str())
-    base_rule_categories = fields.Dict(keys=fields.Str(), values=fields.Str())
-    custom_rule_categories = fields.Dict(keys=fields.Str(), values=fields.Str())
-
-
-class DatabasePrimaryKeysSchema(Schema):
-    """
-    This class represents the schema of a configuration.database.primary_keys object. Marshmallow uses this class to serialise and
-    deserialize python objects to and from json
-    """
-
-    transactions = fields.List(fields.String())
-    base_rules = fields.List(fields.String())
-    custom_rules = fields.List(fields.String())
-    base_rule_categories = fields.List(fields.String())
-    custom_rule_categories = fields.List(fields.String())
-
-    @post_load
-    def create(self, data, **kwargs):
-        """
-        called by marshmallow package when deserialising completes in order to construct a valid instance.
-        :param data:
-        :return: None
-        """
-
-        return Model(**data)
-
-
-class DatabaseColumnsSchema(Schema):
-    """
-    This class represents the schema of a configuration.ofx_parser object. Marshmallow uses this class to serialise and
-    deserialize python objects to and from json
-    """
-
-    transactions = fields.List(fields.String())
-    base_rules = fields.List(fields.String())
-    custom_rules = fields.List(fields.String())
-    base_rule_categories = fields.List(fields.String())
-    custom_rule_categories = fields.List(fields.String())
-
-    @post_load
-    def create(self, data, **kwargs):
-        """
-        called by marshmallow package when deserialising completes in order to construct a valid instance.
-        :param data:
-        :return: None
-        """
-
-        return Model(**data)
-
-
 class DatabaseSchema(Schema):
     """
     This class represents the schema of a configuration.database object. Marshmallow uses this class to serialise and
@@ -136,10 +56,16 @@ class DatabaseSchema(Schema):
     """
 
     db_names = fields.List(fields.String(), data_key="dbNames")
-    tables = fields.Nested(DatabaseTablesSchema())
-    column_specs = fields.Nested(DatabaseColumnSpecsSchema(), data_key="columnSpecs")
-    primary_keys = fields.Nested(DatabasePrimaryKeysSchema(), data_key="primaryKeys")
-    columns = fields.Nested(DatabaseColumnsSchema())
+    tables = fields.Dict(keys=fields.Str(), values=fields.List(fields.String()))
+    column_specs = fields.Dict(
+        keys=fields.Str(),
+        values=fields.Dict(keys=fields.Str(), values=fields.Str()),
+        data_key="columnSpecs",
+    )
+    primary_keys = fields.Dict(
+        keys=fields.Str(), values=fields.List(fields.String()), data_key="primaryKeys"
+    )
+    columns = fields.Dict(keys=fields.Str(), values=fields.List(fields.String()))
 
     @post_load
     def create(self, data, **kwargs):

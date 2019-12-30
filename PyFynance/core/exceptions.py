@@ -29,6 +29,14 @@ class TaskCategorizeTransactionsError(ValueError):
     pass
 
 
+class TaskAnalyseTransactionsError(ValueError):
+    """
+    Represents an error that occurs during the running of a categorize transactions task
+    """
+
+    pass
+
+
 class DatabaseError(ValueError):
     """
     Represents an error that occurs within the Database service
