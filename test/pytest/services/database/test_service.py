@@ -148,8 +148,10 @@ class TestDatabaseService:
         copyfile_mock.assert_has_calls(
             [
                 call(
-                    "base\\db\\path\\current\\my_db.db",
-                    "base\\db\\path\\backup\\my_db_20191230194218.db",
+                    os.sep.join(["base", "db", "path", "current", "my_db.db"]),
+                    os.sep.join(
+                        ["base", "db", "path", "backup", "my_db_20191230194218.db"]
+                    ),
                 )
             ]
         )
